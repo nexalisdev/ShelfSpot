@@ -4,31 +4,12 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: shelfspot-unified
-    ports:
-      - "3000:3000"  # Only expose frontend port
+    network_mode: "host" # Use host network to access external database
     environment:
       - NODE_ENV=production
       - PORT=3000
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
     env_file:
-      - ./backend/.env  # Backend environment variables (database, JWT, etc.)
+      - ./backend/.env # Backend environment variables (database, JWT, etc.)
       - ./frontend/.env # Frontend environment variables
     restart: unless-stopped
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider", 
-          "http://localhost:3000",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 120s  # Allow more time for both services to start
-
-networks:
-  default:
-    name: shelfspot_unified

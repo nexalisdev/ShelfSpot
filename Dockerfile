@@ -108,12 +108,19 @@ COPY <<EOF ./start.sh
 
 echo "Starting ShelfSpot Unified Container..."
 
+# Debug: Show environment variables
+echo "Database URL: \$DATABASE_URL"
+
 # Wait for database to be ready (backend migrations)
 echo "Waiting for database to be ready..."
 cd /app/backend
+
+# Test database connectivity first
+echo "Testing database connectivity..."
 until npx prisma db push --accept-data-loss 2>/dev/null; do
-  echo "Database is unavailable - waiting 3 seconds..."
-  sleep 3
+  echo "Database is unavailable - waiting 5 seconds..."
+  echo "Current DATABASE_URL: \$DATABASE_URL"
+  sleep 5
 done
 
 echo "Database is ready!"

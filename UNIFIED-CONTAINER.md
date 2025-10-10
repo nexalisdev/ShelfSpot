@@ -20,7 +20,7 @@ Ensure you have the required environment files:
 cp backend/.env.example backend/.env
 # Edit backend/.env with your database and configuration
 
-# Frontend environment  
+# Frontend environment
 cp frontend/.env.example frontend/.env
 # Edit frontend/.env with your configuration
 ```
@@ -46,7 +46,7 @@ docker run -d \
 ### 3. Access the Application
 
 - **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3000/api/* (proxied to internal backend)
+- **Backend API**: http://localhost:3000/api/\* (proxied to internal backend)
 
 ## Benefits
 
@@ -134,6 +134,6 @@ This unified container is optimized for production. For development, continue us
 # Backend development
 cd backend && npm run start:dev
 
-# Frontend development  
+# Frontend development
 cd frontend && npm run dev
 ```
