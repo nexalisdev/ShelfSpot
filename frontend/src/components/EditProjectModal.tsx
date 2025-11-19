@@ -95,7 +95,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
 
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                <div className="relative inline-block align-bottom bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-200/50 dark:border-gray-700/50">
+                <div className="relative inline-block align-bottom bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-md text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-200/50 dark:border-gray-700/50">
                     <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm px-6 pt-8 pb-6 sm:p-8 sm:pb-6">
                         <div className="flex items-center justify-between mb-6">
                             <div>
@@ -108,14 +108,14 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                             </div>
                             <button
                                 onClick={handleClose}
-                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200"
+                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-sm hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200"
                             >
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
 
                         {error && (
-                            <div className="mb-4 p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-md">
+                            <div className="mb-4 p-3 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-sm">
                                 <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
                             </div>
                         )}
@@ -137,7 +137,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                         required
                                         value={form.name}
                                         onChange={handleChange}
-                                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         placeholder="Ex: Kitchen renovation"
                                     />
                                 </div>
@@ -155,7 +155,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                         rows={3}
                                         value={form.description}
                                         onChange={handleChange}
-                                        className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                        className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         placeholder="Project description..."
                                     />
                                 </div>
@@ -173,7 +173,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                             id="status"
                                             value={form.status}
                                             onChange={handleChange}
-                                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         >
                                             {statusOptions.map((option) => (
                                                 <option key={option.value} value={option.value}>
@@ -203,7 +203,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                             id="priority"
                                             value={form.priority}
                                             onChange={handleChange}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         >
                                             {priorityOptions.map((option) => (
                                                 <option key={option.value} value={option.value}>
@@ -236,7 +236,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                             id="startDate"
                                             value={form.startDate}
                                             onChange={handleChange}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         />
                                     </div>
                                 </div>
@@ -257,7 +257,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                             value={form.endDate}
                                             onChange={handleChange}
                                             min={form.startDate || undefined}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         />
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
 
                             {/* Recalculation information */}
                             {(form.status !== project.status || form.priority !== project.priority) && (
-                                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md">
+                                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-sm">
                                     <div className="flex">
                                         <div className="ml-3">
                                             <h3 className="text-sm font-medium text-amber-800 dark:text-amber-200">
@@ -287,14 +287,14 @@ export default function EditProjectModal({ open, onClose, project, onSuccess }: 
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md"
+                                    className="px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading || !form.name.trim()}
-                                    className="px-8 py-3 text-sm font-semibold text-white bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 transform"
+                                    className="px-8 py-3 text-sm font-semibold text-white bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border border-transparent rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 transform"
                                 >
                                     {loading ? (
                                         <div className="flex items-center gap-2">

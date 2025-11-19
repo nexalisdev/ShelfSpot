@@ -3,7 +3,7 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useRef } from "react";
 import useGetTags from "@/app/hooks/useGetTags";
-import { MoreVertical, CheckSquare, Square, Trash2 } from "lucide-react";
+import { MoreVertical, CheckSquare, Square, Trash2, Download, Tags, X } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import { useFloating, FloatingPortal, offset, flip, shift } from '@floating-ui/react';
 import { Item, Tag } from "@/app/types";
@@ -126,6 +126,113 @@ function ItemsTable({ search, items: itemsProp, columns = [
         }
     };
 
+    // Handler to clear selection
+    const handleClearSelection = () => {
+        setSelectedIds([]);
+    };
+
+    // Handler to export selected items to CSV
+    const handleExportCSV = () => {
+        if (selectedIds.length === 0) return;
+        const selectedItems = items.filter(item => selectedIds.includes(item.id));
+
+        // Create CSV headers
+        const headers = ['ID', 'Name', 'Quantity', 'Status', 'Room', 'Place', 'Container', 'Tags'];
+        const csvRows = [headers.join(',')];
+
+        // Add data rows
+        selectedItems.forEach(item => {
+            const row = [
+                item.id,
+                `"${(item.name || '').replace(/"/g, '""')}"`,
+                item.quantity || 0,
+                `"${(item.status || '').replace(/"/g, '""')}"`,
+                `"${(item.room?.name || '').replace(/"/g, '""')}"`,
+                `"${(item.place?.name || '').replace(/"/g, '""')}"`,
+                `"${(item.container?.name || '').replace(/"/g, '""')}"`,
+                `"${(Array.isArray(item.tags) ? item.tags.join('; ') : '').replace(/"/g, '""')}"`
+            ];
+            csvRows.push(row.join(','));
+        });
+
+        // Create and download file
+        const csvContent = csvRows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `shelfspot_items_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+    };
+
+    // Handler to export selected items to JSON
+    const handleExportJSON = () => {
+        if (selectedIds.length === 0) return;
+        const selectedItems = items.filter(item => selectedIds.includes(item.id));
+
+        const jsonContent = JSON.stringify(selectedItems, null, 2);
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `shelfspot_items_${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+    };
+
+    // Handler for bulk tag management
+    const handleBulkTags = async (tagName: string, action: 'add' | 'remove') => {
+        if (selectedIds.length === 0) return;
+
+        try {
+            const updatePromises = selectedIds.map(async (id) => {
+                const item = items.find(it => it.id === id);
+                if (!item) return;
+
+                const currentTags = Array.isArray(item.tags) ? item.tags : [];
+                let newTags: string[];
+
+                if (action === 'add') {
+                    newTags = currentTags.includes(tagName) ? currentTags : [...currentTags, tagName];
+                } else {
+                    newTags = currentTags.filter(t => t !== tagName);
+                }
+
+                await backendApi.updateItem(id, { tags: newTags });
+                return { id, tags: newTags };
+            });
+
+            const results = await Promise.all(updatePromises);
+
+            // Update local state
+            setItems((prev: Item[]) =>
+                prev.map((item: Item) => {
+                    const update = results.find(r => r && r.id === item.id);
+                    return update ? { ...item, tags: update.tags } : item;
+                })
+            );
+        } catch (error) {
+            console.error("Error updating tags:", error);
+            alert("Erreur lors de la mise à jour des tags");
+        }
+    };
+
+    // Keyboard shortcuts
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Ctrl/Cmd + A to select all
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a' && !editId) {
+                e.preventDefault();
+                const allIds = paginatedItems.map(item => item.id);
+                setSelectedIds(allIds);
+            }
+            // Escape to clear selection
+            if (e.key === 'Escape' && selectedIds.length > 0 && !editId) {
+                handleClearSelection();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedIds, editId, paginatedItems]);
+
     if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;
 
@@ -219,7 +326,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 <Menu.Items
                                     ref={refs.setFloating}
                                     style={{ ...floatingStyles, zIndex: 60 }}
-                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg focus:outline-none flex flex-col p-1"
+                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-lg focus:outline-none flex flex-col p-1"
                                 >
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
@@ -287,22 +394,134 @@ function ItemsTable({ search, items: itemsProp, columns = [
 
     return (
         <div>
-            <div className="flex items-center mb-2 gap-2">
+            <div className="flex items-center mb-2 gap-2 flex-wrap">
                 {selectedIds.length > 0 && (
-                    <Button
-                        size="sm"
-                        variant="ghost"
-                        className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900"
-                        onClick={handleDeleteSelected}
-                        aria-label="Supprimer la sélection"
-                    >
-                        <Trash2 className="w-5 h-5" />
-                    </Button>
+                    <>
+                        {/* Selection Counter Badge */}
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 border border-blue-300 dark:border-blue-700 rounded-sm">
+                            <CheckSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                            <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                {selectedIds.length} selected
+                            </span>
+                        </div>
+
+                        {/* Bulk Action Buttons */}
+                        <div className="flex items-center gap-1">
+                            {/* Delete Selected */}
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900"
+                                onClick={handleDeleteSelected}
+                                title="Delete selected items"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+
+                            {/* Export Dropdown */}
+                            <Menu as="div" className="relative">
+                                <Menu.Button
+                                    as={Button}
+                                    size="sm"
+                                    variant="ghost"
+                                    className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                    title="Export selected items"
+                                >
+                                    <Download className="w-4 h-4" />
+                                </Menu.Button>
+                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-lg focus:outline-none p-1 min-w-[140px]">
+                                    <Menu.Item>
+                                        {({ active }: { active: boolean }) => (
+                                            <button
+                                                className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                onClick={handleExportCSV}
+                                            >
+                                                Export as CSV
+                                            </button>
+                                        )}
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                        {({ active }: { active: boolean }) => (
+                                            <button
+                                                className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                onClick={handleExportJSON}
+                                            >
+                                                Export as JSON
+                                            </button>
+                                        )}
+                                    </Menu.Item>
+                                </Menu.Items>
+                            </Menu>
+
+                            {/* Bulk Tag Management Dropdown */}
+                            {!tagsLoading && Array.isArray(allTags) && allTags.length > 0 && (
+                                <Menu as="div" className="relative">
+                                    <Menu.Button
+                                        as={Button}
+                                        size="sm"
+                                        variant="ghost"
+                                        className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                        title="Manage tags for selected items"
+                                    >
+                                        <Tags className="w-4 h-4" />
+                                    </Menu.Button>
+                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-lg focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
+                                        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
+                                            Add Tag
+                                        </div>
+                                        {allTags.map((tag: Tag) => (
+                                            <Menu.Item key={`add-${tag.id}`}>
+                                                {({ active }: { active: boolean }) => (
+                                                    <button
+                                                        className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                        onClick={() => handleBulkTags(tag.name, 'add')}
+                                                    >
+                                                        {tag.icon && <span className="mr-2">{tag.icon}</span>}
+                                                        {tag.name}
+                                                    </button>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+                                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                                        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
+                                            Remove Tag
+                                        </div>
+                                        {allTags.map((tag: Tag) => (
+                                            <Menu.Item key={`remove-${tag.id}`}>
+                                                {({ active }: { active: boolean }) => (
+                                                    <button
+                                                        className={`w-full text-left px-3 py-2 text-sm rounded text-red-600 dark:text-red-400 ${active ? 'bg-red-50 dark:bg-red-900/20' : ''}`}
+                                                        onClick={() => handleBulkTags(tag.name, 'remove')}
+                                                    >
+                                                        {tag.icon && <span className="mr-2">{tag.icon}</span>}
+                                                        {tag.name}
+                                                    </button>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+                                    </Menu.Items>
+                                </Menu>
+                            )}
+
+                            {/* Clear Selection */}
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                onClick={handleClearSelection}
+                                title="Clear selection"
+                            >
+                                <X className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    </>
                 )}
+
+                {/* Search Input */}
                 <input
                     type="text"
                     placeholder="Search an item..."
-                    className="theme-input rounded px-2 py-1 ml-2 w-56"
+                    className="theme-input rounded px-2 py-1 ml-auto w-56"
                     value={searchInput}
                     onChange={e => {
                         setSearchInput(e.target.value);
@@ -310,7 +529,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     }}
                 />
             </div>
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-lg shadow-sm"
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-sm shadow-sm"
             >
                 <Table>
                     <TableHeader>

@@ -131,14 +131,14 @@ export default function ProjectsPage() {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={handleRecalculateScores}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                         <Activity className="w-4 h-4" />
                         Recalculate Scores
                     </button>
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-sm"
                     >
                         <Plus className="w-4 h-4" />
                         New Project
@@ -149,49 +149,49 @@ export default function ProjectsPage() {
             {/* Quick Statistics */}
             {statistics && (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Items</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics.totalItems}</p>
                             </div>
-                            <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
+                            <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-md">
                                 <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">With Score</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics.itemsWithScore}</p>
                             </div>
-                            <div className="p-3 bg-green-100 dark:bg-green-900 rounded-full">
+                            <div className="p-3 bg-green-100 dark:bg-green-900 rounded-md">
                                 <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Average Score</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics.averageScore}</p>
                             </div>
-                            <div className="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-full">
+                            <div className="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-md">
                                 <Activity className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Critical Items</p>
                                 <p className="text-2xl font-bold text-red-600 dark:text-red-400">{statistics.distribution.critical}</p>
                             </div>
-                            <div className="p-3 bg-red-100 dark:bg-red-900 rounded-full">
+                            <div className="p-3 bg-red-100 dark:bg-red-900 rounded-md">
                                 <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
                             </div>
                         </div>
@@ -217,7 +217,7 @@ export default function ProjectsPage() {
                         >
                             {tab.label}
                             {tab.count > 0 && (
-                                <span className="ml-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-300 py-0.5 px-2 rounded-full text-xs">
+                                <span className="ml-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-300 py-0.5 px-2 rounded-sm text-xs">
                                     {tab.count}
                                 </span>
                             )}
@@ -227,7 +227,7 @@ export default function ProjectsPage() {
             </div>
 
             {/* Tab Content */}
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
 
                 {/* Projects Tab */}
                 {activeTab === 'projects' && (
@@ -433,7 +433,7 @@ export default function ProjectsPage() {
 
                         {!criticalLoading && criticalItems.length > 0 && (
                             <div>
-                                <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                                <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-sm">
                                     <div className="flex items-center gap-2">
                                         <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
                                         <p className="text-red-800 dark:text-red-200 font-medium">

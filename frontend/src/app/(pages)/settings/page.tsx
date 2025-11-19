@@ -136,10 +136,10 @@ export default function Settings() {
 
       {/* Admin Section - Site Users */}
       {user.admin && (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
           <button
             onClick={() => toggleSection('users')}
-            className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg"
+            className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm"
           >
             <div className="text-left">
               <div className="flex items-center gap-3">
@@ -167,7 +167,7 @@ export default function Settings() {
                 ) : (
                   <div className="space-y-3">
                     {users.map((u) => (
-                      <div key={u.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div key={u.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-sm">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
                             <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
@@ -197,10 +197,10 @@ export default function Settings() {
       )}
 
       {/* User Information Section */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
         <button
           onClick={() => toggleSection('personalInfo')}
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg"
+          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm"
         >
           <div className="text-left">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Personal Information</h2>
@@ -219,7 +219,7 @@ export default function Settings() {
           <div className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
             <div className="pt-4">
               {message && (
-                <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-lg">
+                <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-sm">
                   {message}
                 </div>
               )}
@@ -235,12 +235,12 @@ export default function Settings() {
                       name="name"
                       value={userForm.name}
                       onChange={handleChange}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter your username"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                     >
                       Update
                     </button>
@@ -258,12 +258,12 @@ export default function Settings() {
                       type="email"
                       value={userForm.email}
                       onChange={handleChange}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter your email"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                     >
                       Update
                     </button>
@@ -276,10 +276,10 @@ export default function Settings() {
       </div>
 
       {/* Sign Out Section */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
         <button
           onClick={() => toggleSection('signOut')}
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg"
+          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm"
         >
           <div className="text-left">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Account & Security</h3>
@@ -298,7 +298,7 @@ export default function Settings() {
           <div className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
             <div className="pt-4 space-y-6">
               {message && (
-                <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-lg">
+                <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-sm">
                   {message}
                 </div>
               )}
@@ -316,7 +316,7 @@ export default function Settings() {
                       type="password"
                       value={userForm.password}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter new password"
                     />
                     {userForm.password && (
@@ -325,13 +325,13 @@ export default function Settings() {
                         type="password"
                         value={userForm.confirmPassword}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Confirm new password"
                       />
                     )}
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                     >
                       Update Password
                     </button>
@@ -342,7 +342,7 @@ export default function Settings() {
               {/* Session Information */}
               <div>
                 <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">Current Session</h4>
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-sm p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
@@ -377,7 +377,7 @@ export default function Settings() {
                   <div className="flex gap-3">
                     <button
                       onClick={(e) => { e.preventDefault(); logout(); }}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-sm transition-colors flex items-center gap-2"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -386,7 +386,7 @@ export default function Settings() {
                     </button>
                     <button
                       onClick={() => toggleSection('signOut')}
-                      className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-sm transition-colors"
                     >
                       Cancel
                     </button>
@@ -399,10 +399,10 @@ export default function Settings() {
       </div>
 
       {/* Features Section */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
         <button
           onClick={() => toggleSection('features')}
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-lg"
+          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm"
         >
           <div className="text-left">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Dashboard Features</h2>
@@ -425,7 +425,7 @@ export default function Settings() {
               ) : (
                 <div className="space-y-4">
                   {/* Welcome Header Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
                         <span className="text-blue-600 dark:text-blue-400 text-sm">👋</span>
@@ -453,7 +453,7 @@ export default function Settings() {
                   </div>
 
                   {/* Stats Cards Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
                         <span className="text-green-600 dark:text-green-400 text-sm">📊</span>
@@ -481,7 +481,7 @@ export default function Settings() {
                   </div>
 
                   {/* Recent Items Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                         <span className="text-purple-600 dark:text-purple-400 text-sm">🕒</span>
@@ -515,7 +515,7 @@ export default function Settings() {
                   </div>
 
                   {/* Room Distribution Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
                         <span className="text-blue-600 dark:text-blue-400 text-sm">🏠</span>
@@ -543,7 +543,7 @@ export default function Settings() {
                   </div>
 
                   {/* Alerts Per Month Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center">
                         <span className="text-orange-600 dark:text-orange-400 text-sm">🚨</span>
@@ -571,7 +571,7 @@ export default function Settings() {
                   </div>
 
                   {/* Inventory Value Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
                         <span className="text-green-600 dark:text-green-400 text-sm">💰</span>
@@ -599,7 +599,7 @@ export default function Settings() {
                   </div>
 
                   {/* Status Distribution Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                         <span className="text-purple-600 dark:text-purple-400 text-sm">📋</span>

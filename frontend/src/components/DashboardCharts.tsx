@@ -170,7 +170,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
     if (visibleCharts.length === 0) {
         return (
             <div className="text-center py-16">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                     <span className="text-gray-400 text-2xl">📊</span>
                 </div>
                 <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No charts enabled</div>
@@ -183,7 +183,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
         <div className={`grid ${getGridCols()} gap-6 mt-6`}>
             {/* Modern Card 1: Distribution by room */}
             {chartPrefs.showRoomDistribution && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Distribution by room</h2>
@@ -191,14 +191,14 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                     {loading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="w-16 h-16 border-4 border-blue-100 dark:border-blue-900/30 rounded-full"></div>
+                                <div className="w-16 h-16 border-4 border-blue-100 dark:border-blue-900/30 rounded-xl"></div>
                                 <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0"></div>
                             </div>
                             <p className="text-gray-600 dark:text-gray-400 font-medium">Loading room data...</p>
                         </div>
                     ) : error ? (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-red-500 text-2xl">⚠️</span>
                             </div>
                             <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">Error loading rooms</div>
@@ -206,7 +206,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                         </div>
                     ) : !rooms || rooms.length === 0 ? (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-gray-400 text-2xl">🏠</span>
                             </div>
                             <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No rooms found</div>
@@ -214,7 +214,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                         </div>
                     ) : roomsWithItems.length === 0 ? (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-blue-500 text-2xl">📦</span>
                             </div>
                             <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No items found</div>
@@ -250,7 +250,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
 
             {/* Modern Card 2: Alerts per month */}
             {chartPrefs.showAlertsPerMonth && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Alerts per month</h2>
@@ -265,7 +265,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                         </div>
                     ) : alertsError ? (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-red-500 text-2xl">⚠️</span>
                             </div>
                             <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">Error loading alerts</div>
@@ -273,7 +273,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                         </div>
                     ) : !alertsData || alertsData.data.length === 0 ? (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-orange-100 dark:bg-orange-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-orange-500 text-2xl">🚨</span>
                             </div>
                             <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No alerts data</div>
@@ -299,16 +299,16 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
 
             {/* Modern Card 3: Inventory value */}
             {chartPrefs.showInventoryValue && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-teal-500 rounded-full"></div>
+                        <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-teal-500 rounded-sm"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Inventory value</h2>
                     </div>
                     {inventoryLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="w-16 h-16 border-4 border-green-100 dark:border-green-900/30 rounded-full"></div>
-                                <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin absolute top-0"></div>
+                                <div className="w-16 h-16 border-4 border-green-100 dark:border-green-900/30 rounded-sm"></div>
+                                <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-sm animate-spin absolute top-0"></div>
                             </div>
                             <p className="text-gray-600 dark:text-gray-400 font-medium">Calculating inventory value...</p>
                         </div>
@@ -328,7 +328,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                         </>
                     ) : (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-gray-400 text-2xl">💰</span>
                             </div>
                             <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No inventory value data</div>
@@ -340,22 +340,22 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
 
             {/* Modern Card 4: Status distribution */}
             {chartPrefs.showStatusDistribution && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></div>
+                        <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-sm"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Status distribution</h2>
                     </div>
                     {statusLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="w-16 h-16 border-4 border-purple-100 dark:border-purple-900/30 rounded-full"></div>
-                                <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin absolute top-0"></div>
+                                <div className="w-16 h-16 border-4 border-purple-100 dark:border-purple-900/30 rounded-sm"></div>
+                                <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-sm animate-spin absolute top-0"></div>
                             </div>
                             <p className="text-gray-600 dark:text-gray-400 font-medium">Loading status data...</p>
                         </div>
                     ) : statusError ? (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-red-500 text-2xl">⚠️</span>
                             </div>
                             <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">Error loading status data</div>
@@ -367,7 +367,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                         </div>
                     ) : (
                         <div className="text-center py-16">
-                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-gray-400 text-2xl">📊</span>
                             </div>
                             <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No status data</div>

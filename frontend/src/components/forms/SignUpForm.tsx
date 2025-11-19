@@ -102,7 +102,7 @@ export default function SignUpForm() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.name ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
+                        className={`w-full px-4 py-3 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.name ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
                             }`}
                         placeholder="Choose a username"
                     />
@@ -123,7 +123,7 @@ export default function SignUpForm() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.email ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
+                        className={`w-full px-4 py-3 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.email ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
                             }`}
                         placeholder="Enter your email"
                     />
@@ -145,7 +145,7 @@ export default function SignUpForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`w-full px-4 py-3 pr-12 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.password ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
+                            className={`w-full px-4 py-3 pr-12 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.password ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
                                 }`}
                             placeholder="Create a password"
                         />
@@ -179,7 +179,7 @@ export default function SignUpForm() {
                             required
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className={`w-full px-4 py-3 pr-12 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.confirmPassword ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
+                            className={`w-full px-4 py-3 pr-12 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.confirmPassword ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
                                 }`}
                             placeholder="Confirm your password"
                         />
@@ -201,7 +201,7 @@ export default function SignUpForm() {
                 </div>
 
                 {password && (
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
                         <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password requirements:</h4>
                         <ul className="space-y-1">
                             {passwordRequirements.map((req, index) => (
@@ -241,8 +241,8 @@ export default function SignUpForm() {
 
                 {message && (
                     <div className={`rounded-lg p-4 ${isSuccess
-                            ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
-                            : "bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+                        ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
+                        : "bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
                         }`}>
                         <div className="flex">
                             <div className="ml-3">
@@ -282,7 +282,7 @@ export default function SignUpForm() {
                 <div className="text-center">
                     <Link
                         href="/login"
-                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
+                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-sm shadow-sm bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
                     >
                         Go to sign in
                     </Link>

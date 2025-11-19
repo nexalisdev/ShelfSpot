@@ -17,7 +17,7 @@ export default function Favourites() {
       </div>
 
       {/* Content */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
         {loading && (
           <div className="flex items-center justify-center h-64">
             <div className="text-gray-600 dark:text-gray-400">Loading favourites...</div>

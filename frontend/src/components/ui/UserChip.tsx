@@ -8,7 +8,7 @@ export default function UserChip() {
     return (
         <Link href="/settings">
             <span
-                className="ml-2 px-3 py-1 rounded-full theme-sidebar text-sm font-medium cursor-pointer hover:theme-primary transition-colors border border-green-500 shadow"
+                className="ml-2 px-3 py-1 rounded-md theme-sidebar text-sm font-medium cursor-pointer hover:theme-primary transition-colors border border-green-500 shadow"
                 title="Paramètres utilisateur"
             >
                 {user.name}

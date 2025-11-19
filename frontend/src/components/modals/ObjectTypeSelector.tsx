@@ -16,7 +16,7 @@ export function ObjectTypeSelector({ onSelect }: ObjectTypeSelectorProps) {
                 {OBJECT_TYPES.map((type) => (
                     <div
                         key={type.key}
-                        className="border-2 border-gray-200 dark:border-gray-600 rounded-xl p-6 flex flex-col items-center hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer bg-gray-50/50 dark:bg-gray-700/50 backdrop-blur-sm"
+                        className="border-2 border-gray-200 dark:border-gray-600 rounded-sm p-6 flex flex-col items-center hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer bg-gray-50/50 dark:bg-gray-700/50 backdrop-blur-sm"
                         onClick={() => onSelect(type.key)}
                     >
                         <div className="text-blue-600 dark:text-blue-400 mb-3">
