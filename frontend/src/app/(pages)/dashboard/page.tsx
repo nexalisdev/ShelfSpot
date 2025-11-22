@@ -133,7 +133,7 @@ export default function Dashboard() {
             <input
               type="text"
               placeholder="Search for any item in your inventory..."
-              className="w-full pl-12 pr-6 py-3 border border-gray-200 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200"
+              className="w-full pl-12 pr-6 py-3 border border-gray-200 dark:border-gray-700 rounded-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none  focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
@@ -162,7 +162,7 @@ export default function Dashboard() {
                 <input
                   type="text"
                   placeholder="Search for any item in your inventory..."
-                  className="w-full pl-12 pr-6 py-4 text-lg border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-lg transition-all duration-200 hover:shadow-xl"
+                  className="w-full pl-12 pr-6 py-4 text-lg border border-gray-200 dark:border-gray-800 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200 hover:shadow-md"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
@@ -299,7 +299,7 @@ export default function Dashboard() {
 
           {/* Recent Items - Modern Card */}
           {preferences?.showRecentItems !== false && (
-            <div className="lg:col-span-2 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 mt-[52px] flex flex-col h-[725px] shadow-xl">
+            <div className="lg:col-span-2 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 mt-[52px] flex flex-col h-[725px] shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-blue-500 rounded-sm"></div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -311,7 +311,7 @@ export default function Dashboard() {
                   recentItems.map((item, index) => (
                     <div
                       key={item.id}
-                      className="group relative flex items-center justify-between p-4 rounded-sm bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 backdrop-blur-sm border border-gray-200/50 dark:border-gray-600/50 hover:border-blue-300 dark:hover:border-blue-600 cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 transform"
+                      className="group relative flex items-center justify-between p-4 rounded-sm bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 backdrop-blur-sm border border-gray-200/50 dark:border-gray-600/50 hover:border-blue-300 dark:hover:border-blue-600 cursor-pointer transition-all duration-300 hover:shadow-md hover:-translate-y-1 transform"
                       onClick={() => router.push(`/manage/${item.id}`)}
                       title={`Created: ${new Date(item.createdAt).toLocaleDateString()}${item.status ? ` • Status: ${item.status}` : ''}${item.quantity ? ` • Qty: ${item.quantity}` : ''}`}
                       style={{ zIndex: 10 + index }}
@@ -332,7 +332,7 @@ export default function Dashboard() {
 
                       {/* Modern Tooltip */}
                       <div
-                        className="absolute right-0 bottom-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-72 p-4 bg-gray-900/95 backdrop-blur-sm text-white text-sm rounded-sm shadow-2xl border border-gray-700 pointer-events-none"
+                        className="absolute right-0 bottom-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-72 p-4 bg-gray-900/95 backdrop-blur-sm text-white text-sm rounded-sm shadow-sm border border-gray-700 pointer-events-none"
                         style={{
                           zIndex: 9999,
                           transform: 'translateX(-20px)'

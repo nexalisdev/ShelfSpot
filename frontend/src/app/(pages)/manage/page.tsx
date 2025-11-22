@@ -233,7 +233,7 @@ const ManagePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing rooms</p>
           </div>
           <div className="p-8">
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {rooms.length > 0 ? (
                 rooms.map((room) => (
                   <div key={room.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
@@ -299,7 +299,7 @@ const ManagePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing places within rooms</p>
           </div>
           <div className="p-8">
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {places.length > 0 ? (
                 places.map((place) => (
                   <div key={place.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
@@ -375,7 +375,7 @@ const ManagePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing containers within places</p>
           </div>
           <div className="p-8">
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {containers.length > 0 ? (
                 containers.map((container) => (
                   <div key={container.id} className="flex items-start justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
@@ -490,7 +490,7 @@ const ManagePage = () => {
                 </button>
               </div>
             </form>
-            <div className="flex flex-wrap gap-3 max-h-48 overflow-y-auto">
+            <div className="flex flex-wrap gap-3 max-h-48 overflow-y-auto scrollbar-hide">
               {tags.map((tag) => (
                 <div key={tag.id} className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
                   {editingTag === tag.id ? (

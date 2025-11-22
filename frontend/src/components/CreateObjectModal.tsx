@@ -173,7 +173,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60 modal-backdrop p-4">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-2xl border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content">
+            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content">
                 <button
                     className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm"
                     onClick={() => {
@@ -201,7 +201,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                             {objectTypes.map((type) => (
                                 <div
                                     key={type.key}
-                                    className="group border-2 border-gray-200/50 dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden"
+                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 cursor-pointer bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden"
                                     onClick={() => handleTypeSelect(type.key)}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -258,7 +258,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                             <span className="block mb-3 text-lg font-semibold text-gray-900 dark:text-white">Enter the name of the room</span>
                                             <input
                                                 name="name"
-                                                className="w-full px-4 py-4 border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white text-lg placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 shadow-md hover:shadow-lg"
+                                                className="w-full px-4 py-4 border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white text-lg placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 shadow-md"
                                                 onChange={handleChange}
                                                 required
                                                 placeholder="e.g., Living Room, Kitchen, Bedroom..."

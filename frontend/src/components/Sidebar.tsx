@@ -42,7 +42,7 @@ export default function Sidebar() {
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-sm mb-1 group hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-gray-800 dark:hover:to-purple-900/20",
                                 pathname === href
-                                    ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-purple-900/20 text-blue-700 dark:text-blue-300 shadow-md border border-blue-200/50 dark:border-blue-700/50"
+                                    ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-purple-900/20 text-blue-700 dark:text-blue-300 shadow-sm border border-blue-200/50 dark:border-blue-700/50"
                                     : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                             )}
                         >

@@ -183,7 +183,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
         <div className={`grid ${getGridCols()} gap-6 mt-6`}>
             {/* Modern Card 1: Distribution by room */}
             {chartPrefs.showRoomDistribution && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Distribution by room</h2>
@@ -250,7 +250,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
 
             {/* Modern Card 2: Alerts per month */}
             {chartPrefs.showAlertsPerMonth && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Alerts per month</h2>
@@ -299,7 +299,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
 
             {/* Modern Card 3: Inventory value */}
             {chartPrefs.showInventoryValue && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-teal-500 rounded-sm"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Inventory value</h2>
@@ -340,7 +340,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
 
             {/* Modern Card 4: Status distribution */}
             {chartPrefs.showStatusDistribution && (
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-sm"></div>
                         <h2 className="text-gray-900 dark:text-white text-xl font-bold">Status distribution</h2>

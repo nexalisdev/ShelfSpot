@@ -91,7 +91,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                 const data = await backendApi.getItems();
                 setItems(data);
             } catch {
-                setError("Erreur lors du chargement des objets");
+                setError("Error fetching your items");
             } finally {
                 setLoading(false);
             }
@@ -326,7 +326,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 <Menu.Items
                                     ref={refs.setFloating}
                                     style={{ ...floatingStyles, zIndex: 60 }}
-                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-lg focus:outline-none flex flex-col p-1"
+                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none flex flex-col p-1"
                                 >
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
@@ -429,7 +429,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 >
                                     <Download className="w-4 h-4" />
                                 </Menu.Button>
-                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-lg focus:outline-none p-1 min-w-[140px]">
+                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none p-1 min-w-[140px]">
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
@@ -465,7 +465,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     >
                                         <Tags className="w-4 h-4" />
                                     </Menu.Button>
-                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-lg focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
+                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
                                         <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
                                             Add Tag
                                         </div>
@@ -529,7 +529,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     }}
                 />
             </div>
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-sm shadow-sm"
+            <div className="dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-sm shadow-sm"
             >
                 <Table>
                     <TableHeader>

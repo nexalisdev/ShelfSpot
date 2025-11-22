@@ -6,11 +6,10 @@ import { AuthGuard } from '@nestjs/passport';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
-    console.log('JwtAuthGuard: canActivate called');
     const request = context.switchToHttp().getRequest();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const authHeader = request.headers.authorization;
-    console.log('JwtAuthGuard: Authorization header:', authHeader);
+    console.log('Authorization header:', authHeader);
 
     return super.canActivate(context);
   }

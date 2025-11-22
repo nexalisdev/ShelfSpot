@@ -5,8 +5,8 @@ import ItemsTable from "@/components/ItemsTable";
 export default function InventoryPage() {
     return (
         <div className="space-y-8">
-            {/* Modern Page Header */}
-            <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-emerald-50 via-white to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-emerald-900/20 border border-gray-200/50 dark:border-gray-700/50 p-8">
+            {/* Page Header */}
+            <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-emerald-50 via-white to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-emerald-900/20 p-8">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-blue-500/5" />
                 <div className="relative flex items-center justify-between">
                     <div>
@@ -24,7 +24,7 @@ export default function InventoryPage() {
             </div>
 
             {/* Modern Items Table Container */}
-            <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-xl">
+            <div className="rounded-sm p-8">
                 <ItemsTable
                     columns={[
                         "name",
