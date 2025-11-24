@@ -9,6 +9,7 @@ import UserChip from "@/components/ui/UserChip";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import CreateObjectModal from "@/components/CreateObjectModal";
+import CreateMultipleItemsModal from "@/components/CreateMultipleItemsModal";
 
 const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: Home },
@@ -23,10 +24,12 @@ export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const [showCreate, setShowCreate] = useState(false);
+    const [showBulkCreate, setShowBulkCreate] = useState(false);
 
     return (
         <>
             <CreateObjectModal open={showCreate} onClose={() => setShowCreate(false)} />
+            <CreateMultipleItemsModal open={showBulkCreate} onClose={() => setShowBulkCreate(false)} />
             {/* Modern Desktop Sidebar */}
             <aside className=" dark:bg-gray-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 fixed left-0 top-0 h-full w-[220px] flex-col z-40 hidden md:flex shadow-xl"
             >
@@ -55,12 +58,20 @@ export default function Sidebar() {
                     ))}
                 </nav>
 
-                <div className="p-4">
+                <div className="p-4 space-y-3">
                     <button
+                        type="button"
                         className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                         onClick={() => setShowCreate(true)}
                     >
                         + Create New
+                    </button>
+                    <button
+                        type="button"
+                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-sm border border-gray-200/60 dark:border-gray-700/60 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200"
+                        onClick={() => setShowBulkCreate(true)}
+                    >
+                        Create multiples
                     </button>
                 </div>
 
