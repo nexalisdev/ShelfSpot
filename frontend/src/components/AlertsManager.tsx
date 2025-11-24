@@ -77,7 +77,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
 
     if (loading) {
         return (
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Quantity Alerts</h2>
                 <p className="text-gray-600 dark:text-gray-400">Loading alerts...</p>
             </div>
@@ -85,7 +85,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-6">
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Quantity Alerts</h2>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -101,12 +101,12 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                     {!showCreateForm ? (
                         <button
                             onClick={() => setShowCreateForm(true)}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                         >
                             Create Alert
                         </button>
                     ) : (
-                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Alert Threshold
@@ -116,7 +116,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     min="1"
                                     value={newAlert.threshold}
                                     onChange={(e) => setNewAlert({ ...newAlert, threshold: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="e.g., 10"
                                     required
                                 />
@@ -129,14 +129,14 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     type="text"
                                     value={newAlert.name}
                                     onChange={(e) => setNewAlert({ ...newAlert, name: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="e.g., Low stock, Critical level"
                                 />
                             </div>
                             <div className="flex gap-2">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors"
+                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-sm transition-colors"
                                 >
                                     Create
                                 </button>
@@ -146,7 +146,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                         setShowCreateForm(false);
                                         setNewAlert({ threshold: '', name: '' });
                                     }}
-                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors"
+                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-sm transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -221,12 +221,12 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                     {!showCreateForm ? (
                         <button
                             onClick={() => setShowCreateForm(true)}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                         >
                             Add Another Alert
                         </button>
                     ) : (
-                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Alert Threshold
@@ -236,7 +236,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     min="1"
                                     value={newAlert.threshold}
                                     onChange={(e) => setNewAlert({ ...newAlert, threshold: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="e.g., 10"
                                     required
                                 />
@@ -249,14 +249,14 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     type="text"
                                     value={newAlert.name}
                                     onChange={(e) => setNewAlert({ ...newAlert, name: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="e.g., Low stock, Critical level"
                                 />
                             </div>
                             <div className="flex gap-2">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors"
+                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-sm transition-colors"
                                 >
                                     Create
                                 </button>
@@ -266,7 +266,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                         setShowCreateForm(false);
                                         setNewAlert({ threshold: '', name: '' });
                                     }}
-                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors"
+                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-sm transition-colors"
                                 >
                                     Cancel
                                 </button>

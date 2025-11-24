@@ -1,6 +1,6 @@
-import { Injectable, ConflictException } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { Prisma } from '@prisma/client';
+import { Injectable, ConflictException } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class FavouritesService {
@@ -15,7 +15,7 @@ export class FavouritesService {
   // Create a favourite with user ID (string converted to number for the DB)
   async createWithUserId(itemId: number, userId: string | number) {
     const numericUserId =
-      typeof userId === 'string' ? parseInt(userId, 10) : userId;
+      typeof userId === "string" ? parseInt(userId, 10) : userId;
 
     const existingFavourite = await this.prisma.favourite.findUnique({
       where: {
@@ -27,7 +27,7 @@ export class FavouritesService {
     });
 
     if (existingFavourite) {
-      throw new ConflictException('Item already in favourites');
+      throw new ConflictException("Item already in favourites");
     }
 
     return this.prisma.favourite.create({
@@ -72,7 +72,7 @@ export class FavouritesService {
 
   findByUser(userId: string | number) {
     const numericUserId =
-      typeof userId === 'string' ? parseInt(userId, 10) : userId;
+      typeof userId === "string" ? parseInt(userId, 10) : userId;
 
     return this.prisma.favourite.findMany({
       where: { userId: numericUserId },
@@ -95,7 +95,7 @@ export class FavouritesService {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     return this.create({
@@ -113,7 +113,7 @@ export class FavouritesService {
   // Remove a favourite while checking the user
   removeWithUserId(id: number, userId: string | number) {
     const numericUserId =
-      typeof userId === 'string' ? parseInt(userId, 10) : userId;
+      typeof userId === "string" ? parseInt(userId, 10) : userId;
 
     return this.prisma.favourite.deleteMany({
       where: {
@@ -129,7 +129,7 @@ export class FavouritesService {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     return this.prisma.favourite.deleteMany({
@@ -143,7 +143,7 @@ export class FavouritesService {
   // Remove a favourite by item and user ID
   removeByItemAndUserId(itemId: number, userId: string | number) {
     const numericUserId =
-      typeof userId === 'string' ? parseInt(userId, 10) : userId;
+      typeof userId === "string" ? parseInt(userId, 10) : userId;
 
     return this.prisma.favourite.deleteMany({
       where: {

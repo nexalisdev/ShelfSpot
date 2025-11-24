@@ -126,7 +126,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
 
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                <div className="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div className="relative inline-block align-bottom bg-white dark:bg-gray-800 rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                     <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6">
                         {/* Header */}
                         <div className="flex items-center justify-between mb-6">
@@ -157,7 +157,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
 
                         {/* Description et dates */}
                         {(project.description || project.startDate || project.endDate) && (
-                            <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                            <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-sm">
                                 {project.description && (
                                     <p className="text-gray-700 dark:text-gray-300 mb-2">{project.description}</p>
                                 )}
@@ -211,7 +211,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
                                             type="text"
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                             placeholder="Search for an item..."
                                         />
                                     </div>
@@ -224,7 +224,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
                                     )}
 
                                     {searchResults.length > 0 && (
-                                        <div className="mt-2 border border-gray-200 dark:border-gray-600 rounded-md max-h-40 overflow-y-auto">
+                                        <div className="mt-2 border border-gray-200 dark:border-gray-600 rounded-sm max-h-40 overflow-y-auto">
                                             {searchResults.map((item) => (
                                                 <div
                                                     key={item.id}
@@ -263,7 +263,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
                                     )}
 
                                     {!loading && (!fullProject?.projectItems || fullProject.projectItems.length === 0) && (
-                                        <div className="text-center py-8 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+                                        <div className="text-center py-8 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-sm">
                                             <p className="text-gray-600 dark:text-gray-400">No items in this project</p>
                                             <p className="text-sm text-gray-500 dark:text-gray-500">Use the search above to add items</p>
                                         </div>
@@ -274,7 +274,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
                                             {fullProject.projectItems.map((projectItem) => (
                                                 <div
                                                     key={projectItem.id}
-                                                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg"
+                                                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-sm"
                                                 >
                                                     <div className="flex-1">
                                                         <div className="text-sm font-medium text-gray-900 dark:text-white">
@@ -340,7 +340,7 @@ export default function ProjectDetailsModal({ open, onClose, project, onUpdate }
                         <div className="mt-6 flex justify-end">
                             <button
                                 onClick={onClose}
-                                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+                                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-600"
                             >
                                 Close
                             </button>

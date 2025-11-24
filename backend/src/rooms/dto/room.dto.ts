@@ -1,14 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString, IsOptional } from "class-validator";
 
 export class CreateRoomDto {
-  @ApiProperty({ example: 'Living Room', description: 'Room name' })
+  @ApiProperty({ example: "Living Room", description: "Room name" })
   @IsString()
   name: string;
 
   @ApiProperty({
-    example: 'Main living area',
-    description: 'Room description',
+    example: "Main living area",
+    description: "Room description",
     required: false,
   })
   @IsOptional()
@@ -18,8 +18,8 @@ export class CreateRoomDto {
 
 export class UpdateRoomDto {
   @ApiProperty({
-    example: 'Living Room',
-    description: 'Room name',
+    example: "Living Room",
+    description: "Room name",
     required: false,
   })
   @IsOptional()
@@ -27,8 +27,8 @@ export class UpdateRoomDto {
   name?: string;
 
   @ApiProperty({
-    example: 'Main living area',
-    description: 'Room description',
+    example: "Main living area",
+    description: "Room description",
     required: false,
   })
   @IsOptional()

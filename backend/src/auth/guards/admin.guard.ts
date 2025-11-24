@@ -3,9 +3,9 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
-} from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { UserPayload } from '../interfaces/auth.interface';
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { UserPayload } from "../interfaces/auth.interface";
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -18,11 +18,11 @@ export class AdminGuard implements CanActivate {
     const user: UserPayload = request.user;
 
     if (!user) {
-      throw new ForbiddenException('User not authenticated');
+      throw new ForbiddenException("User not authenticated");
     }
 
     if (!user.admin) {
-      throw new ForbiddenException('Admin access required');
+      throw new ForbiddenException("Admin access required");
     }
 
     return true;

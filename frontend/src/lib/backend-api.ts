@@ -137,6 +137,13 @@ class BackendApiService {
     });
   }
 
+  async createBulkItems(items: any[]) {
+    return this.request<any>("/items/bulk", {
+      method: "POST",
+      body: JSON.stringify({ items }),
+    });
+  }
+
   async updateItem(id: number, data: any) {
     return this.request<any>(`/items/${id}`, {
       method: "PATCH",

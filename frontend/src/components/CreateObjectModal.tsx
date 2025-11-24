@@ -173,9 +173,9 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60 modal-backdrop p-4">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content">
+            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content">
                 <button
-                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm"
+                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm"
                     onClick={() => {
                         resetModal();
                         onClose();
@@ -201,7 +201,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                             {objectTypes.map((type) => (
                                 <div
                                     key={type.key}
-                                    className="group border-2 border-gray-200/50 dark:border-gray-600/50 rounded-2xl p-8 flex flex-col items-center hover:border-blue-400 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden"
+                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 cursor-pointer bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden"
                                     onClick={() => handleTypeSelect(type.key)}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -244,7 +244,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                         </div>
                         <div className="mb-8 flex flex-col items-center">
                             {objectTypes.find(t => t.key === selectedType)?.icon && (
-                                <div className="rounded-2xl p-8 mb-6 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200/50 dark:border-blue-700/50 shadow-lg">
+                                <div className="rounded-sm p-8 mb-6 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200/50 dark:border-blue-700/50 shadow-lg">
                                     <div className="text-blue-600 dark:text-blue-400 scale-150">{objectTypes.find(t => t.key === selectedType)?.icon}</div>
                                 </div>
                             )}
@@ -258,7 +258,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                             <span className="block mb-3 text-lg font-semibold text-gray-900 dark:text-white">Enter the name of the room</span>
                                             <input
                                                 name="name"
-                                                className="w-full px-4 py-4 border border-gray-200 dark:border-gray-600 rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white text-lg placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 shadow-md hover:shadow-lg"
+                                                className="w-full px-4 py-4 border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white text-lg placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 shadow-md"
                                                 onChange={handleChange}
                                                 required
                                                 placeholder="e.g., Living Room, Kitchen, Bedroom..."
@@ -276,7 +276,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <select
                                                     value={selectedRoomForPlace ?? ""}
                                                     onChange={e => setSelectedRoomForPlace(Number(e.target.value) || null)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     required
                                                 >
                                                     <option value="">Select a room</option>
@@ -291,7 +291,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Place name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Place name"
@@ -314,7 +314,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                         setSelectedRoomForContainer(val);
                                                         setSelectedPlaceForContainer(null);
                                                     }}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     required
                                                 >
                                                     <option value="">Select a room</option>
@@ -330,7 +330,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <select
                                                     value={selectedPlaceForContainer ?? ""}
                                                     onChange={e => setSelectedPlaceForContainer(Number(e.target.value) || null)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     required
                                                     disabled={!selectedRoomForContainer}
                                                 >
@@ -346,7 +346,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Container name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Container name"
@@ -365,7 +365,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Item name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Item name"
@@ -379,7 +379,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Status (optional)</span>
                                                 <input
                                                     name="status"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     placeholder="Status"
                                                 />
@@ -398,7 +398,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                         setSelectedPlaceForItem(null);
                                                         setSelectedContainerForItem(null);
                                                     }}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                 >
                                                     <option value="">Select a room</option>
                                                     {rooms.map(room => (
@@ -417,7 +417,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                         setSelectedPlaceForItem(val);
                                                         setSelectedContainerForItem(null);
                                                     }}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     disabled={!selectedRoomForItem}
                                                 >
                                                     <option value="">Select a place</option>
@@ -433,7 +433,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <select
                                                     value={selectedContainerForItem ?? ""}
                                                     onChange={e => setSelectedContainerForItem(Number(e.target.value) || null)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     disabled={!selectedPlaceForItem}
                                                 >
                                                     <option value="">Select a container</option>
@@ -452,7 +452,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                     name="quantity"
                                                     type="number"
                                                     min="1"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     value={String(form.quantity || 1)}
                                                     placeholder="1"
@@ -466,7 +466,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                     name="price"
                                                     type="number"
                                                     step="0.01"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     placeholder="0.00"
                                                 />
@@ -479,7 +479,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                     name="sellprice"
                                                     type="number"
                                                     step="0.01"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     placeholder="0.00"
                                                 />
@@ -511,7 +511,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Project name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Project name"
@@ -526,7 +526,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <textarea
                                                     name="description"
                                                     rows={3}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                                                     onChange={(e) => setForm({ ...form, description: e.target.value })}
                                                     placeholder="Describe your project..."
                                                 />
@@ -539,7 +539,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Status</span>
                                                 <select
                                                     name="status"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={(e) => setForm({ ...form, status: e.target.value })}
                                                     defaultValue="ACTIVE"
                                                 >
@@ -555,7 +555,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <span className="block mb-2 font-medium">Priority</span>
                                                 <select
                                                     name="priority"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={(e) => setForm({ ...form, priority: e.target.value })}
                                                     defaultValue="MEDIUM"
                                                 >
@@ -574,7 +574,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <input
                                                     name="startDate"
                                                     type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                 />
                                             </label>
@@ -585,7 +585,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                 <input
                                                     name="endDate"
                                                     type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     onChange={handleChange}
                                                 />
                                             </label>
@@ -597,7 +597,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                             <div className="flex justify-center pt-8">
                                 <button
                                     type="submit"
-                                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl px-12 py-4 text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:-translate-y-1 transform focus:ring-4 focus:ring-blue-300/50 dark:focus:ring-blue-800/50 backdrop-blur-sm"
+                                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-sm px-12 py-4 text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:-translate-y-1 transform focus:ring-4 focus:ring-blue-300/50 dark:focus:ring-blue-800/50 backdrop-blur-sm"
                                     disabled={loading}
                                 >
                                     {loading ? (
@@ -612,7 +612,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                             </div>
 
                             {error && (
-                                <div className="text-red-600 dark:text-red-400 text-sm text-center bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm p-6 rounded-2xl border border-red-200/50 dark:border-red-800/50 shadow-lg">
+                                <div className="text-red-600 dark:text-red-400 text-sm text-center bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm p-6 rounded-sm border border-red-200/50 dark:border-red-800/50 shadow-lg">
                                     <div className="flex items-center justify-center gap-3">
                                         <span className="text-red-500 text-lg">⚠️</span>
                                         <span className="font-medium">{error}</span>
@@ -620,7 +620,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                 </div>
                             )}
                             {success && (
-                                <div className="text-green-600 dark:text-green-400 text-sm text-center bg-green-50/80 dark:bg-green-900/20 backdrop-blur-sm p-6 rounded-2xl border border-green-200/50 dark:border-green-800/50 shadow-lg">
+                                <div className="text-green-600 dark:text-green-400 text-sm text-center bg-green-50/80 dark:bg-green-900/20 backdrop-blur-sm p-6 rounded-sm border border-green-200/50 dark:border-green-800/50 shadow-lg">
                                     <div className="flex items-center justify-center gap-3">
                                         <span className="text-green-500 text-lg">✅</span>
                                         <span className="font-medium">Successfully created!</span>

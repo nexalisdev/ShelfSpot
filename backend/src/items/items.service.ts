@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { AlertsService } from '../alerts/alerts.service';
-import { ScoringService } from '../scoring/scoring.service';
-import { Prisma } from '@prisma/client';
+/* eslint-disable prettier/prettier */
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { AlertsService } from "../alerts/alerts.service";
+import { ScoringService } from "../scoring/scoring.service";
+import { Prisma } from "@prisma/client";
 
 // Interface for update data with tags support
 interface UpdateItemData {
@@ -76,7 +77,7 @@ export class ItemsService {
   constructor(
     private prisma: PrismaService,
     private alertsService: AlertsService,
-    private scoringService: ScoringService,
+    private scoringService: ScoringService
   ) {}
 
   private transformItem(item: ItemWithIncludes | null): TransformedItem | null {
@@ -106,18 +107,27 @@ export class ItemsService {
       },
     });
 
-    if (typeof data.quantity === 'number') {
+    if (typeof data.quantity === "number") {
       this.alertsService
         .checkItemAlerts(item.id, data.quantity)
         .catch((error) => {
           console.error(
             `Error checking alerts for new item ${item.id}:`,
-            error,
+            error
           );
         });
     }
 
     return this.transformItem(item);
+  }
+
+  async createMany(
+    data: Prisma.ItemCreateManyInput[]
+  ): Promise<Prisma.BatchPayload> {
+    return this.prisma.item.createMany({
+      data,
+      skipDuplicates: true,
+    });
   }
 
   async findAll(): Promise<(TransformedItem | null)[]> {
@@ -155,7 +165,7 @@ export class ItemsService {
 
   async update(
     id: number,
-    data: UpdateItemData,
+    data: UpdateItemData
   ): Promise<TransformedItem | null> {
     const oldItem = await this.prisma.item.findUnique({
       where: { id },
@@ -231,7 +241,7 @@ export class ItemsService {
         if (
           itemData.quantity !== undefined &&
           oldItem &&
-          typeof itemData.quantity === 'number'
+          typeof itemData.quantity === "number"
         ) {
           const newQuantity = itemData.quantity;
           if (newQuantity !== oldItem.quantity) {
@@ -252,7 +262,7 @@ export class ItemsService {
     if (
       itemData.quantity !== undefined &&
       oldItem &&
-      typeof itemData.quantity === 'number'
+      typeof itemData.quantity === "number"
     ) {
       const newQuantity = itemData.quantity;
       if (newQuantity !== oldItem.quantity) {
@@ -357,39 +367,39 @@ export class ItemsService {
       let status = item.status;
 
       // Normalize status values
-      if (!status || status.trim() === '') {
-        status = 'No Status';
+      if (!status || status.trim() === "") {
+        status = "No Status";
       } else {
         // Normalize case and common variations
         status = status.trim().toLowerCase();
         switch (status) {
-          case 'good':
-          case 'bon':
-          case 'available':
-          case 'disponible':
-          case 'ok':
-            status = 'Good';
+          case "good":
+          case "bon":
+          case "available":
+          case "disponible":
+          case "ok":
+            status = "Good";
             break;
-          case 'damaged':
-          case 'endommagé':
-          case 'endommage':
-          case 'broken':
-          case 'cassé':
-          case 'casse':
-            status = 'Damaged';
+          case "damaged":
+          case "endommagé":
+          case "endommage":
+          case "broken":
+          case "cassé":
+          case "casse":
+            status = "Damaged";
             break;
-          case 'missing':
-          case 'manquant':
-          case 'lost':
-          case 'perdu':
-            status = 'Missing';
+          case "missing":
+          case "manquant":
+          case "lost":
+          case "perdu":
+            status = "Missing";
             break;
-          case 'expired':
-          case 'expiré':
-          case 'expire':
-          case 'old':
-          case 'ancien':
-            status = 'Expired';
+          case "expired":
+          case "expiré":
+          case "expire":
+          case "old":
+          case "ancien":
+            status = "Expired";
             break;
           default:
             // Keep the original status but capitalize first letter

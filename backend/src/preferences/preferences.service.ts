@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { UserPreferences } from '@prisma/client';
+/* eslint-disable prettier/prettier */
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { UserPreferences } from "@prisma/client";
 
 export interface UpdatePreferencesDto {
   showWelcomeHeader?: boolean;
@@ -44,7 +45,7 @@ export class PreferencesService {
 
   async updateUserPreferences(
     userId: string,
-    updates: UpdatePreferencesDto,
+    updates: UpdatePreferencesDto
   ): Promise<UserPreferences> {
     const numericUserId = parseInt(userId, 10);
 

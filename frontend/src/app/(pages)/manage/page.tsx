@@ -204,7 +204,7 @@ const ManagePage = () => {
   return (
     <div className="space-y-8">
       {/* Modern Page Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-purple-900/20 border border-gray-200/50 dark:border-gray-700/50 p-8">
+      <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-purple-900/20 border border-gray-200/50 dark:border-gray-700/50 p-8">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5" />
         <div className="relative flex items-center justify-between">
           <div>
@@ -224,7 +224,7 @@ const ManagePage = () => {
       {/* Modern Management Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Modern Rooms Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></div>
@@ -233,29 +233,29 @@ const ManagePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing rooms</p>
           </div>
           <div className="p-8">
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {rooms.length > 0 ? (
                 rooms.map((room) => (
-                  <div key={room.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-xl bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                  <div key={room.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
                     {editingRoom === room.id ? (
                       <>
                         <input
                           type="text"
                           value={editValues.name || ''}
                           onChange={(e) => handleEditValueChange(e.target.value)}
-                          className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white mr-3"
+                          className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white mr-3"
                           autoFocus
                         />
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleSaveRoom(room.id)}
-                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           >
                             Cancel
                           </button>
@@ -267,13 +267,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditRoom(room)}
-                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteRoom(room.id)}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
                             Delete
                           </button>
@@ -290,7 +290,7 @@ const ManagePage = () => {
         </div>
 
         {/* Modern Places Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full"></div>
@@ -299,10 +299,10 @@ const ManagePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing places within rooms</p>
           </div>
           <div className="p-8">
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {places.length > 0 ? (
                 places.map((place) => (
-                  <div key={place.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-xl bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                  <div key={place.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
                     {editingPlace === place.id ? (
                       <>
                         <div className="flex-1 mr-3">
@@ -310,7 +310,7 @@ const ManagePage = () => {
                             type="text"
                             value={editValues.name || ''}
                             onChange={(e) => handleEditValueChange(e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white mb-1"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white mb-1"
                             autoFocus
                           />
                           <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -320,13 +320,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleSavePlace(place.id)}
-                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           >
                             Cancel
                           </button>
@@ -343,13 +343,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditPlace(place)}
-                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeletePlace(place.id)}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
                             Delete
                           </button>
@@ -366,7 +366,7 @@ const ManagePage = () => {
         </div>
 
         {/* Modern Containers Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
@@ -375,10 +375,10 @@ const ManagePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing containers within places</p>
           </div>
           <div className="p-8">
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {containers.length > 0 ? (
                 containers.map((container) => (
-                  <div key={container.id} className="flex items-start justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-xl bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                  <div key={container.id} className="flex items-start justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
                     {editingContainer === container.id ? (
                       <>
                         <div className="flex-1 mr-3 space-y-2">
@@ -386,14 +386,14 @@ const ManagePage = () => {
                             type="text"
                             value={editValues.name || ''}
                             onChange={(e) => handleEditValueChange(e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             placeholder="Container name"
                             autoFocus
                           />
                           <select
                             value={editValues.roomId || ''}
                             onChange={(e) => handleContainerRoomChange(Number(e.target.value))}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                           >
                             <option value="">Select a room</option>
                             {rooms.map(room => (
@@ -403,7 +403,7 @@ const ManagePage = () => {
                           <select
                             value={editValues.placeId || ''}
                             onChange={(e) => handleContainerPlaceChange(Number(e.target.value))}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             disabled={!editValues.roomId}
                           >
                             <option value="">Select a place</option>
@@ -417,13 +417,13 @@ const ManagePage = () => {
                         <div className="flex gap-2 mt-1">
                           <button
                             onClick={() => handleSaveContainer(container.id)}
-                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           >
                             Cancel
                           </button>
@@ -440,13 +440,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditContainer(container)}
-                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteContainer(container.id)}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
                             Delete
                           </button>
@@ -463,7 +463,7 @@ const ManagePage = () => {
         </div>
 
         {/* Modern Tags Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></div>
@@ -479,20 +479,20 @@ const ManagePage = () => {
                   value={tagName}
                   onChange={e => setTagName(e.target.value)}
                   placeholder="Tag name"
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
                   required
                 />
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                  className="px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-medium rounded-sm transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   Add
                 </button>
               </div>
             </form>
-            <div className="flex flex-wrap gap-3 max-h-48 overflow-y-auto">
+            <div className="flex flex-wrap gap-3 max-h-48 overflow-y-auto scrollbar-hide">
               {tags.map((tag) => (
-                <div key={tag.id} className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-xl bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                <div key={tag.id} className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
                   {editingTag === tag.id ? (
                     <>
                       <input
@@ -504,13 +504,13 @@ const ManagePage = () => {
                       />
                       <button
                         onClick={() => handleSaveTag(tag.id)}
-                        className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-2 py-1 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                        className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                       >
                         ✓
                       </button>
                       <button
                         onClick={handleCancelEdit}
-                        className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-2 py-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                        className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                       >
                         ×
                       </button>
@@ -520,13 +520,13 @@ const ManagePage = () => {
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">{tag.name}</span>
                       <button
                         onClick={() => handleEditTag(tag)}
-                        className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-2 py-1 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                        className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                       >
                         ✎
                       </button>
                       <button
                         onClick={() => handleDeleteTag(tag.id)}
-                        className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-2 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                       >
                         ×
                       </button>

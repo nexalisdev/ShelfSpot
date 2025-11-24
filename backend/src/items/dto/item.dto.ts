@@ -1,25 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsString,
   IsNumber,
   IsOptional,
   Min,
   IsBoolean,
-} from 'class-validator';
+  IsArray,
+  ValidateNested,
+} from "class-validator";
+import { Type } from "class-transformer";
 
 export class CreateItemDto {
-  @ApiProperty({ example: 'Laptop Dell XPS 13', description: 'Item name' })
+  @ApiProperty({ example: "Laptop Dell XPS 13", description: "Item name" })
   @IsString()
   name: string;
 
-  @ApiProperty({ example: 1, description: 'Item quantity', minimum: 1 })
+  @ApiProperty({ example: 1, description: "Item quantity", minimum: 1 })
   @IsNumber()
   @Min(1)
   quantity: number;
 
   @ApiProperty({
-    example: 'Available',
-    description: 'Item status',
+    example: "Available",
+    description: "Item status",
     required: false,
   })
   @IsOptional()
@@ -27,8 +30,8 @@ export class CreateItemDto {
   status?: string;
 
   @ApiProperty({
-    example: 'https://example.com/item-link',
-    description: 'Link to the item',
+    example: "https://example.com/item-link",
+    description: "Link to the item",
     required: false,
   })
   @IsOptional()
@@ -38,7 +41,7 @@ export class CreateItemDto {
   // price property
   @ApiProperty({
     example: 999.99,
-    description: 'Purchase price of the item',
+    description: "Purchase price of the item",
     required: false,
   })
   @IsOptional()
@@ -49,7 +52,7 @@ export class CreateItemDto {
   // sellprice property
   @ApiProperty({
     example: 899.99,
-    description: 'Selling price of the item',
+    description: "Selling price of the item",
     required: false,
   })
   @IsOptional()
@@ -60,21 +63,22 @@ export class CreateItemDto {
   // boolean property to check if the item is a consumable
   @ApiProperty({
     example: true,
-    description: 'Indicates if the item is a consumable',
+    description: "Indicates if the item is a consumable",
     required: false,
   })
   @IsBoolean()
   consumable: boolean;
 
-  @ApiProperty({ example: 1, description: 'Room ID' })
+  @ApiProperty({ example: 1, description: "Room ID" })
   @IsNumber()
   roomId: number;
 
-  @ApiProperty({ example: 1, description: 'Place ID' })
+  @ApiProperty({ example: 1, description: "Place ID", required: false })
+  @IsOptional()
   @IsNumber()
-  placeId: number;
+  placeId?: number;
 
-  @ApiProperty({ example: 1, description: 'Container ID', required: false })
+  @ApiProperty({ example: 1, description: "Container ID", required: false })
   @IsOptional()
   @IsNumber()
   containerId?: number;
@@ -82,8 +86,8 @@ export class CreateItemDto {
 
 export class UpdateItemDto {
   @ApiProperty({
-    example: 'Laptop Dell XPS 13',
-    description: 'Item name',
+    example: "Laptop Dell XPS 13",
+    description: "Item name",
     required: false,
   })
   @IsOptional()
@@ -92,7 +96,7 @@ export class UpdateItemDto {
 
   @ApiProperty({
     example: 1,
-    description: 'Item quantity',
+    description: "Item quantity",
     minimum: 1,
     required: false,
   })
@@ -102,8 +106,8 @@ export class UpdateItemDto {
   quantity?: number;
 
   @ApiProperty({
-    example: 'Available',
-    description: 'Item status',
+    example: "Available",
+    description: "Item status",
     required: false,
   })
   @IsOptional()
@@ -111,8 +115,8 @@ export class UpdateItemDto {
   status?: string;
 
   @ApiProperty({
-    example: 'https://example.com/item-link',
-    description: 'Link to the item',
+    example: "https://example.com/item-link",
+    description: "Link to the item",
     required: false,
   })
   @IsOptional()
@@ -122,7 +126,7 @@ export class UpdateItemDto {
   // price property
   @ApiProperty({
     example: 999.99,
-    description: 'Purchase price of the item',
+    description: "Purchase price of the item",
     required: false,
   })
   @IsOptional()
@@ -133,7 +137,7 @@ export class UpdateItemDto {
   // sellprice property
   @ApiProperty({
     example: 899.99,
-    description: 'Selling price of the item',
+    description: "Selling price of the item",
     required: false,
   })
   @IsOptional()
@@ -141,28 +145,39 @@ export class UpdateItemDto {
   @Min(0)
   sellprice?: number;
 
-  @ApiProperty({ example: 1, description: 'Room ID', required: false })
+  @ApiProperty({ example: 1, description: "Room ID", required: false })
   @IsOptional()
   @IsNumber()
   roomId?: number;
 
-  @ApiProperty({ example: 1, description: 'Place ID', required: false })
+  @ApiProperty({ example: 1, description: "Place ID", required: false })
   @IsOptional()
   @IsNumber()
   placeId?: number;
 
-  @ApiProperty({ example: 1, description: 'Container ID', required: false })
+  @ApiProperty({ example: 1, description: "Container ID", required: false })
   @IsOptional()
   @IsNumber()
   containerId?: number;
 
   @ApiProperty({
-    example: ['electronics', 'work'],
-    description: 'Array of tag names',
+    example: ["electronics", "work"],
+    description: "Array of tag names",
     required: false,
     type: [String],
   })
   @IsOptional()
   @IsString({ each: true })
   tags?: string[];
+}
+
+export class BulkCreateItemDto {
+  @ApiProperty({
+    type: [CreateItemDto],
+    description: "Array of items to be created",
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateItemDto)
+  items: CreateItemDto[];
 }

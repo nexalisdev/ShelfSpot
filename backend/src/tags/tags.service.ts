@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { CreateTagDto, UpdateTagDto } from './dto/tag.dto';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { CreateTagDto, UpdateTagDto } from "./dto/tag.dto";
 
 @Injectable()
 export class TagsService {
@@ -15,7 +15,7 @@ export class TagsService {
   async findAll() {
     return this.prisma.tag.findMany({
       orderBy: {
-        name: 'asc',
+        name: "asc",
       },
     });
   }

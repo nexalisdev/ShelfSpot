@@ -90,7 +90,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
 
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                <div className="relative inline-block align-bottom bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-200/50 dark:border-gray-700/50">
+                <div className="relative inline-block align-bottom bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-200/50 dark:border-gray-700/50">
                     <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm px-6 pt-8 pb-6 sm:p-8 sm:pb-6">
                         <div className="flex items-center justify-between mb-6">
                             <div>
@@ -103,14 +103,14 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                             </div>
                             <button
                                 onClick={handleClose}
-                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-xl hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200"
+                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-sm hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200"
                             >
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
 
                         {error && (
-                            <div className="mb-6 p-4 bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm border border-red-200/50 dark:border-red-800/50 rounded-2xl">
+                            <div className="mb-6 p-4 bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm border border-red-200/50 dark:border-red-800/50 rounded-sm">
                                 <p className="text-red-700 dark:text-red-400 text-sm font-medium flex items-center gap-2">
                                     <span className="text-red-500">⚠️</span>
                                     {error}
@@ -135,7 +135,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                         required
                                         value={form.name}
                                         onChange={handleChange}
-                                        className="block w-full pl-12 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 dark:text-white text-base transition-all duration-200 shadow-md hover:shadow-lg"
+                                        className="block w-full pl-12 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 dark:text-white text-base transition-all duration-200 shadow-md hover:shadow-lg"
                                         placeholder="e.g., Kitchen Renovation, Home Office Setup..."
                                     />
                                 </div>
@@ -153,7 +153,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                         rows={3}
                                         value={form.description}
                                         onChange={handleChange}
-                                        className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                        className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         placeholder="Description du projet..."
                                     />
                                 </div>
@@ -171,7 +171,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                             id="status"
                                             value={form.status}
                                             onChange={handleChange}
-                                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         >
                                             {statusOptions.map((option) => (
                                                 <option key={option.value} value={option.value}>
@@ -196,7 +196,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                             id="priority"
                                             value={form.priority}
                                             onChange={handleChange}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         >
                                             {priorityOptions.map((option) => (
                                                 <option key={option.value} value={option.value}>
@@ -224,7 +224,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                             id="startDate"
                                             value={form.startDate}
                                             onChange={handleChange}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         />
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                             value={form.endDate}
                                             onChange={handleChange}
                                             min={form.startDate || undefined}
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white sm:text-sm"
                                         />
                                     </div>
                                 </div>
@@ -256,14 +256,14 @@ export default function CreateProjectModal({ open, onClose, onSuccess }: CreateP
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md"
+                                    className="px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 backdrop-blur-sm transition-all duration-200 hover:shadow-md"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading || !form.name.trim()}
-                                    className="px-8 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 transform"
+                                    className="px-8 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border border-transparent rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 transform"
                                 >
                                     {loading ? (
                                         <div className="flex items-center gap-2">

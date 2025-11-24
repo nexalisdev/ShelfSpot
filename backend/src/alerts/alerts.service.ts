@@ -1,12 +1,13 @@
+/* eslint-disable prettier/prettier */
 import {
   Injectable,
   NotFoundException,
   ConflictException,
-} from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { EmailService } from '../email/email.service';
-import { PushNotificationService } from '../notifications/push-notification.service';
-import { CreateAlertDto, UpdateAlertDto } from './dto/alert.dto';
+} from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { EmailService } from "../email/email.service";
+import { PushNotificationService } from "../notifications/push-notification.service";
+import { CreateAlertDto, UpdateAlertDto } from "./dto/alert.dto";
 
 interface PrismaError {
   code: string;
@@ -15,10 +16,10 @@ interface PrismaError {
 
 function isPrismaError(error: unknown): error is PrismaError {
   return (
-    typeof error === 'object' &&
+    typeof error === "object" &&
     error !== null &&
-    'code' in error &&
-    typeof (error as Record<string, unknown>).code === 'string'
+    "code" in error &&
+    typeof (error as Record<string, unknown>).code === "string"
   );
 }
 
@@ -27,7 +28,7 @@ export class AlertsService {
   constructor(
     private prisma: PrismaService,
     private emailService: EmailService,
-    private pushNotificationService: PushNotificationService,
+    private pushNotificationService: PushNotificationService
   ) {}
 
   async create(createAlertDto: CreateAlertDto) {
@@ -37,7 +38,7 @@ export class AlertsService {
 
     if (!item) {
       throw new NotFoundException(
-        `Item with ID ${createAlertDto.itemId} not found`,
+        `Item with ID ${createAlertDto.itemId} not found`
       );
     }
 
@@ -56,9 +57,9 @@ export class AlertsService {
         },
       });
     } catch (error) {
-      if (isPrismaError(error) && error.code === 'P2002') {
+      if (isPrismaError(error) && error.code === "P2002") {
         throw new ConflictException(
-          'An alert with this threshold already exists for this item',
+          "An alert with this threshold already exists for this item"
         );
       }
       throw error;
@@ -68,7 +69,7 @@ export class AlertsService {
   async findAllByItem(itemId: number) {
     return this.prisma.alert.findMany({
       where: { itemId },
-      orderBy: { threshold: 'asc' },
+      orderBy: { threshold: "asc" },
       include: {
         item: {
           select: {
@@ -95,7 +96,7 @@ export class AlertsService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
@@ -139,12 +140,12 @@ export class AlertsService {
         },
       });
     } catch (error) {
-      if (isPrismaError(error) && error.code === 'P2025') {
+      if (isPrismaError(error) && error.code === "P2025") {
         throw new NotFoundException(`Alert with ID ${id} not found`);
       }
-      if (isPrismaError(error) && error.code === 'P2002') {
+      if (isPrismaError(error) && error.code === "P2002") {
         throw new ConflictException(
-          'An alert with this threshold already exists for this item',
+          "An alert with this threshold already exists for this item"
         );
       }
       throw error;
@@ -157,7 +158,7 @@ export class AlertsService {
         where: { id },
       });
     } catch (error) {
-      if (isPrismaError(error) && error.code === 'P2025') {
+      if (isPrismaError(error) && error.code === "P2025") {
         throw new NotFoundException(`Alert with ID ${id} not found`);
       }
       throw error;
@@ -187,23 +188,23 @@ export class AlertsService {
     for (let i = 11; i >= 0; i--) {
       const date = new Date();
       date.setMonth(currentDate.getMonth() - i);
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
       monthlyData.set(key, 0);
     }
 
     alerts.forEach((alert) => {
       const date = new Date(alert.createdAt);
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
       if (monthlyData.has(key)) {
         monthlyData.set(key, (monthlyData.get(key) || 0) + 1);
       }
     });
 
     const result = Array.from(monthlyData.entries()).map(([key, count]) => {
-      const [year, month] = key.split('-');
+      const [year, month] = key.split("-");
       const date = new Date(parseInt(year), parseInt(month) - 1, 1);
       return {
-        month: date.toLocaleDateString('en-US', { month: 'short' }),
+        month: date.toLocaleDateString("en-US", { month: "short" }),
         year: parseInt(year),
         count,
       };
@@ -235,12 +236,12 @@ export class AlertsService {
     });
 
     const triggeredAlerts = alerts.filter(
-      (alert) => alert.item.quantity <= alert.threshold,
+      (alert) => alert.item.quantity <= alert.threshold
     );
 
     if (triggeredAlerts.length === 0) {
       return {
-        message: 'No alerts triggered',
+        message: "No alerts triggered",
         checkedAlerts: alerts.length,
         triggeredAlerts: 0,
         sentAlerts: 0,
@@ -260,7 +261,7 @@ export class AlertsService {
 
     if (alertsToSend.length === 0) {
       return {
-        message: 'Alerts triggered but emails already sent recently',
+        message: "Alerts triggered but emails already sent recently",
         checkedAlerts: alerts.length,
         triggeredAlerts: triggeredAlerts.length,
         sentAlerts: 0,
@@ -279,7 +280,7 @@ export class AlertsService {
 
         await this.emailService.sendAlertEmail(emailRecipient, emailData);
       } catch (error) {
-        console.error('Error sending alert emails:', error);
+        console.error("Error sending alert emails:", error);
       }
     }
 
@@ -302,17 +303,17 @@ export class AlertsService {
 
         if (pushTokens.length > 0) {
           const alertNames = alertsToSend.map((alert) => alert.item.name);
-          const title = 'Alerte Stock';
+          const title = "Alerte Stock";
           const body =
             alertsToSend.length === 1
               ? `Stock faible: ${alertNames[0]} (${alertsToSend[0].item.quantity} restant)`
-              : `${alertsToSend.length} items en stock faible: ${alertNames.slice(0, 3).join(', ')}${alertsToSend.length > 3 ? '...' : ''}`;
+              : `${alertsToSend.length} items en stock faible: ${alertNames.slice(0, 3).join(", ")}${alertsToSend.length > 3 ? "..." : ""}`;
 
           await this.pushNotificationService.sendPushNotifications(pushTokens, {
             title,
             body,
             data: {
-              type: 'low_stock_alert',
+              type: "low_stock_alert",
               alertCount: alertsToSend.length,
               items: alertsToSend.map((alert) => ({
                 id: alert.item.id,
@@ -324,11 +325,11 @@ export class AlertsService {
           });
 
           console.log(
-            `Sent push notifications to ${pushTokens.length} users for ${alertsToSend.length} alerts`,
+            `Sent push notifications to ${pushTokens.length} users for ${alertsToSend.length} alerts`
           );
         }
       } catch (error) {
-        console.error('Error sending push notifications:', error);
+        console.error("Error sending push notifications:", error);
       }
     }
 
@@ -344,7 +345,7 @@ export class AlertsService {
     });
 
     return {
-      message: 'Alerts processed successfully',
+      message: "Alerts processed successfully",
       checkedAlerts: alerts.length,
       triggeredAlerts: triggeredAlerts.length,
       sentAlerts: alertsToSend.length,
@@ -376,14 +377,14 @@ export class AlertsService {
 
     if (alerts.length === 0) {
       return {
-        message: 'No alerts configured for this item',
+        message: "No alerts configured for this item",
         triggeredAlerts: 0,
         sentAlerts: 0,
       };
     }
 
     const alertsToReset = alerts.filter(
-      (alert) => newQuantity > alert.threshold && alert.lastSent !== null,
+      (alert) => newQuantity > alert.threshold && alert.lastSent !== null
     );
 
     if (alertsToReset.length > 0) {
@@ -399,17 +400,17 @@ export class AlertsService {
       });
 
       console.log(
-        `🔄 Reset ${alertsToReset.length} alerts for item ${itemId} (quantity back above threshold: ${newQuantity})`,
+        `🔄 Reset ${alertsToReset.length} alerts for item ${itemId} (quantity back above threshold: ${newQuantity})`
       );
     }
 
     const triggeredAlerts = alerts.filter(
-      (alert) => newQuantity <= alert.threshold,
+      (alert) => newQuantity <= alert.threshold
     );
 
     if (triggeredAlerts.length === 0) {
       return {
-        message: 'No alerts triggered for this item',
+        message: "No alerts triggered for this item",
         triggeredAlerts: 0,
         sentAlerts: 0,
         resetAlerts: alertsToReset.length,
@@ -429,7 +430,7 @@ export class AlertsService {
 
     if (alertsToSend.length === 0) {
       return {
-        message: 'Alerts triggered but emails already sent recently',
+        message: "Alerts triggered but emails already sent recently",
         triggeredAlerts: triggeredAlerts.length,
         sentAlerts: 0,
       };
@@ -449,7 +450,7 @@ export class AlertsService {
           subject: `🚨 Alerte stock faible - ${alertsToSend[0].item.name} (quantité: ${newQuantity})`,
         });
       } catch (error) {
-        console.error('Error sending alert emails for item %s:', itemId, error);
+        console.error("Error sending alert emails for item %s:", itemId, error);
       }
     }
 
@@ -472,14 +473,14 @@ export class AlertsService {
 
         if (pushTokens.length > 0) {
           const itemName = alertsToSend[0].item.name;
-          const title = 'Alerte Stock';
+          const title = "Alerte Stock";
           const body = `Stock faible: ${itemName} (${newQuantity} restant)`;
 
           await this.pushNotificationService.sendPushNotifications(pushTokens, {
             title,
             body,
             data: {
-              type: 'low_stock_alert',
+              type: "low_stock_alert",
               itemId,
               itemName,
               currentQuantity: newQuantity,
@@ -488,14 +489,14 @@ export class AlertsService {
           });
 
           console.log(
-            `Sent push notifications to ${pushTokens.length} users for item ${itemName}`,
+            `Sent push notifications to ${pushTokens.length} users for item ${itemName}`
           );
         }
       } catch (error) {
         console.error(
-          'Error sending push notifications for item %s:',
+          "Error sending push notifications for item %s:",
           itemId,
-          error,
+          error
         );
       }
     }
@@ -505,7 +506,7 @@ export class AlertsService {
     console.log(`   - Alerts triggered: ${alertsToSend.length}`);
     alertsToSend.forEach((alert) => {
       console.log(
-        `   - Alert ID ${alert.id}: threshold ${alert.threshold}, name: "${alert.name || 'Unnamed alert'}"`,
+        `   - Alert ID ${alert.id}: threshold ${alert.threshold}, name: "${alert.name || "Unnamed alert"}"`
       );
     });
 
@@ -521,7 +522,7 @@ export class AlertsService {
     });
 
     return {
-      message: 'Item alerts processed successfully',
+      message: "Item alerts processed successfully",
       triggeredAlerts: triggeredAlerts.length,
       sentAlerts: alertsToSend.length,
       alerts: alertsToSend.map((alert) => ({
@@ -544,7 +545,7 @@ export class AlertsService {
       return {
         success: false,
         error:
-          'No email recipient configured. Set ALERT_EMAIL_RECIPIENT in environment variables or provide email parameter.',
+          "No email recipient configured. Set ALERT_EMAIL_RECIPIENT in environment variables or provide email parameter.",
       };
     }
 
@@ -567,7 +568,7 @@ export class AlertsService {
       return {
         success: false,
         error:
-          error instanceof Error ? error.message : 'Unknown error occurred',
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }

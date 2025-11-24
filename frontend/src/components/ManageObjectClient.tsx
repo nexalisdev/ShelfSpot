@@ -35,20 +35,20 @@ export default function ManageObjectClient({ item }: { item: Item }) {
             <div className="flex gap-4">
                 <button
                     onClick={() => setShowModal(true)}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                 >
                     Edit
                 </button>
                 <button
                     onClick={handleDelete}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-sm transition-colors"
                 >
                     Delete
                 </button>
             </div>
             {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
                         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Edit item</h2>
                             <button
@@ -75,7 +75,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
                                         <input
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.name}
                                             onChange={e => setForm({ ...form, name: e.target.value })}
                                         />
@@ -84,7 +84,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quantity</label>
                                         <input
                                             type="number"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.quantity}
                                             onChange={e => setForm({ ...form, quantity: Number(e.target.value) })}
                                         />
@@ -95,7 +95,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                                         <input
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.status || ""}
                                             onChange={e => setForm({ ...form, status: e.target.value })}
                                         />
@@ -104,7 +104,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Item Link</label>
                                         <input
                                             type="url"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.itemLink || ""}
                                             onChange={e => setForm({ ...form, itemLink: e.target.value })}
                                             placeholder="https://example.com/item"
@@ -120,7 +120,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                             type="number"
                                             min="0"
                                             step="0.01"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.price || ""}
                                             onChange={e => setForm({ ...form, price: e.target.value ? Number(e.target.value) : undefined })}
                                             placeholder="0.00"
@@ -132,7 +132,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                             type="number"
                                             min="0"
                                             step="0.01"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm   bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.sellprice || ""}
                                             onChange={e => setForm({ ...form, sellprice: e.target.value ? Number(e.target.value) : undefined })}
                                             placeholder="0.00"
@@ -145,7 +145,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Room</label>
                                         <select
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             value={form.roomId ?? ""}
                                             onChange={e => {
                                                 const roomId = Number(e.target.value) || undefined;
@@ -161,7 +161,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Place</label>
                                         <select
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                                             value={form.placeId ?? ""}
                                             onChange={e => {
                                                 const placeId = Number(e.target.value) || undefined;
@@ -178,7 +178,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Container</label>
                                         <select
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                                             value={form.containerId ?? ""}
                                             onChange={e => setForm(f => ({ ...f, containerId: Number(e.target.value) || undefined }))}
                                             disabled={!form.roomId && !form.placeId}
@@ -195,7 +195,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 <div className="grid grid-cols-1 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tags (Read-only)</label>
-                                        <div className="max-h-24 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg p-2 bg-gray-50 dark:bg-gray-600">
+                                        <div className="max-h-24 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-sm p-2 bg-gray-50 dark:bg-gray-600">
                                             {item.tags && item.tags.length > 0 ? (
                                                 <div className="flex flex-wrap gap-1">
                                                     {item.tags.map((tagName: string, index: number) => (
@@ -221,7 +221,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                         <div className="flex justify-end gap-3 p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
                             <button
                                 type="button"
-                                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-sm transition-colors"
                                 onClick={() => setShowModal(false)}
                             >
                                 Cancel
@@ -260,7 +260,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                         alert("Error updating item");
                                     }
                                 }}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
                             >
                                 Save
                             </button>

@@ -133,7 +133,7 @@ export default function Dashboard() {
             <input
               type="text"
               placeholder="Search for any item in your inventory..."
-              className="w-full pl-12 pr-6 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200"
+              className="w-full pl-12 pr-6 py-3 border border-gray-200 dark:border-gray-700 rounded-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none  focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
@@ -141,9 +141,9 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Modern Header with gradient background */}
+      {/*  Header with gradient background */}
       {preferences?.showWelcomeHeader !== false && (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-800 dark:via-gray-900 dark:to-purple-900/20 border border-gray-200/50 dark:border-gray-700/50 p-8">
+        <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-800 dark:via-gray-900 dark:to-purple-900/20 border border-gray-200/50 dark:border-gray-700/50 p-8">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
           <div className="relative text-center space-y-6">
             <div>
@@ -162,7 +162,7 @@ export default function Dashboard() {
                 <input
                   type="text"
                   placeholder="Search for any item in your inventory..."
-                  className="w-full pl-12 pr-6 py-4 text-lg border border-gray-200 dark:border-gray-600 rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-lg transition-all duration-200 hover:shadow-xl"
+                  className="w-full pl-12 pr-6 py-4 text-lg border border-gray-200 dark:border-gray-800 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200 hover:shadow-md"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
@@ -173,7 +173,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Modern Stats Grid */}
+      {/*  Stats Grid */}
       {stats && preferences?.showStatsCards !== false && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <StatCard
@@ -211,7 +211,7 @@ export default function Dashboard() {
 
       {/* Contenu principal */}
       {search ? (
-        /* Modern Search Results */
+        /* Search Results */
         <div className="space-y-8">
           {searchLoading ? (
             <div className="text-center py-16">
@@ -226,7 +226,7 @@ export default function Dashboard() {
             </div>
           ) : searchResults.length === 0 ? (
             <div className="text-center py-16">
-              <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-3xl flex items-center justify-center">
+              <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-full flex items-center justify-center">
                 <Search className="w-12 h-12 text-gray-400" />
               </div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white mb-3">No items found</div>
@@ -235,7 +235,7 @@ export default function Dashboard() {
           ) : (
             <div className="space-y-6">
               <div className="text-center">
-                <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full border border-blue-200/50 dark:border-blue-700/50">
+                <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-sm border border-blue-200/50 dark:border-blue-700/50">
                   <Search className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   <p className="text-lg font-semibold text-blue-900 dark:text-blue-100">
                     {searchResults.length} item{searchResults.length > 1 ? 's' : ''} found
@@ -272,7 +272,7 @@ export default function Dashboard() {
           )}
         </div>
       ) : (
-        /* Modern Dashboard Layout */
+        /*  Dashboard Layout */
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Charts Section */}
           {(preferences?.showRoomDistribution !== false ||
@@ -281,7 +281,7 @@ export default function Dashboard() {
             preferences?.showStatusDistribution !== false) && (
               <div className={preferences?.showRecentItems !== false ? "lg:col-span-3" : "lg:col-span-5"}>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                  <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-sm"></div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     Analytics
                   </h2>
@@ -299,9 +299,9 @@ export default function Dashboard() {
 
           {/* Recent Items - Modern Card */}
           {preferences?.showRecentItems !== false && (
-            <div className="lg:col-span-2 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 mt-[52px] flex flex-col h-[725px] shadow-xl">
+            <div className="lg:col-span-2 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 mt-[52px] flex flex-col h-[725px] shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-blue-500 rounded-full"></div>
+                <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-blue-500 rounded-sm"></div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   Recent Items
                 </h2>
@@ -311,7 +311,7 @@ export default function Dashboard() {
                   recentItems.map((item, index) => (
                     <div
                       key={item.id}
-                      className="group relative flex items-center justify-between p-4 rounded-xl bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 backdrop-blur-sm border border-gray-200/50 dark:border-gray-600/50 hover:border-blue-300 dark:hover:border-blue-600 cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 transform"
+                      className="group relative flex items-center justify-between p-4 rounded-sm bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 backdrop-blur-sm border border-gray-200/50 dark:border-gray-600/50 hover:border-blue-300 dark:hover:border-blue-600 cursor-pointer transition-all duration-300 hover:shadow-md hover:-translate-y-1 transform"
                       onClick={() => router.push(`/manage/${item.id}`)}
                       title={`Created: ${new Date(item.createdAt).toLocaleDateString()}${item.status ? ` • Status: ${item.status}` : ''}${item.quantity ? ` • Qty: ${item.quantity}` : ''}`}
                       style={{ zIndex: 10 + index }}
@@ -332,7 +332,7 @@ export default function Dashboard() {
 
                       {/* Modern Tooltip */}
                       <div
-                        className="absolute right-0 bottom-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-72 p-4 bg-gray-900/95 backdrop-blur-sm text-white text-sm rounded-xl shadow-2xl border border-gray-700 pointer-events-none"
+                        className="absolute right-0 bottom-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-72 p-4 bg-gray-900/95 backdrop-blur-sm text-white text-sm rounded-sm shadow-sm border border-gray-700 pointer-events-none"
                         style={{
                           zIndex: 9999,
                           transform: 'translateX(-20px)'
@@ -357,7 +357,7 @@ export default function Dashboard() {
                   ))
                 ) : (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-2xl flex items-center justify-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-sm flex items-center justify-center">
                       <Package className="w-8 h-8 text-gray-400" />
                     </div>
                     <p className="text-gray-500 dark:text-gray-400 font-medium">
@@ -377,10 +377,10 @@ export default function Dashboard() {
   );
 }
 
-// Modern Stat Card Component
+// Stat Card Component
 function StatCard({ title, value, className }: { title: string; value: number; className?: string }) {
   return (
-    <div className={`group relative p-6 rounded-xl border backdrop-blur-sm hover:-translate-y-1 transform transition-all duration-300 cursor-pointer ${className || 'bg-white/70 dark:bg-gray-800/70 border-gray-200 dark:border-gray-700'}`}>
+    <div className={`group relative p-6 rounded-sm border backdrop-blur-sm hover:-translate-y-1 transform transition-all duration-300 cursor-pointer ${className || 'bg-white/70 dark:bg-gray-800/70 border-gray-200 dark:border-gray-700'}`}>
       <div className="flex flex-col">
         <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
           {title}
@@ -389,7 +389,7 @@ function StatCard({ title, value, className }: { title: string; value: number; c
           {value}
         </p>
       </div>
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="absolute inset-0 rounded-sm bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
     </div>
   );
 }
