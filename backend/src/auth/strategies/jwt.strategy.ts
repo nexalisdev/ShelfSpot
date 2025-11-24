@@ -1,19 +1,20 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from '../../prisma.service';
-import { JwtPayload, UserPayload } from '../interfaces/auth.interface';
-import { ConfigService } from '@nestjs/config';
+/* eslint-disable prettier/prettier */
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { ExtractJwt, Strategy } from "passport-jwt";
+import { PrismaService } from "../../prisma.service";
+import { JwtPayload, UserPayload } from "../interfaces/auth.interface";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private prisma: PrismaService,
-    private configService: ConfigService,
+    private configService: ConfigService
   ) {
-    const jwtSecret = configService.get<string>('JWT_SECRET');
+    const jwtSecret = configService.get<string>("JWT_SECRET");
     if (!jwtSecret) {
-      throw new Error('JWT_SECRET is not defined in environment variables');
+      throw new Error("JWT_SECRET is not defined in environment variables");
     }
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -37,8 +38,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
 
     if (!user) {
-      console.log('JWT Strategy: User not found for ID:', userId);
-      throw new UnauthorizedException('User not found');
+      console.log("JWT Strategy: User not found for ID:", userId);
+      throw new UnauthorizedException("User not found");
     }
 
     const userPayload = {

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsString,
   IsOptional,
@@ -7,17 +7,17 @@ import {
   IsInt,
   Min,
   IsBoolean,
-} from 'class-validator';
-import { ProjectStatus, ProjectPriority } from '@prisma/client';
+} from "class-validator";
+import { ProjectStatus, ProjectPriority } from "@prisma/client";
 
 export class CreateProjectDto {
-  @ApiProperty({ example: 'Office Renovation', description: 'Project name' })
+  @ApiProperty({ example: "Office Renovation", description: "Project name" })
   @IsString()
   name: string;
 
   @ApiProperty({
-    example: 'Complete renovation of the main office',
-    description: 'Detailed description of the project',
+    example: "Complete renovation of the main office",
+    description: "Detailed description of the project",
     required: false,
   })
   @IsOptional()
@@ -27,7 +27,7 @@ export class CreateProjectDto {
   @ApiProperty({
     enum: ProjectStatus,
     example: ProjectStatus.ACTIVE,
-    description: 'Project status',
+    description: "Project status",
     required: false,
   })
   @IsOptional()
@@ -37,7 +37,7 @@ export class CreateProjectDto {
   @ApiProperty({
     enum: ProjectPriority,
     example: ProjectPriority.HIGH,
-    description: 'Project priority',
+    description: "Project priority",
     required: false,
   })
   @IsOptional()
@@ -45,8 +45,8 @@ export class CreateProjectDto {
   priority?: ProjectPriority;
 
   @ApiProperty({
-    example: '2025-07-01T00:00:00Z',
-    description: 'Project start date',
+    example: "2025-07-01T00:00:00Z",
+    description: "Project start date",
     required: false,
   })
   @IsOptional()
@@ -54,8 +54,8 @@ export class CreateProjectDto {
   startDate?: string;
 
   @ApiProperty({
-    example: '2025-12-31T23:59:59Z',
-    description: 'Planned project end date',
+    example: "2025-12-31T23:59:59Z",
+    description: "Planned project end date",
     required: false,
   })
   @IsOptional()
@@ -65,8 +65,8 @@ export class CreateProjectDto {
 
 export class UpdateProjectDto {
   @ApiProperty({
-    example: 'Office Renovation - Phase 2',
-    description: 'Project name',
+    example: "Office Renovation - Phase 2",
+    description: "Project name",
     required: false,
   })
   @IsOptional()
@@ -74,8 +74,8 @@ export class UpdateProjectDto {
   name?: string;
 
   @ApiProperty({
-    example: 'Complete renovation of the main office - Phase 2',
-    description: 'Detailed description of the project',
+    example: "Complete renovation of the main office - Phase 2",
+    description: "Detailed description of the project",
     required: false,
   })
   @IsOptional()
@@ -85,7 +85,7 @@ export class UpdateProjectDto {
   @ApiProperty({
     enum: ProjectStatus,
     example: ProjectStatus.COMPLETED,
-    description: 'Project status',
+    description: "Project status",
     required: false,
   })
   @IsOptional()
@@ -95,7 +95,7 @@ export class UpdateProjectDto {
   @ApiProperty({
     enum: ProjectPriority,
     example: ProjectPriority.MEDIUM,
-    description: 'Project priority',
+    description: "Project priority",
     required: false,
   })
   @IsOptional()
@@ -103,8 +103,8 @@ export class UpdateProjectDto {
   priority?: ProjectPriority;
 
   @ApiProperty({
-    example: '2025-07-01T00:00:00Z',
-    description: 'Project start date',
+    example: "2025-07-01T00:00:00Z",
+    description: "Project start date",
     required: false,
   })
   @IsOptional()
@@ -112,8 +112,8 @@ export class UpdateProjectDto {
   startDate?: string;
 
   @ApiProperty({
-    example: '2025-12-31T23:59:59Z',
-    description: 'Planned project end date',
+    example: "2025-12-31T23:59:59Z",
+    description: "Planned project end date",
     required: false,
   })
   @IsOptional()
@@ -124,7 +124,7 @@ export class UpdateProjectDto {
 export class AddItemToProjectDto {
   @ApiProperty({
     example: 1,
-    description: 'ID of the item to add to the project',
+    description: "ID of the item to add to the project",
   })
   @IsInt()
   @Min(1)
@@ -132,7 +132,7 @@ export class AddItemToProjectDto {
 
   @ApiProperty({
     example: 3,
-    description: 'Quantity of this item used in the project',
+    description: "Quantity of this item used in the project",
     minimum: 1,
   })
   @IsInt()
@@ -141,7 +141,7 @@ export class AddItemToProjectDto {
 
   @ApiProperty({
     example: true,
-    description: 'Whether the usage of this item is active in the project',
+    description: "Whether the usage of this item is active in the project",
     required: false,
   })
   @IsOptional()
@@ -152,7 +152,7 @@ export class AddItemToProjectDto {
 export class UpdateProjectItemDto {
   @ApiProperty({
     example: 5,
-    description: 'New quantity of this item used in the project',
+    description: "New quantity of this item used in the project",
     minimum: 1,
     required: false,
   })
@@ -163,7 +163,7 @@ export class UpdateProjectItemDto {
 
   @ApiProperty({
     example: false,
-    description: 'Whether the usage of this item is active in the project',
+    description: "Whether the usage of this item is active in the project",
     required: false,
   })
   @IsOptional()

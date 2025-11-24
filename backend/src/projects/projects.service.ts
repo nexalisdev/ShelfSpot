@@ -1,23 +1,24 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   Injectable,
   NotFoundException,
   ConflictException,
-} from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { ScoringService } from '../scoring/scoring.service';
+} from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { ScoringService } from "../scoring/scoring.service";
 import {
   CreateProjectDto,
   UpdateProjectDto,
   AddItemToProjectDto,
   UpdateProjectItemDto,
-} from './dto/project.dto';
+} from "./dto/project.dto";
 
 @Injectable()
 export class ProjectsService {
   constructor(
     private prisma: PrismaService,
-    private scoringService: ScoringService,
+    private scoringService: ScoringService
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
@@ -51,8 +52,8 @@ export class ProjectsService {
 
       return project;
     } catch (error: any) {
-      if (error?.code === 'P2002') {
-        throw new ConflictException('Un projet avec ce nom existe déjà');
+      if (error?.code === "P2002") {
+        throw new ConflictException("Un projet avec ce nom existe déjà");
       }
       throw error;
     }
@@ -81,7 +82,7 @@ export class ProjectsService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
@@ -106,7 +107,7 @@ export class ProjectsService {
             },
           },
           orderBy: {
-            createdAt: 'desc',
+            createdAt: "desc",
           },
         },
       },
@@ -161,11 +162,11 @@ export class ProjectsService {
 
       return project;
     } catch (error: any) {
-      if (error?.code === 'P2025') {
+      if (error?.code === "P2025") {
         throw new NotFoundException(`Projet avec l'ID ${id} non trouvé`);
       }
-      if (error?.code === 'P2002') {
-        throw new ConflictException('Un projet avec ce nom existe déjà');
+      if (error?.code === "P2002") {
+        throw new ConflictException("Un projet avec ce nom existe déjà");
       }
       throw error;
     }
@@ -201,7 +202,7 @@ export class ProjectsService {
           .catch(console.error);
       }
     } catch (error: any) {
-      if (error?.code === 'P2025') {
+      if (error?.code === "P2025") {
         throw new NotFoundException(`Projet avec l'ID ${id} non trouvé`);
       }
       throw error;
@@ -228,7 +229,7 @@ export class ProjectsService {
 
     if (!item) {
       throw new NotFoundException(
-        `Item avec l'ID ${addItemDto.itemId} non trouvé`,
+        `Item avec l'ID ${addItemDto.itemId} non trouvé`
       );
     }
 
@@ -278,9 +279,9 @@ export class ProjectsService {
 
       return projectItem;
     } catch (error: any) {
-      if (error?.code === 'P2002') {
+      if (error?.code === "P2002") {
         throw new ConflictException(
-          `L'item ${addItemDto.itemId} est déjà dans le projet ${projectId}`,
+          `L'item ${addItemDto.itemId} est déjà dans le projet ${projectId}`
         );
       }
       throw error;
@@ -293,7 +294,7 @@ export class ProjectsService {
   async updateProjectItem(
     projectId: number,
     itemId: number,
-    updateDto: UpdateProjectItemDto,
+    updateDto: UpdateProjectItemDto
   ) {
     const projectItem = await this.prisma.projectItem.update({
       where: {
@@ -371,9 +372,9 @@ export class ProjectsService {
         })
         .catch(console.error);
     } catch (error: any) {
-      if (error?.code === 'P2025') {
+      if (error?.code === "P2025") {
         throw new NotFoundException(
-          `Item ${itemId} non trouvé dans le projet ${projectId}`,
+          `Item ${itemId} non trouvé dans le projet ${projectId}`
         );
       }
       throw error;
@@ -410,7 +411,7 @@ export class ProjectsService {
     const totalItems = project.projectItems.length;
     const totalQuantity = project.projectItems.reduce(
       (sum, pi) => sum + pi.quantity,
-      0,
+      0
     );
     const totalValue = project.projectItems.reduce((sum, pi) => {
       return sum + (pi.item.price || 0) * pi.quantity;
@@ -419,13 +420,13 @@ export class ProjectsService {
       totalItems > 0
         ? project.projectItems.reduce(
             (sum, pi) => sum + pi.item.importanceScore,
-            0,
+            0
           ) / totalItems
         : 0;
 
     // Critical items (low stock + used in this project)
     const criticalItems = project.projectItems.filter(
-      (pi) => pi.item.quantity <= 5 && pi.isActive,
+      (pi) => pi.item.quantity <= 5 && pi.isActive
     );
 
     return {

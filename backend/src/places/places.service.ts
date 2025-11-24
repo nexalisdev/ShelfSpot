@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { Prisma } from '@prisma/client';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class PlacesService {
@@ -14,7 +14,7 @@ export class PlacesService {
 
   async createWithValidation(data: Prisma.PlaceCreateInput) {
     // Check that the room exists if roomId is provided
-    if (data.room && typeof data.room === 'object' && 'connect' in data.room) {
+    if (data.room && typeof data.room === "object" && "connect" in data.room) {
       const roomId = data.room.connect?.id;
       if (roomId) {
         const roomExists = await this.prisma.room.findUnique({

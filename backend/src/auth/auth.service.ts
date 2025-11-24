@@ -1,29 +1,30 @@
+/* eslint-disable prettier/prettier */
 import {
   Injectable,
   UnauthorizedException,
   ConflictException,
   BadRequestException,
   NotFoundException,
-} from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../prisma.service';
-import { EmailService } from '../email/email.service';
-import * as bcrypt from 'bcrypt';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
-import { CreateUserDto, UpdateUserDto } from './dto/admin.dto';
+} from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { PrismaService } from "../prisma.service";
+import { EmailService } from "../email/email.service";
+import * as bcrypt from "bcrypt";
+import { LoginDto } from "./dto/login.dto";
+import { RegisterDto } from "./dto/register.dto";
+import { CreateUserDto, UpdateUserDto } from "./dto/admin.dto";
 import {
   UserPayload,
   AuthResult,
   JwtPayload,
-} from './interfaces/auth.interface';
+} from "./interfaces/auth.interface";
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
-    private emailService: EmailService,
+    private emailService: EmailService
   ) {}
 
   // Utility function to convert Prisma types to frontend types
@@ -45,7 +46,7 @@ export class AuthService {
 
   async validateUser(
     email: string,
-    password: string,
+    password: string
   ): Promise<UserPayload | null> {
     const user = await this.prisma.user.findUnique({
       where: { email },
@@ -77,10 +78,10 @@ export class AuthService {
     const user = await this.validateUser(loginDto.email, loginDto.password);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new UnauthorizedException("Invalid email or password");
     }
 
-    console.log('AuthService: User authenticated:', user);
+    console.log("AuthService: User authenticated:", user);
 
     const payload: JwtPayload = {
       sub: user.id,
@@ -90,17 +91,17 @@ export class AuthService {
       notificationToken: user.notificationToken,
     };
 
-    console.log('AuthService: JWT payload:', JSON.stringify(payload, null, 2));
+    console.log("AuthService: JWT payload:", JSON.stringify(payload, null, 2));
 
     const access_token = this.jwtService.sign(payload);
     console.log(
-      'AuthService: Generated token:',
-      access_token.substring(0, 50) + '...',
+      "AuthService: Generated token:",
+      access_token.substring(0, 50) + "..."
     );
 
     return {
       access_token,
-      token_type: 'bearer',
+      token_type: "bearer",
       expires_in: 3600, // 1 hour in seconds
       user: {
         id: user.id,
@@ -118,12 +119,12 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException("Email already exists");
     }
 
     // Validate name if provided
     if (registerDto.name && registerDto.name.length < 5) {
-      throw new BadRequestException('Name must be at least 5 characters long');
+      throw new BadRequestException("Name must be at least 5 characters long");
     }
 
     // Hash password
@@ -161,7 +162,7 @@ export class AuthService {
 
     return {
       access_token,
-      token_type: 'bearer',
+      token_type: "bearer",
       expires_in: 3600,
       user: {
         id: String(user.id), // Conversion number -> string
@@ -174,7 +175,7 @@ export class AuthService {
   }
 
   async getUserProfile(userId: string): Promise<UserPayload> {
-    console.log('AuthService: getUserProfile called with userId:', userId);
+    console.log("AuthService: getUserProfile called with userId:", userId);
 
     const user = await this.prisma.user.findUnique({
       where: { id: parseInt(userId, 10) },
@@ -188,19 +189,19 @@ export class AuthService {
     });
 
     if (!user) {
-      console.log('AuthService: User not found for userId:', userId);
-      throw new UnauthorizedException('User not found');
+      console.log("AuthService: User not found for userId:", userId);
+      throw new UnauthorizedException("User not found");
     }
 
-    console.log('AuthService: User found:', user);
+    console.log("AuthService: User found:", user);
     const userPayload = this.convertPrismaUser(user);
-    console.log('AuthService: Returning user payload:', userPayload);
+    console.log("AuthService: Returning user payload:", userPayload);
     return userPayload;
   }
 
   async updateUserName(userId: string, newName: string): Promise<UserPayload> {
-    if (typeof newName === 'string' && newName.length < 5) {
-      throw new BadRequestException('Name must be at least 5 characters long');
+    if (typeof newName === "string" && newName.length < 5) {
+      throw new BadRequestException("Name must be at least 5 characters long");
     }
 
     const user = await this.prisma.user.update({
@@ -219,7 +220,7 @@ export class AuthService {
 
   async updateUserEmail(
     userId: string,
-    newEmail: string,
+    newEmail: string
   ): Promise<UserPayload> {
     // Validate email format is handled by the DTO validator
 
@@ -229,7 +230,7 @@ export class AuthService {
     });
 
     if (existingUser && existingUser.id !== parseInt(userId, 10)) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException("Email already exists");
     }
 
     const user = await this.prisma.user.update({
@@ -252,7 +253,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new UnauthorizedException("User not found");
     }
 
     const saltRounds = 12;
@@ -271,7 +272,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     // Generate a temporary password (8 characters)
@@ -292,10 +293,10 @@ export class AuthService {
       await this.emailService.sendPasswordResetEmail(
         user.email,
         tempPassword,
-        user.name || 'User',
+        user.name || "User"
       );
     } catch (error) {
-      console.error('Error sending password reset email:', error);
+      console.error("Error sending password reset email:", error);
       // Don't throw error to avoid revealing email sending failures
     }
   }
@@ -310,7 +311,7 @@ export class AuthService {
         createdAt: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -324,19 +325,19 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException("Email already exists");
     }
 
     // Validate name if provided
     if (createUserDto.name && createUserDto.name.length < 5) {
-      throw new BadRequestException('Name must be at least 5 characters long');
+      throw new BadRequestException("Name must be at least 5 characters long");
     }
 
     // Hash the password
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(
       createUserDto.password,
-      saltRounds,
+      saltRounds
     );
 
     // Create the user
@@ -360,10 +361,10 @@ export class AuthService {
 
   async updateUserByAdmin(
     userId: number | string,
-    updateUserDto: UpdateUserDto,
+    updateUserDto: UpdateUserDto
   ): Promise<UserPayload> {
     const numericUserId =
-      typeof userId === 'string' ? parseInt(userId, 10) : userId;
+      typeof userId === "string" ? parseInt(userId, 10) : userId;
 
     // Check that the user exists
     const existingUser = await this.prisma.user.findUnique({
@@ -371,7 +372,7 @@ export class AuthService {
     });
 
     if (!existingUser) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     // Prepare the data to update
@@ -393,7 +394,7 @@ export class AuthService {
       });
 
       if (emailExists) {
-        throw new ConflictException('Email already exists');
+        throw new ConflictException("Email already exists");
       }
 
       updateData.email = updateUserDto.email;
@@ -402,7 +403,7 @@ export class AuthService {
     if (updateUserDto.name !== undefined) {
       if (updateUserDto.name && updateUserDto.name.length < 5) {
         throw new BadRequestException(
-          'Name must be at least 5 characters long',
+          "Name must be at least 5 characters long"
         );
       }
       updateData.name = updateUserDto.name || null;
@@ -416,7 +417,7 @@ export class AuthService {
       const saltRounds = 12;
       updateData.password = await bcrypt.hash(
         updateUserDto.password,
-        saltRounds,
+        saltRounds
       );
     }
 
@@ -442,7 +443,7 @@ export class AuthService {
 
   async deleteUserByAdmin(userId: number | string): Promise<void> {
     const numericUserId =
-      typeof userId === 'string' ? parseInt(userId, 10) : userId;
+      typeof userId === "string" ? parseInt(userId, 10) : userId;
 
     try {
       await this.prisma.user.delete({
@@ -450,8 +451,8 @@ export class AuthService {
       });
     } catch (error: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (error?.code === 'P2025') {
-        throw new NotFoundException('User not found');
+      if (error?.code === "P2025") {
+        throw new NotFoundException("User not found");
       }
       throw error;
     }
@@ -459,7 +460,7 @@ export class AuthService {
 
   async updateNotificationToken(
     userId: string,
-    notificationToken: string | null,
+    notificationToken: string | null
   ): Promise<UserPayload> {
     const user = await this.prisma.user.update({
       where: { id: parseInt(userId, 10) },

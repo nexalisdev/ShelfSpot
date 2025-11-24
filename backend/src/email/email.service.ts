@@ -1,5 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Resend } from 'resend';
+/* eslint-disable prettier/prettier */
+import { Injectable, Logger } from "@nestjs/common";
+import { Resend } from "resend";
 
 export interface AlertEmailData {
   id: number;
@@ -26,11 +27,11 @@ export class EmailService {
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
       this.logger.warn(
-        'RESEND_API_KEY not found in environment variables. Email service will not work.',
+        "RESEND_API_KEY not found in environment variables. Email service will not work."
       );
     } else {
       this.resend = new Resend(apiKey);
-      this.logger.log('Email service initialized with Resend');
+      this.logger.log("Email service initialized with Resend");
     }
   }
 
@@ -43,25 +44,25 @@ export class EmailService {
     options?: {
       from?: string;
       subject?: string;
-    },
+    }
   ): Promise<{ success: boolean; messageId?: string; error?: string }> {
     if (!this.resend) {
-      this.logger.error('Resend not initialized. Cannot send email.');
-      return { success: false, error: 'Email service not configured' };
+      this.logger.error("Resend not initialized. Cannot send email.");
+      return { success: false, error: "Email service not configured" };
     }
 
     try {
       // Use a proper format for the from email address
       const fromEmailConfig =
-        process.env.RESEND_FROM_EMAIL || 'noreply@resend.dev';
+        process.env.RESEND_FROM_EMAIL || "noreply@resend.dev";
       let defaultFrom: string;
 
       // If fromEmailConfig is just a domain, create a proper email address
-      if (fromEmailConfig && !fromEmailConfig.includes('@')) {
+      if (fromEmailConfig && !fromEmailConfig.includes("@")) {
         defaultFrom = `ShelfSpot <noreply@${fromEmailConfig}>`;
       } else if (
-        fromEmailConfig.includes('@') &&
-        !fromEmailConfig.includes('<')
+        fromEmailConfig.includes("@") &&
+        !fromEmailConfig.includes("<")
       ) {
         // If it's just an email address, wrap it with app name
         defaultFrom = `ShelfSpot <${fromEmailConfig}>`;
@@ -87,17 +88,17 @@ export class EmailService {
       });
 
       if (error) {
-        this.logger.error('Failed to send alert email:', error);
+        this.logger.error("Failed to send alert email:", error);
         return { success: false, error: error.message };
       }
 
       this.logger.log(`Alert email sent successfully. Message ID: ${data?.id}`);
       return { success: true, messageId: data?.id };
     } catch (error) {
-      this.logger.error('Error sending alert email:', error);
+      this.logger.error("Error sending alert email:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -116,14 +117,14 @@ export class EmailService {
           <td style="padding: 12px; text-align: center;">${alert.threshold}</td>
           <td style="padding: 12px; font-size: 12px; color: #6b7280;">${location}</td>
           <td style="padding: 12px;">
-            <span style="background-color: ${this.getStatusColor(alert.item.status || 'unknown')}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
-              ${alert.item.status || 'Non spécifié'}
+            <span style="background-color: ${this.getStatusColor(alert.item.status || "unknown")}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+              ${alert.item.status || "Non spécifié"}
             </span>
           </td>
         </tr>
       `;
       })
-      .join('');
+      .join("");
 
     return `
       <!DOCTYPE html>
@@ -186,7 +187,7 @@ export class EmailService {
         const location = this.getItemLocation(alert.item);
         return `- ${alert.item.name}: ${alert.item.quantity} (seuil: ${alert.threshold}) - ${location} - ${alert.item.status}`;
       })
-      .join('\n');
+      .join("\n");
 
     return `
 🚨 ALERTE STOCK FAIBLE - ShelfSpot
@@ -206,12 +207,12 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
   /**
    * Obtient la localisation d'un item sous forme de chaîne
    */
-  private getItemLocation(item: AlertEmailData['item']): string {
+  private getItemLocation(item: AlertEmailData["item"]): string {
     const parts: string[] = [];
     if (item.room?.name) parts.push(item.room.name);
     if (item.place?.name) parts.push(item.place.name);
     if (item.container?.name) parts.push(item.container.name);
-    return parts.length > 0 ? parts.join(' > ') : 'Non spécifié';
+    return parts.length > 0 ? parts.join(" > ") : "Non spécifié";
   }
 
   /**
@@ -219,16 +220,16 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
    */
   private getStatusColor(status: string): string {
     switch (status.toLowerCase()) {
-      case 'disponible':
-        return '#10b981';
-      case 'indisponible':
-        return '#dc2626';
-      case 'réservé':
-        return '#f59e0b';
-      case 'en maintenance':
-        return '#6b7280';
+      case "disponible":
+        return "#10b981";
+      case "indisponible":
+        return "#dc2626";
+      case "réservé":
+        return "#f59e0b";
+      case "en maintenance":
+        return "#6b7280";
       default:
-        return '#6b7280';
+        return "#6b7280";
     }
   }
 
@@ -236,44 +237,44 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
    * Envoie un email de test pour vérifier la configuration
    */
   async sendTestEmail(
-    to: string,
+    to: string
   ): Promise<{ success: boolean; messageId?: string; error?: string }> {
     if (!this.resend) {
-      return { success: false, error: 'Email service not configured' };
+      return { success: false, error: "Email service not configured" };
     }
 
     try {
       // Use a proper format for the from email address
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@resend.dev';
+      const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@resend.dev";
       const fromAddress =
-        fromEmail.includes('@') && !fromEmail.includes('<')
+        fromEmail.includes("@") && !fromEmail.includes("<")
           ? `ShelfSpot <${fromEmail}>`
           : fromEmail;
 
       const { data, error } = await this.resend.emails.send({
         from: fromAddress,
         to,
-        subject: '✅ Test Email - ShelfSpot',
+        subject: "✅ Test Email - ShelfSpot",
         html: `
           <h1>Test Email ShelfSpot</h1>
           <p>Si vous recevez cet email, la configuration Resend fonctionne correctement !</p>
-          <p><em>Envoyé le ${new Date().toLocaleString('fr-FR')}</em></p>
+          <p><em>Envoyé le ${new Date().toLocaleString("fr-FR")}</em></p>
         `,
-        text: `Test Email ShelfSpot\n\nSi vous recevez cet email, la configuration Resend fonctionne correctement !\n\nEnvoyé le ${new Date().toLocaleString('fr-FR')}`,
+        text: `Test Email ShelfSpot\n\nSi vous recevez cet email, la configuration Resend fonctionne correctement !\n\nEnvoyé le ${new Date().toLocaleString("fr-FR")}`,
       });
 
       if (error) {
-        this.logger.error('Failed to send test email:', error);
+        this.logger.error("Failed to send test email:", error);
         return { success: false, error: error.message };
       }
 
       this.logger.log(`Test email sent successfully. Message ID: ${data?.id}`);
       return { success: true, messageId: data?.id };
     } catch (error) {
-      this.logger.error('Error sending test email:', error);
+      this.logger.error("Error sending test email:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -284,42 +285,42 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
   async sendPasswordResetEmail(
     to: string,
     tempPassword: string,
-    userName: string = 'User',
+    userName: string = "User"
   ): Promise<{ success: boolean; messageId?: string; error?: string }> {
     if (!this.resend) {
-      return { success: false, error: 'Email service not configured' };
+      return { success: false, error: "Email service not configured" };
     }
 
     try {
       // Use a proper format for the from email address
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@resend.dev';
+      const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@resend.dev";
       const fromAddress =
-        fromEmail.includes('@') && !fromEmail.includes('<')
+        fromEmail.includes("@") && !fromEmail.includes("<")
           ? `ShelfSpot <${fromEmail}>`
           : fromEmail;
 
       const { data, error } = await this.resend.emails.send({
         from: fromAddress,
         to,
-        subject: '🔐 Temporary Password - ShelfSpot',
+        subject: "🔐 Temporary Password - ShelfSpot",
         html: this.generatePasswordResetEmailHtml(tempPassword, userName),
         text: this.generatePasswordResetEmailText(tempPassword, userName),
       });
 
       if (error) {
-        this.logger.error('Failed to send password reset email:', error);
+        this.logger.error("Failed to send password reset email:", error);
         return { success: false, error: error.message };
       }
 
       this.logger.log(
-        `Password reset email sent successfully. Message ID: ${data?.id}`,
+        `Password reset email sent successfully. Message ID: ${data?.id}`
       );
       return { success: true, messageId: data?.id };
     } catch (error) {
-      this.logger.error('Error sending password reset email:', error);
+      this.logger.error("Error sending password reset email:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -329,7 +330,7 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
    */
   private generatePasswordResetEmailHtml(
     tempPassword: string,
-    userName: string,
+    userName: string
   ): string {
     return `
       <!DOCTYPE html>
@@ -376,7 +377,7 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
           </div>
 
           <div style="text-align: center; margin-bottom: 24px;">
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/login" 
+            <a href="${process.env.FRONTEND_URL || "http://localhost:3000"}/login" 
                style="background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; display: inline-block;">
               Sign In to ShelfSpot
             </a>
@@ -398,7 +399,7 @@ Pour configurer vos alertes, connectez-vous à votre tableau de bord.
    */
   private generatePasswordResetEmailText(
     tempPassword: string,
-    userName: string,
+    userName: string
   ): string {
     return `
 🔐 PASSWORD RESET - ShelfSpot
@@ -415,7 +416,7 @@ IMPORTANT SECURITY INFORMATION:
 - Change it immediately after logging in for security
 - This password will work until you set a new one
 
-Sign in at: ${process.env.FRONTEND_URL || 'http://localhost:3000'}/login
+Sign in at: ${process.env.FRONTEND_URL || "http://localhost:3000"}/login
 
 If you didn't request this password reset, please contact support immediately.
 

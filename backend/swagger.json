@@ -544,6 +544,42 @@
         ]
       }
     },
+    "/items/bulk": {
+      "post": {
+        "operationId": "ItemsController_createBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCreateItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Items created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create multiple items at once",
+        "tags": [
+          "Items"
+        ]
+      }
+    },
     "/items/inventory-value": {
       "get": {
         "operationId": "ItemsController_getInventoryValue",
@@ -3137,8 +3173,7 @@
         "required": [
           "name",
           "quantity",
-          "roomId",
-          "placeId"
+          "roomId"
         ]
       },
       "ItemResponseDto": {
@@ -3223,6 +3258,21 @@
           "updatedAt",
           "room",
           "place"
+        ]
+      },
+      "BulkCreateItemDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "Array of items to be created",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateItemDto"
+            }
+          }
+        },
+        "required": [
+          "items"
         ]
       },
       "UpdateItemDto": {

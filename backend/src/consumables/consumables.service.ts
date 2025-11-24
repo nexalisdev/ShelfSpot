@@ -1,16 +1,17 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { AlertsService } from '../alerts/alerts.service';
-import { Prisma } from '@prisma/client';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { AlertsService } from "../alerts/alerts.service";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class ConsumablesService {
   constructor(
     private prisma: PrismaService,
-    private alertsService: AlertsService,
+    private alertsService: AlertsService
   ) {}
 
   private transformItem(item: any) {
@@ -84,14 +85,14 @@ export class ConsumablesService {
     });
 
     // Check alerts for the new consumable
-    if (typeof data.quantity === 'number') {
+    if (typeof data.quantity === "number") {
       // Check alerts asynchronously without blocking the response
       this.alertsService
         .checkItemAlerts(item.id, data.quantity)
         .catch((error) => {
           console.error(
             `Error checking alerts for new consumable ${item.id}:`,
-            error,
+            error
           );
         });
     }
@@ -131,7 +132,7 @@ export class ConsumablesService {
     if (
       data.quantity !== undefined &&
       oldItem &&
-      typeof data.quantity === 'number'
+      typeof data.quantity === "number"
     ) {
       const newQuantity = data.quantity;
       if (newQuantity !== oldItem.quantity) {

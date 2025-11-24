@@ -1,5 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Expo, ExpoPushMessage, ExpoPushTicket } from 'expo-server-sdk';
+/* eslint-disable prettier/prettier */
+import { Injectable, Logger } from "@nestjs/common";
+import { Expo, ExpoPushMessage, ExpoPushTicket } from "expo-server-sdk";
 
 export interface PushNotificationData {
   title: string;
@@ -21,7 +22,7 @@ export class PushNotificationService {
    */
   async sendPushNotifications(
     pushTokens: string[],
-    notification: PushNotificationData,
+    notification: PushNotificationData
   ): Promise<void> {
     // Filter valid Expo push tokens
     const validTokens = pushTokens.filter((token) => {
@@ -33,14 +34,14 @@ export class PushNotificationService {
     });
 
     if (validTokens.length === 0) {
-      this.logger.warn('No valid push tokens found');
+      this.logger.warn("No valid push tokens found");
       return;
     }
 
     // Create messages array
     const messages: ExpoPushMessage[] = validTokens.map((token) => ({
       to: token,
-      sound: 'default',
+      sound: "default",
       title: notification.title,
       body: notification.body,
       data: notification.data || {},
@@ -57,10 +58,10 @@ export class PushNotificationService {
       }
 
       this.logger.log(
-        `Successfully sent push notifications to ${validTokens.length} users`,
+        `Successfully sent push notifications to ${validTokens.length} users`
       );
     } catch (error) {
-      this.logger.error('Failed to send push notifications:', error);
+      this.logger.error("Failed to send push notifications:", error);
       throw error;
     }
   }
@@ -70,7 +71,7 @@ export class PushNotificationService {
    */
   async sendPushNotification(
     pushToken: string,
-    notification: PushNotificationData,
+    notification: PushNotificationData
   ): Promise<void> {
     await this.sendPushNotifications([pushToken], notification);
   }
@@ -80,13 +81,13 @@ export class PushNotificationService {
    */
   private handlePushTickets(tickets: ExpoPushTicket[]): void {
     tickets.forEach((ticket, index) => {
-      if (ticket.status === 'error') {
+      if (ticket.status === "error") {
         this.logger.error(
           `Push notification error for ticket ${index}:`,
-          ticket.message,
+          ticket.message
         );
         if (ticket.details?.error) {
-          this.logger.error('Error details:', ticket.details.error);
+          this.logger.error("Error details:", ticket.details.error);
         }
       }
     });

@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { CreateContainerDto, UpdateContainerDto } from './dto/container.dto';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { CreateContainerDto, UpdateContainerDto } from "./dto/container.dto";
 
 @Injectable()
 export class ContainersService {
@@ -14,7 +15,7 @@ export class ContainersService {
       });
       if (!place) {
         throw new NotFoundException(
-          `Place with ID ${createContainerDto.placeId} not found`,
+          `Place with ID ${createContainerDto.placeId} not found`
         );
       }
     }
@@ -26,7 +27,7 @@ export class ContainersService {
       });
       if (!room) {
         throw new NotFoundException(
-          `Room with ID ${createContainerDto.roomId} not found`,
+          `Room with ID ${createContainerDto.roomId} not found`
         );
       }
     }
@@ -34,7 +35,7 @@ export class ContainersService {
     return this.prisma.container.create({
       data: {
         name: createContainerDto.name,
-        icon: createContainerDto.icon || 'box',
+        icon: createContainerDto.icon || "box",
         placeId: createContainerDto.placeId,
         roomId: createContainerDto.roomId,
       },
@@ -54,7 +55,7 @@ export class ContainersService {
         items: true,
       },
       orderBy: {
-        name: 'asc',
+        name: "asc",
       },
     });
   }
@@ -93,7 +94,7 @@ export class ContainersService {
       });
       if (!place) {
         throw new NotFoundException(
-          `Place with ID ${updateContainerDto.placeId} not found`,
+          `Place with ID ${updateContainerDto.placeId} not found`
         );
       }
     }
@@ -105,7 +106,7 @@ export class ContainersService {
       });
       if (!room) {
         throw new NotFoundException(
-          `Room with ID ${updateContainerDto.roomId} not found`,
+          `Room with ID ${updateContainerDto.roomId} not found`
         );
       }
     }
