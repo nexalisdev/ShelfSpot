@@ -55,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.log("AuthContext: Profile fetch failed, removing tokens:", error);
           // Invalid token, remove it completely
           localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
           document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
         }
       }
@@ -69,10 +70,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await backendApi.login(email, password);
 
-      // Store the token in localStorage and cookies
+      // Store both tokens in localStorage
       localStorage.setItem('access_token', response.access_token);
+      localStorage.setItem('refresh_token', response.refresh_token);
 
-      // Also store in cookies for the middleware
+      // Also store access token in cookies for the middleware
       document.cookie = `access_token=${response.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 jours
 
       setUser(response.user);
@@ -85,6 +87,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await backendApi.register(email, password, name);
       localStorage.setItem('access_token', response.access_token);
+      localStorage.setItem('refresh_token', response.refresh_token);
+      document.cookie = `access_token=${response.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`;
       setUser(response.user);
     } catch (error) {
       throw error;
@@ -93,6 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
 
     // Also remove the cookie
     document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
@@ -141,6 +146,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       // If the error is due to an invalid token, log out the user
       localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       setUser(null);
       throw error;
     }

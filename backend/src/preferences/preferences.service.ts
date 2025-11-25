@@ -11,6 +11,7 @@ export interface UpdatePreferencesDto {
   showAlertsPerMonth?: boolean;
   showInventoryValue?: boolean;
   showStatusDistribution?: boolean;
+  preferredLanguage?: string;
 }
 
 @Injectable()
@@ -36,6 +37,7 @@ export class PreferencesService {
           showAlertsPerMonth: true,
           showInventoryValue: true,
           showStatusDistribution: true,
+          preferredLanguage: "en",
         },
       });
     }

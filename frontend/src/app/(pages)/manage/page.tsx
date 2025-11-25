@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { backendApi } from "@/lib/backend-api";
+import { useTranslation } from "react-i18next";
 
 // Types
 interface Room { id: number; name: string; }
@@ -10,6 +11,7 @@ interface Container { id: number; name: string; roomId: number; placeId: number;
 interface Tag { id: number; name: string; }
 
 const ManagePage = () => {
+  const { t } = useTranslation();
   // Form states (only for tags)
   const [tagName, setTagName] = useState("");
 
@@ -94,7 +96,7 @@ const ManagePage = () => {
     const tagName = tagToDelete ? tagToDelete.name : 'this tag';
 
     // Show confirmation before deletion
-    if (window.confirm(`Are you sure you want to delete the tag "${tagName}"? This action is irreversible.`)) {
+    if (window.confirm(t('page.manage.confirmDeleteTag', { tagName }))) {
       try {
         await backendApi.deleteTag(id);
         fetchAll();
@@ -211,11 +213,11 @@ const ManagePage = () => {
             <div className="flex items-center gap-3 mb-3">
               <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-purple-400">
-                Manage
+                {t('page.manage.title')}
               </h1>
             </div>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              Manage your existing items and create tags. Use the &quot;Create&quot; button in the navigation to add new rooms, places, and containers.
+              {t('page.manage.description')}
             </p>
           </div>
         </div>
@@ -228,9 +230,9 @@ const ManagePage = () => {
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Rooms</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('page.manage.rooms.title')}</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing rooms</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('page.manage.rooms.description')}</p>
           </div>
           <div className="p-8">
             <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
@@ -251,13 +253,13 @@ const ManagePage = () => {
                             onClick={() => handleSaveRoom(room.id)}
                             className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                           >
-                            Save
+                            {t('save')}
                           </button>
                           <button
                             onClick={handleCancelEdit}
                             className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           >
-                            Cancel
+                            {t('cancel')}
                           </button>
                         </div>
                       </>
@@ -269,13 +271,13 @@ const ManagePage = () => {
                             onClick={() => handleEditRoom(room)}
                             className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           >
-                            Edit
+                            {t('edit')}
                           </button>
                           <button
                             onClick={() => handleDeleteRoom(room.id)}
                             className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
-                            Delete
+                            {t('delete')}
                           </button>
                         </div>
                       </>
@@ -283,7 +285,7 @@ const ManagePage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">No rooms found. Create one using the &quot;Create&quot; button in the navigation.</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{t('page.manage.rooms.noRooms')}</p>
               )}
             </div>
           </div>
@@ -294,9 +296,9 @@ const ManagePage = () => {
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Places</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('page.manage.places.title')}</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing places within rooms</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('page.manage.places.description')}</p>
           </div>
           <div className="p-8">
             <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
@@ -314,7 +316,7 @@ const ManagePage = () => {
                             autoFocus
                           />
                           <div className="text-xs text-gray-500 dark:text-gray-400">
-                            {rooms.find(r => r.id === place.roomId)?.name || "Unknown room"}
+                            {rooms.find(r => r.id === place.roomId)?.name || t('page.manage.unknownRoom')}
                           </div>
                         </div>
                         <div className="flex gap-2">
@@ -322,13 +324,13 @@ const ManagePage = () => {
                             onClick={() => handleSavePlace(place.id)}
                             className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                           >
-                            Save
+                            {t('save')}
                           </button>
                           <button
                             onClick={handleCancelEdit}
                             className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           >
-                            Cancel
+                            {t('cancel')}
                           </button>
                         </div>
                       </>
@@ -337,7 +339,7 @@ const ManagePage = () => {
                         <div>
                           <span className="font-semibold text-gray-900 dark:text-white">{place.name}</span>
                           <div className="text-xs text-gray-500 dark:text-gray-400">
-                            {rooms.find(r => r.id === place.roomId)?.name || "Unknown room"}
+                            {rooms.find(r => r.id === place.roomId)?.name || t('page.manage.unknownRoom')}
                           </div>
                         </div>
                         <div className="flex gap-2">
@@ -345,13 +347,13 @@ const ManagePage = () => {
                             onClick={() => handleEditPlace(place)}
                             className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           >
-                            Edit
+                            {t('edit')}
                           </button>
                           <button
                             onClick={() => handleDeletePlace(place.id)}
                             className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
-                            Delete
+                            {t('delete')}
                           </button>
                         </div>
                       </>
@@ -359,7 +361,7 @@ const ManagePage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">No places found. Create one using the &quot;Create&quot; button in the navigation.</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{t('page.manage.places.noPlaces')}</p>
               )}
             </div>
           </div>
@@ -370,9 +372,9 @@ const ManagePage = () => {
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Containers</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('page.manage.containers.title')}</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing containers within places</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('page.manage.containers.description')}</p>
           </div>
           <div className="p-8">
             <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
@@ -387,7 +389,7 @@ const ManagePage = () => {
                             value={editValues.name || ''}
                             onChange={(e) => handleEditValueChange(e.target.value)}
                             className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                            placeholder="Container name"
+                            placeholder={t('page.manage.containers.containerName')}
                             autoFocus
                           />
                           <select
@@ -395,7 +397,7 @@ const ManagePage = () => {
                             onChange={(e) => handleContainerRoomChange(Number(e.target.value))}
                             className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                           >
-                            <option value="">Select a room</option>
+                            <option value="">{t('page.manage.containers.selectRoom')}</option>
                             {rooms.map(room => (
                               <option key={room.id} value={room.id}>{room.name}</option>
                             ))}
@@ -406,7 +408,7 @@ const ManagePage = () => {
                             className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             disabled={!editValues.roomId}
                           >
-                            <option value="">Select a place</option>
+                            <option value="">{t('page.manage.containers.selectPlace')}</option>
                             {places
                               .filter(p => p.roomId === editValues.roomId)
                               .map(place => (
@@ -419,13 +421,13 @@ const ManagePage = () => {
                             onClick={() => handleSaveContainer(container.id)}
                             className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
                           >
-                            Save
+                            {t('save')}
                           </button>
                           <button
                             onClick={handleCancelEdit}
                             className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           >
-                            Cancel
+                            {t('cancel')}
                           </button>
                         </div>
                       </>
@@ -442,13 +444,13 @@ const ManagePage = () => {
                             onClick={() => handleEditContainer(container)}
                             className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           >
-                            Edit
+                            {t('edit')}
                           </button>
                           <button
                             onClick={() => handleDeleteContainer(container.id)}
                             className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
-                            Delete
+                            {t('delete')}
                           </button>
                         </div>
                       </>
@@ -456,7 +458,7 @@ const ManagePage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">No containers found. Create one using the &quot;Create&quot; button in the navigation.</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{t('page.manage.containers.noContainers')}</p>
               )}
             </div>
           </div>
@@ -467,9 +469,9 @@ const ManagePage = () => {
           <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Tags</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('page.manage.tags.title')}</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Create and manage tags for items</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('page.manage.tags.description')}</p>
           </div>
           <div className="p-8">
             <form onSubmit={handleAddTag} className="mb-6">
@@ -478,7 +480,7 @@ const ManagePage = () => {
                   type="text"
                   value={tagName}
                   onChange={e => setTagName(e.target.value)}
-                  placeholder="Tag name"
+                  placeholder={t('page.manage.tags.tagName')}
                   className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
                   required
                 />
@@ -486,7 +488,7 @@ const ManagePage = () => {
                   type="submit"
                   className="px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-medium rounded-sm transition-all duration-200 shadow-md hover:shadow-lg"
                 >
-                  Add
+                  {t('add')}
                 </button>
               </div>
             </form>

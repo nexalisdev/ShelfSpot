@@ -31,7 +31,6 @@ export default function ManageObjectClient({ item }: { item: Item }) {
 
     return (
         <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Actions</h2>
             <div className="flex gap-4">
                 <button
                     onClick={() => setShowModal(true)}

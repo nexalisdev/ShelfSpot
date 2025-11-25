@@ -7,6 +7,7 @@ import DashboardCharts from "@/components/DashboardCharts";
 import { backendApi } from "@/lib/backend-api";
 import { useAuth } from "@/lib/auth-context";
 import { useUserPreferences } from "@/app/hooks/useUserPreferences";
+import { useTranslation } from "react-i18next";
 
 // Types
 interface Stats {
@@ -38,6 +39,7 @@ interface SearchItem {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { user, loading: authLoading } = useAuth();
   const { preferences } = useUserPreferences();
   const [stats] = useState<Stats | null>(null);
@@ -105,7 +107,7 @@ export default function Dashboard() {
   if (authLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+        <div className="text-gray-600 dark:text-gray-400">{t('loading')}</div>
       </div>
     );
   }
@@ -118,7 +120,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+        <div className="text-gray-600 dark:text-gray-400">{t('loading')}</div>
       </div>
     );
   }
@@ -132,7 +134,7 @@ export default function Dashboard() {
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
             <input
               type="text"
-              placeholder="Search for any item in your inventory..."
+              placeholder={t('page.dashboard.searchPlaceholder')}
               className="w-full pl-12 pr-6 py-3 border border-gray-200 dark:border-gray-700 rounded-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none  focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200"
               value={search}
               onChange={e => setSearch(e.target.value)}
@@ -148,10 +150,10 @@ export default function Dashboard() {
           <div className="relative text-center space-y-6">
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400">
-                Welcome back{user?.name ? `, ${user.name}` : ''}!
+                {t('page.dashboard.welcomeBack')}{user?.name ? `, ${user.name}` : ''}!
               </h1>
               <p className="text-lg text-gray-600 dark:text-gray-300 mt-3 leading-relaxed">
-                Find your items quickly and manage your inventory efficiently
+                {t('page.dashboard.findItems')}
               </p>
             </div>
 
@@ -161,7 +163,7 @@ export default function Dashboard() {
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
                 <input
                   type="text"
-                  placeholder="Search for any item in your inventory..."
+                  placeholder={t('page.dashboard.searchPlaceholder')}
                   className="w-full pl-12 pr-6 py-4 text-lg border border-gray-200 dark:border-gray-800 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm transition-all duration-200 hover:shadow-md"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
@@ -177,32 +179,32 @@ export default function Dashboard() {
       {stats && preferences?.showStatsCards !== false && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <StatCard
-            title="Total Items"
+            title={t('page.dashboard.stats.totalItems')}
             value={stats.totalItems}
             className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 border-blue-200/50 dark:border-blue-700/50 shadow-lg hover:shadow-xl transition-all duration-300"
           />
           <StatCard
-            title="Rooms"
+            title={t('page.dashboard.stats.rooms')}
             value={stats.totalRooms}
             className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/20 border-green-200/50 dark:border-green-700/50 shadow-lg hover:shadow-xl transition-all duration-300"
           />
           <StatCard
-            title="Places"
+            title={t('page.dashboard.stats.places')}
             value={stats.totalPlaces}
             className="bg-gradient-to-br from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/20 border-sky-200/50 dark:border-sky-700/50 shadow-lg hover:shadow-xl transition-all duration-300"
           />
           <StatCard
-            title="Containers"
+            title={t('page.dashboard.stats.containers')}
             value={stats.totalContainers}
             className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 border-orange-200/50 dark:border-orange-700/50 shadow-lg hover:shadow-xl transition-all duration-300"
           />
           <StatCard
-            title="Tags"
+            title={t('page.dashboard.stats.tags')}
             value={stats.totalTags}
             className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/20 border-indigo-200/50 dark:border-indigo-700/50 shadow-lg hover:shadow-xl transition-all duration-300"
           />
           <StatCard
-            title="Consumables"
+            title={t('page.dashboard.stats.consumables')}
             value={stats.consumables}
             className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/20 border-red-200/50 dark:border-red-700/50 shadow-lg hover:shadow-xl transition-all duration-300"
           />
@@ -221,16 +223,16 @@ export default function Dashboard() {
                   <Search className="w-8 h-8 text-blue-500 animate-pulse" />
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 text-xl font-medium">Searching your inventory...</p>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">This won&apos;t take long</p>
+              <p className="text-gray-600 dark:text-gray-300 text-xl font-medium">{t('page.dashboard.searching')}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">{t('page.dashboard.searchWontTakeLong')}</p>
             </div>
           ) : searchResults.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-full flex items-center justify-center">
                 <Search className="w-12 h-12 text-gray-400" />
               </div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white mb-3">No items found</div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg">Try a different search term or check your spelling</p>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t('page.dashboard.noItemsFound')}</div>
+              <p className="text-gray-500 dark:text-gray-400 text-lg">{t('page.dashboard.tryDifferentSearch')}</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -238,7 +240,7 @@ export default function Dashboard() {
                 <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-sm border border-blue-200/50 dark:border-blue-700/50">
                   <Search className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   <p className="text-lg font-semibold text-blue-900 dark:text-blue-100">
-                    {searchResults.length} item{searchResults.length > 1 ? 's' : ''} found
+                    {searchResults.length} {t('page.dashboard.itemsFound')}
                   </p>
                 </div>
               </div>
@@ -259,7 +261,7 @@ export default function Dashboard() {
                     <div className="flex items-center text-gray-500 dark:text-gray-400">
                       <MapPin className="w-5 h-5 mr-3 text-blue-500" />
                       <span className="text-base">
-                        {item.room?.name || 'Unknown room'}
+                        {item.room?.name || t('page.dashboard.unknownRoom')}
                         {item.place && ` • ${item.place.name}`}
                         {item.container && ` • ${item.container.name}`}
                       </span>
@@ -283,7 +285,7 @@ export default function Dashboard() {
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-sm"></div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Analytics
+                    {t('page.dashboard.analytics')}
                   </h2>
                 </div>
                 <div className="h-[690px]">
@@ -303,7 +305,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-blue-500 rounded-sm"></div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Recent Items
+                  {t('page.dashboard.recentItems')}
                 </h2>
               </div>
               <div className="flex-1 space-y-4 overflow-y-auto scrollbar-hide relative" style={{ zIndex: 1 }}>
@@ -313,7 +315,7 @@ export default function Dashboard() {
                       key={item.id}
                       className="group relative flex items-center justify-between p-4 rounded-sm bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 backdrop-blur-sm border border-gray-200/50 dark:border-gray-600/50 hover:border-blue-300 dark:hover:border-blue-600 cursor-pointer transition-all duration-300 hover:shadow-md hover:-translate-y-1 transform"
                       onClick={() => router.push(`/manage/${item.id}`)}
-                      title={`Created: ${new Date(item.createdAt).toLocaleDateString()}${item.status ? ` • Status: ${item.status}` : ''}${item.quantity ? ` • Qty: ${item.quantity}` : ''}`}
+                      title={`${t('page.dashboard.created')}: ${new Date(item.createdAt).toLocaleDateString()}${item.status ? ` • ${t('page.dashboard.status')}: ${item.status}` : ''}${item.quantity ? ` • ${t('page.dashboard.quantity')}: ${item.quantity}` : ''}`}
                       style={{ zIndex: 10 + index }}
                     >
                       <div className="flex-1">
@@ -323,7 +325,7 @@ export default function Dashboard() {
                         <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-2">
                           <MapPin className="w-4 h-4 mr-2 text-blue-500" />
                           <span>
-                            {item.room?.name || 'Unknown room'}
+                            {item.room?.name || t('page.dashboard.unknownRoom')}
                             {item.place && ` • ${item.place.name}`}
                             {item.container && ` • ${item.container.name}`}
                           </span>
@@ -339,16 +341,16 @@ export default function Dashboard() {
                         }}
                       >
                         <div className="space-y-2">
-                          <div><strong className="text-blue-300">Created:</strong> {new Date(item.createdAt).toLocaleDateString()}</div>
-                          {item.status && <div><strong className="text-green-300">Status:</strong> {item.status}</div>}
-                          {item.quantity && <div><strong className="text-yellow-300">Quantity:</strong> {item.quantity}</div>}
-                          <div><strong className="text-purple-300">Location:</strong></div>
+                          <div><strong className="text-blue-300">{t('page.dashboard.created')}:</strong> {new Date(item.createdAt).toLocaleDateString()}</div>
+                          {item.status && <div><strong className="text-green-300">{t('page.dashboard.status')}:</strong> {item.status}</div>}
+                          {item.quantity && <div><strong className="text-yellow-300">{t('page.dashboard.quantity')}:</strong> {item.quantity}</div>}
+                          <div><strong className="text-purple-300">{t('page.dashboard.location')}:</strong></div>
                           <div className="ml-3 text-gray-300">
-                            🏠 Room: {item.room?.name || 'Unknown'}
-                            {item.place && <><br />📍 Place: {item.place.name}</>}
-                            {item.container && <><br />📦 Container: {item.container.name}</>}
+                            🏠 {t('page.dashboard.room')}: {item.room?.name || t('page.dashboard.unknownRoom')}
+                            {item.place && <><br />📍 {t('page.dashboard.place')}: {item.place.name}</>}
+                            {item.container && <><br />📦 {t('page.dashboard.container')}: {item.container.name}</>}
                           </div>
-                          <div className="text-blue-300 mt-3 font-medium">✨ Click to view details</div>
+                          <div className="text-blue-300 mt-3 font-medium">{t('page.dashboard.clickToViewDetails')}</div>
                         </div>
                         {/* Modern Arrow */}
                         <div className="absolute top-full left-6 w-3 h-3 bg-gray-900/95 transform rotate-45 border-r border-b border-gray-700"></div>
@@ -361,10 +363,10 @@ export default function Dashboard() {
                       <Package className="w-8 h-8 text-gray-400" />
                     </div>
                     <p className="text-gray-500 dark:text-gray-400 font-medium">
-                      No recent items
+                      {t('page.dashboard.noRecentItems')}
                     </p>
                     <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-                      Items you add will appear here
+                      {t('page.dashboard.itemsWillAppearHere')}
                     </p>
                   </div>
                 )}

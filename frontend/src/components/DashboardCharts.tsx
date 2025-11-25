@@ -16,6 +16,7 @@ import { useInventoryValue } from "@/app/hooks/useInventoryValue";
 import { useAlertsStatistics } from "@/app/hooks/useAlertsStatistics";
 import { useStatusStatistics } from "@/app/hooks/useStatusStatistics";
 import { Room } from "@/app/types";
+import { useTranslation } from "react-i18next";
 
 // Extended type to include _count
 type RoomWithCount = Room & {
@@ -52,6 +53,7 @@ const backgroundColors = [
 ]
 
 export default function DashboardCharts({ preferences }: DashboardChartsProps) {
+    const { t } = useTranslation();
     const { data: rooms, loading, error } = useGetRooms();
     const { data: inventoryValueData, loading: inventoryLoading } = useInventoryValue();
     const { data: alertsData, loading: alertsLoading, error: alertsError } = useAlertsStatistics();
@@ -78,7 +80,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
         labels: alertsData.data.map(item => item.month),
         datasets: [
             {
-                label: "Alerts",
+                label: t('page.dashboard.charts.alerts'),
                 data: alertsData.data.map(item => item.count),
                 backgroundColor: "#3b82f6",
                 borderColor: "#1e3a8a",
@@ -88,7 +90,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
         labels: [],
         datasets: [
             {
-                label: "Alerts",
+                label: t('page.dashboard.charts.alerts'),
                 data: [],
                 backgroundColor: "#3b82f6",
                 borderColor: "#1e3a8a",
@@ -100,7 +102,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
         labels: statusData.data.map(item => item.status),
         datasets: [
             {
-                label: "Items by status",
+                label: t('page.dashboard.charts.itemsByStatus'),
                 data: statusData.data.map(item => item.count),
                 backgroundColor: backgroundColors,
                 borderWidth: 1,
@@ -110,7 +112,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
         labels: [],
         datasets: [
             {
-                label: "Items by status",
+                label: t('page.dashboard.charts.itemsByStatus'),
                 data: [],
                 backgroundColor: backgroundColors,
                 borderWidth: 1,
@@ -121,10 +123,10 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
     const currentValue = inventoryValueData?.totalValue || 0;
 
     const inventoryValue = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+        labels: [t('page.dashboard.charts.months.jan'), t('page.dashboard.charts.months.feb'), t('page.dashboard.charts.months.mar'), t('page.dashboard.charts.months.apr'), t('page.dashboard.charts.months.may')],
         datasets: [
             {
-                label: "Value (€)",
+                label: t('page.dashboard.charts.valueEuro'),
                 data: [currentValue, currentValue, currentValue, currentValue, currentValue],
                 fill: true,
                 backgroundColor: "#3b82f6",
@@ -173,8 +175,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                 <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                     <span className="text-gray-400 text-2xl">📊</span>
                 </div>
-                <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No charts enabled</div>
-                <div className="text-gray-500 dark:text-gray-500 text-sm">Enable charts in your preferences to see analytics</div>
+                <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.noChartsEnabled')}</div>
+                <div className="text-gray-500 dark:text-gray-500 text-sm">{t('page.dashboard.charts.enableChartsMessage')}</div>
             </div>
         );
     }
@@ -186,7 +188,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                 <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
-                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">Distribution by room</h2>
+                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">{t('page.dashboard.charts.distributionByRoom')}</h2>
                     </div>
                     {loading ? (
                         <div className="flex flex-col items-center justify-center h-64">
@@ -194,14 +196,14 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                 <div className="w-16 h-16 border-4 border-blue-100 dark:border-blue-900/30 rounded-xl"></div>
                                 <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0"></div>
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">Loading room data...</p>
+                            <p className="text-gray-600 dark:text-gray-400 font-medium">{t('page.dashboard.charts.loadingRoomData')}</p>
                         </div>
                     ) : error ? (
                         <div className="text-center py-16">
                             <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-red-500 text-2xl">⚠️</span>
                             </div>
-                            <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">Error loading rooms</div>
+                            <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.errorLoadingRooms')}</div>
                             <div className="text-gray-500 dark:text-gray-400 text-sm">{error}</div>
                         </div>
                     ) : !rooms || rooms.length === 0 ? (
@@ -209,16 +211,16 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                             <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-gray-400 text-2xl">🏠</span>
                             </div>
-                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No rooms found</div>
-                            <div className="text-gray-500 dark:text-gray-500 text-sm">Create your first room to see distribution</div>
+                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.noRoomsFound')}</div>
+                            <div className="text-gray-500 dark:text-gray-500 text-sm">{t('page.dashboard.charts.createFirstRoom')}</div>
                         </div>
                     ) : roomsWithItems.length === 0 ? (
                         <div className="text-center py-16">
                             <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-blue-500 text-2xl">📦</span>
                             </div>
-                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No items found</div>
-                            <div className="text-gray-500 dark:text-gray-500 text-sm">Add items to see room distribution</div>
+                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.noItemsFound')}</div>
+                            <div className="text-gray-500 dark:text-gray-500 text-sm">{t('page.dashboard.charts.addItemsToSeeDistribution')}</div>
                         </div>
                     ) : (
                         <div className="w-full h-64 flex justify-center">
@@ -236,7 +238,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                                 label: function (context) {
                                                     const label = context.label || '';
                                                     const value = context.parsed || 0;
-                                                    return `${label}: ${value} items`;
+                                                    return `${label}: ${value} ${t('page.dashboard.charts.items')}`;
                                                 }
                                             }
                                         }
@@ -253,7 +255,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                 <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
-                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">Alerts per month</h2>
+                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">{t('page.dashboard.charts.alertsPerMonth')}</h2>
                     </div>
                     {alertsLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
@@ -261,14 +263,14 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                 <div className="w-16 h-16 border-4 border-orange-100 dark:border-orange-900/30 rounded-full"></div>
                                 <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin absolute top-0"></div>
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">Loading alerts data...</p>
+                            <p className="text-gray-600 dark:text-gray-400 font-medium">{t('page.dashboard.charts.loadingAlertsData')}</p>
                         </div>
                     ) : alertsError ? (
                         <div className="text-center py-16">
                             <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-red-500 text-2xl">⚠️</span>
                             </div>
-                            <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">Error loading alerts</div>
+                            <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.errorLoadingAlerts')}</div>
                             <div className="text-gray-500 dark:text-gray-400 text-sm">{alertsError}</div>
                         </div>
                     ) : !alertsData || alertsData.data.length === 0 ? (
@@ -276,8 +278,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                             <div className="w-16 h-16 mx-auto mb-4 bg-orange-100 dark:bg-orange-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-orange-500 text-2xl">🚨</span>
                             </div>
-                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No alerts data</div>
-                            <div className="text-gray-500 dark:text-gray-500 text-sm">No alerts have been created yet</div>
+                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.noAlertsData')}</div>
+                            <div className="text-gray-500 dark:text-gray-500 text-sm">{t('page.dashboard.charts.noAlertsCreated')}</div>
                         </div>
                     ) : (
                         <>
@@ -286,7 +288,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                     {alertsData.total}
                                 </div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                                    Total alerts in the last 12 months
+                                    {t('page.dashboard.charts.totalAlertsLast12Months')}
                                 </div>
                             </div>
                             <div className="w-full h-48">
@@ -302,7 +304,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                 <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-teal-500 rounded-sm"></div>
-                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">Inventory value</h2>
+                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">{t('page.dashboard.charts.inventoryValue')}</h2>
                     </div>
                     {inventoryLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
@@ -310,7 +312,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                 <div className="w-16 h-16 border-4 border-green-100 dark:border-green-900/30 rounded-sm"></div>
                                 <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-sm animate-spin absolute top-0"></div>
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">Calculating inventory value...</p>
+                            <p className="text-gray-600 dark:text-gray-400 font-medium">{t('page.dashboard.charts.calculatingInventoryValue')}</p>
                         </div>
                     ) : inventoryValueData ? (
                         <>
@@ -319,7 +321,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                     €{inventoryValueData.totalValue.toLocaleString()}
                                 </div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                                    Based on {inventoryValueData.itemsWithValue} items with selling prices
+                                    {t('page.dashboard.charts.basedOnItems', { count: inventoryValueData.itemsWithValue })}
                                 </div>
                             </div>
                             <div className="w-full h-48">
@@ -331,8 +333,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                             <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-gray-400 text-2xl">💰</span>
                             </div>
-                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No inventory value data</div>
-                            <div className="text-gray-500 dark:text-gray-500 text-sm">Add selling prices to items to see inventory value</div>
+                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.noInventoryValueData')}</div>
+                            <div className="text-gray-500 dark:text-gray-500 text-sm">{t('page.dashboard.charts.addSellingPrices')}</div>
                         </div>
                     )}
                 </div>
@@ -343,7 +345,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                 <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-sm p-8 shadow-sm transition-all duration-300">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-sm"></div>
-                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">Status distribution</h2>
+                        <h2 className="text-gray-900 dark:text-white text-xl font-bold">{t('page.dashboard.charts.statusDistribution')}</h2>
                     </div>
                     {statusLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
@@ -351,14 +353,14 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                                 <div className="w-16 h-16 border-4 border-purple-100 dark:border-purple-900/30 rounded-sm"></div>
                                 <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-sm animate-spin absolute top-0"></div>
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">Loading status data...</p>
+                            <p className="text-gray-600 dark:text-gray-400 font-medium">{t('page.dashboard.charts.loadingStatusData')}</p>
                         </div>
                     ) : statusError ? (
                         <div className="text-center py-16">
                             <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-sm flex items-center justify-center">
                                 <span className="text-red-500 text-2xl">⚠️</span>
                             </div>
-                            <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">Error loading status data</div>
+                            <div className="text-red-600 dark:text-red-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.errorLoadingStatusData')}</div>
                             <div className="text-gray-500 dark:text-gray-400 text-sm">{statusError}</div>
                         </div>
                     ) : statusData && statusData.data.length > 0 ? (
@@ -370,8 +372,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                             <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
                                 <span className="text-gray-400 text-2xl">📊</span>
                             </div>
-                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">No status data</div>
-                            <div className="text-gray-500 dark:text-gray-500 text-sm">Add status information to items to see distribution</div>
+                            <div className="text-gray-600 dark:text-gray-400 text-lg font-semibold mb-2">{t('page.dashboard.charts.noStatusData')}</div>
+                            <div className="text-gray-500 dark:text-gray-500 text-sm">{t('page.dashboard.charts.addStatusToItems')}</div>
                         </div>
                     )}
                 </div>

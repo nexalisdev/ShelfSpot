@@ -1,8 +1,10 @@
 "use client";
 
 import ItemsTable from "@/components/ItemsTable";
+import { useTranslation } from "react-i18next";
 
 export default function InventoryPage() {
+    const { t } = useTranslation();
     return (
         <div className="space-y-8">
             {/* Page Header */}
@@ -13,11 +15,11 @@ export default function InventoryPage() {
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-1 h-8 bg-gradient-to-b from-emerald-500 to-blue-500 rounded-sm"></div>
                             <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent dark:from-emerald-400 dark:via-blue-400 dark:to-emerald-400">
-                                Inventory
+                                {t('page.inventory.title')}
                             </h1>
                         </div>
                         <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                            Browse and manage all items in your house
+                            {t('page.inventory.description')}
                         </p>
                     </div>
                 </div>

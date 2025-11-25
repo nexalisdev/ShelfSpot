@@ -14,6 +14,7 @@ model User {
   name              String?
   admin             Boolean     @default(false)
   notificationToken String?
+  refreshToken      String?
   createdAt         DateTime    @default(now())
   favourites        Favourite[]
   preferences       UserPreferences?
@@ -31,6 +32,7 @@ model UserPreferences {
   showAlertsPerMonth     Boolean @default(true)
   showInventoryValue     Boolean @default(true)
   showStatusDistribution Boolean @default(true)
+  preferredLanguage      String  @default("en")
   user                   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])

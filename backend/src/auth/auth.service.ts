@@ -74,6 +74,10 @@ export class AuthService {
     return null;
   }
 
+  private generateRefreshToken(): string {
+    return this.jwtService.sign({ type: "refresh" }, { expiresIn: "7d" });
+  }
+
   async login(loginDto: LoginDto): Promise<AuthResult> {
     const user = await this.validateUser(loginDto.email, loginDto.password);
 
@@ -94,6 +98,15 @@ export class AuthService {
     console.log("AuthService: JWT payload:", JSON.stringify(payload, null, 2));
 
     const access_token = this.jwtService.sign(payload);
+    const refresh_token = this.generateRefreshToken();
+
+    // Store hashed refresh token in database
+    const hashedRefreshToken = await bcrypt.hash(refresh_token, 10);
+    await this.prisma.user.update({
+      where: { id: parseInt(user.id, 10) },
+      data: { refreshToken: hashedRefreshToken },
+    });
+
     console.log(
       "AuthService: Generated token:",
       access_token.substring(0, 50) + "..."
@@ -101,6 +114,7 @@ export class AuthService {
 
     return {
       access_token,
+      refresh_token,
       token_type: "bearer",
       expires_in: 3600, // 1 hour in seconds
       user: {
@@ -159,9 +173,18 @@ export class AuthService {
     };
 
     const access_token = this.jwtService.sign(payload);
+    const refresh_token = this.generateRefreshToken();
+
+    // Store hashed refresh token in database
+    const hashedRefreshToken = await bcrypt.hash(refresh_token, 10);
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { refreshToken: hashedRefreshToken },
+    });
 
     return {
       access_token,
+      refresh_token,
       token_type: "bearer",
       expires_in: 3600,
       user: {
@@ -475,5 +498,78 @@ export class AuthService {
     });
 
     return this.convertPrismaUser(user);
+  }
+
+  async refreshAccessToken(refreshToken: string): Promise<AuthResult> {
+    try {
+      // Verify the refresh token
+      const decoded = this.jwtService.verify(refreshToken);
+
+      if (decoded.type !== "refresh") {
+        throw new UnauthorizedException("Invalid token type");
+      }
+
+      // Find user with this refresh token
+      const users = await this.prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          admin: true,
+          notificationToken: true,
+          refreshToken: true,
+        },
+      });
+
+      let matchedUser: (typeof users)[0] | null = null;
+      for (const user of users) {
+        if (
+          user.refreshToken &&
+          (await bcrypt.compare(refreshToken, user.refreshToken))
+        ) {
+          matchedUser = user;
+          break;
+        }
+      }
+
+      if (!matchedUser) {
+        throw new UnauthorizedException("Invalid refresh token");
+      }
+
+      // Generate new tokens
+      const payload: JwtPayload = {
+        sub: String(matchedUser.id),
+        email: matchedUser.email,
+        name: matchedUser.name || undefined,
+        admin: matchedUser.admin,
+        notificationToken: matchedUser.notificationToken || undefined,
+      };
+
+      const access_token = this.jwtService.sign(payload);
+      const new_refresh_token = this.generateRefreshToken();
+
+      // Store new hashed refresh token
+      const hashedRefreshToken = await bcrypt.hash(new_refresh_token, 10);
+      await this.prisma.user.update({
+        where: { id: matchedUser.id },
+        data: { refreshToken: hashedRefreshToken },
+      });
+
+      return {
+        access_token,
+        refresh_token: new_refresh_token,
+        token_type: "bearer",
+        expires_in: 3600,
+        user: {
+          id: String(matchedUser.id),
+          email: matchedUser.email,
+          name: matchedUser.name || undefined,
+          admin: matchedUser.admin,
+          notificationToken: matchedUser.notificationToken || undefined,
+        },
+      };
+    } catch (error) {
+      throw new UnauthorizedException("Invalid or expired refresh token");
+    }
   }
 }

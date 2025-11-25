@@ -11,6 +11,7 @@ export interface UserPreferences {
   showAlertsPerMonth: boolean;
   showInventoryValue: boolean;
   showStatusDistribution: boolean;
+  preferredLanguage: string;
 }
 
 export interface UpdatePreferencesData {
@@ -21,6 +22,7 @@ export interface UpdatePreferencesData {
   showAlertsPerMonth?: boolean;
   showInventoryValue?: boolean;
   showStatusDistribution?: boolean;
+  preferredLanguage?: string;
 }
 
 export function useUserPreferences() {

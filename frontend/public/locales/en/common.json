@@ -1,0 +1,320 @@
+{
+  "welcome": "Welcome to ShelfSpot",
+  "description": "Keep an eye on your business",
+  "language": "Language",
+  "changeLanguage": "Change language",
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "success": "Success",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "save": "Save",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "search": "Search",
+  "filter": "Filter",
+  "sort": "Sort",
+  "close": "Close",
+  "component": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "inventory": "Inventory",
+      "consumables": "Consumables",
+      "projects": "Projects",
+      "favourites": "Favourites",
+      "createItem": "+ Create New",
+      "createBulky": "Bulk create"
+    }
+  },
+  "page": {
+    "settings": {
+      "title": "Settings",
+      "description": "Manage your account and preferences",
+      "sections": {
+        "language": {
+          "title": "Language Preferences",
+          "description": "Choose your preferred language for the application"
+        },
+        "management": {
+          "title": "Management",
+          "description": "Manage inventory items and objects",
+          "content": "Access the management page to view and manage all your inventory objects.",
+          "button": "Go to Management"
+        },
+        "projects": {
+          "title": "Projects",
+          "description": "Manage your projects and track the importance of your items",
+          "recalculateScores": "Recalculate Scores",
+          "newProject": "New Project",
+          "tabs": {
+            "projects": "Projects",
+            "topItems": "Important Items",
+            "criticalItems": "Critical Items"
+          }
+        },
+        "users": {
+          "title": "Site Users",
+          "description": "Manage and view all registered users",
+          "loading": "Loading users...",
+          "adminBadge": "admin"
+        },
+        "personalInfo": {
+          "title": "Personal Information",
+          "description": "Update your username and email address",
+          "username": {
+            "label": "Username",
+            "placeholder": "Enter your username",
+            "button": "Update"
+          },
+          "email": {
+            "label": "Email",
+            "placeholder": "Enter your email",
+            "button": "Update"
+          }
+        },
+        "accountSecurity": {
+          "title": "Account & Security",
+          "description": "Manage your session and account security settings",
+          "changePassword": {
+            "title": "Change Password",
+            "newPassword": "New password",
+            "newPasswordPlaceholder": "Enter new password",
+            "confirmPassword": "Confirm new password",
+            "confirmPasswordPlaceholder": "Confirm new password",
+            "button": "Update Password"
+          },
+          "session": {
+            "title": "Current Session",
+            "loggedIn": "Logged in",
+            "activeSession": "Active session",
+            "thisDevice": "This device"
+          },
+          "signOut": {
+            "title": "Sign Out",
+            "description": "Signing out will end your current session. You'll need to sign in again to access your account.",
+            "button": "Sign out",
+            "cancel": "Cancel"
+          }
+        },
+        "features": {
+          "title": "Dashboard Features",
+          "description": "Customize which elements appear on your home screen",
+          "loading": "Loading preferences...",
+          "welcomeHeader": {
+            "title": "Welcome Header",
+            "description": "Show the welcome banner with search bar"
+          },
+          "statsCards": {
+            "title": "Statistics Cards",
+            "description": "Show quick stats (items, rooms, etc.)"
+          },
+          "recentItems": {
+            "title": "Recent Items",
+            "description": "Show recently added items panel"
+          },
+          "charts": {
+            "header": "Analytics Charts",
+            "description": "Choose which charts to display",
+            "roomDistribution": {
+              "title": "Room Distribution",
+              "description": "Pie chart showing items per room"
+            },
+            "alertsPerMonth": {
+              "title": "Alerts Per Month",
+              "description": "Bar chart showing monthly alerts"
+            },
+            "inventoryValue": {
+              "title": "Inventory Value",
+              "description": "Line chart showing inventory value over time"
+            },
+            "statusDistribution": {
+              "title": "Status Distribution",
+              "description": "Bar chart showing item status distribution"
+            }
+          }
+        }
+      },
+      "messages": {
+        "nameUpdated": "Name updated successfully",
+        "emailUpdated": "Email updated successfully",
+        "passwordUpdated": "Password updated successfully",
+        "passwordMismatch": "Passwords do not match.",
+        "errorUpdatingName": "Error updating name",
+        "errorUpdatingEmail": "Error updating email",
+        "errorUpdatingPassword": "Error updating password"
+      }
+    },
+    "dashboard": {
+      "welcomeBack": "Welcome back",
+      "findItems": "Find your items quickly and manage your inventory efficiently",
+      "searchPlaceholder": "Search for any item in your inventory...",
+      "searching": "Searching your inventory...",
+      "searchWontTakeLong": "This won't take long",
+      "noItemsFound": "No items found",
+      "tryDifferentSearch": "Try a different search term or check your spelling",
+      "itemsFound": "item(s) found",
+      "unknownRoom": "Unknown room",
+      "analytics": "Analytics",
+      "recentItems": "Recent Items",
+      "created": "Created",
+      "status": "Status",
+      "quantity": "Quantity",
+      "location": "Location",
+      "room": "Room",
+      "place": "Place",
+      "container": "Container",
+      "clickToViewDetails": "✨ Click to view details",
+      "noRecentItems": "No recent items",
+      "itemsWillAppearHere": "Items you add will appear here",
+      "stats": {
+        "totalItems": "Total Items",
+        "rooms": "Rooms",
+        "places": "Places",
+        "containers": "Containers",
+        "tags": "Tags",
+        "consumables": "Consumables"
+      },
+      "charts": {
+        "distributionByRoom": "Distribution by room",
+        "alertsPerMonth": "Alerts per month",
+        "inventoryValue": "Inventory value",
+        "statusDistribution": "Status distribution",
+        "alerts": "Alerts",
+        "itemsByStatus": "Items by status",
+        "valueEuro": "Value (€)",
+        "items": "items",
+        "noChartsEnabled": "No charts enabled",
+        "enableChartsMessage": "Enable charts in your preferences to see analytics",
+        "loadingRoomData": "Loading room data...",
+        "errorLoadingRooms": "Error loading rooms",
+        "noRoomsFound": "No rooms found",
+        "createFirstRoom": "Create your first room to see distribution",
+        "noItemsFound": "No items found",
+        "addItemsToSeeDistribution": "Add items to see room distribution",
+        "loadingAlertsData": "Loading alerts data...",
+        "errorLoadingAlerts": "Error loading alerts",
+        "noAlertsData": "No alerts data",
+        "noAlertsCreated": "No alerts have been created yet",
+        "totalAlertsLast12Months": "Total alerts in the last 12 months",
+        "calculatingInventoryValue": "Calculating inventory value...",
+        "basedOnItems": "Based on {{count}} items with selling prices",
+        "noInventoryValueData": "No inventory value data",
+        "addSellingPrices": "Add selling prices to items to see inventory value",
+        "loadingStatusData": "Loading status data...",
+        "errorLoadingStatusData": "Error loading status data",
+        "noStatusData": "No status data",
+        "addStatusToItems": "Add status information to items to see distribution",
+        "months": {
+          "jan": "Jan",
+          "feb": "Feb",
+          "mar": "Mar",
+          "apr": "Apr",
+          "may": "May"
+        }
+      }
+    },
+    "inventory": {
+      "title": "Inventory",
+      "description": "Browse and manage all items in your house",
+      "errorFetching": "Error fetching your items",
+      "confirmDeleteMultiple": "Delete {{count}} selected item(s)?",
+      "confirmDeleteMultipleFinal": "Are you really sure you want to permanently delete {{count}} item(s)? This action is irreversible.",
+      "errorDeletingMultiple": "Error deleting multiple items",
+      "errorUpdatingTags": "Error updating tags",
+      "errorSaving": "Error saving item",
+      "confirmDelete": "Delete this item?",
+      "errorDeleting": "Error deleting item",
+      "edit": "Edit",
+      "itemPage": "Item page",
+      "addToFavourites": "Add to favourites",
+      "removeFromFavourites": "Remove from favourites",
+      "deleteItem": "Delete item",
+      "selected": "{{count}} selected",
+      "deleteSelectedItems": "Delete selected items",
+      "exportSelectedItems": "Export selected items",
+      "exportAsCSV": "Export as CSV",
+      "exportAsJSON": "Export as JSON",
+      "manageTagsForSelected": "Manage tags for selected items",
+      "addTag": "Add Tag",
+      "removeTag": "Remove Tag",
+      "clearSelection": "Clear selection",
+      "searchPlaceholder": "Search an item...",
+      "loadingTags": "Loading tags...",
+      "noTags": "No tags",
+      "columns": {
+        "name": "Name",
+        "quantity": "Quantity",
+        "status": "Status",
+        "room": "Room",
+        "place": "Place",
+        "container": "Container",
+        "tags": "Tags",
+        "actions": "Actions"
+      }
+    },
+    "manage": {
+      "title": "Manage",
+      "description": "Manage your existing items and create tags. Use the \"Create\" button in the navigation to add new rooms, places, and containers.",
+      "confirmDeleteTag": "Are you sure you want to delete the tag \"{{tagName}}\"? This action is irreversible.",
+      "unknownRoom": "Unknown room",
+      "rooms": {
+        "title": "Rooms",
+        "description": "Manage existing rooms",
+        "noRooms": "No rooms found. Create one using the \"Create\" button in the navigation."
+      },
+      "places": {
+        "title": "Places",
+        "description": "Manage existing places within rooms",
+        "noPlaces": "No places found. Create one using the \"Create\" button in the navigation."
+      },
+      "containers": {
+        "title": "Containers",
+        "description": "Manage existing containers within places",
+        "containerName": "Container name",
+        "selectRoom": "Select a room",
+        "selectPlace": "Select a place",
+        "noContainers": "No containers found. Create one using the \"Create\" button in the navigation."
+      },
+      "tags": {
+        "title": "Tags",
+        "description": "Create and manage tags for items",
+        "tagName": "Tag name"
+      }
+    },
+    "manageItem": {
+      "missingParameter": "Missing parameter",
+      "noIdProvided": "No ID provided.",
+      "error": "Error",
+      "noObjectFound": "No object found.",
+      "subtitle": "Item details and management",
+      "itemInformation": "Item Information",
+      "quantity": "Quantity",
+      "status": "Status",
+      "room": "Room",
+      "place": "Place",
+      "container": "Container",
+      "tags": "Tags",
+      "noTags": "No tags",
+      "actions": "Actions"
+    },
+    "consumables": {
+      "title": "Consumables",
+      "description": "Manage your consumable items and track their usage",
+      "loading": "Loading consumables...",
+      "error": "An error occurred while loading consumables: {{error}}",
+      "empty": "No consumables found. Create your first consumable item to get started."
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Manage your projects and track the importance of your items",
+      "recalculateScores": "Recalculate Scores",
+      "newProject": "New Project",
+      "tabs": {
+        "projects": "Projects",
+        "topItems": "Important Items",
+        "criticalItems": "Critical Items"
+      }
+    }
+  }
+}

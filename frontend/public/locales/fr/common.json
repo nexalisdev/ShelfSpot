@@ -1,0 +1,320 @@
+{
+  "welcome": "Bienvenue sur ShelfSpot",
+  "description": "Gardez un œil sur votre entreprise",
+  "language": "Langue",
+  "changeLanguage": "Changer de langue",
+  "loading": "Chargement...",
+  "error": "Une erreur s'est produite",
+  "success": "Succès",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "save": "Enregistrer",
+  "delete": "Supprimer",
+  "edit": "Modifier",
+  "add": "Ajouter",
+  "search": "Rechercher",
+  "filter": "Filtrer",
+  "sort": "Trier",
+  "close": "Fermer",
+  "component": {
+    "sidebar": {
+      "dashboard": "Tableau de bord",
+      "inventory": "Inventaire",
+      "consumables": "Consommables",
+      "projects": "Projets",
+      "favourites": "Favoris",
+      "createItem": "+ Créer nouveau",
+      "createBulky": "Créer plusieurs"
+    }
+  },
+  "page": {
+    "settings": {
+      "title": "Paramètres",
+      "description": "Gérez votre compte et vos préférences",
+      "sections": {
+        "language": {
+          "title": "Préférences linguistiques",
+          "description": "Choisissez votre langue préférée pour l'application"
+        },
+        "management": {
+          "title": "Gestion",
+          "description": "Gérer les articles et objets d'inventaire",
+          "content": "Accédez à la page de gestion pour voir et gérer tous vos objets d'inventaire.",
+          "button": "Aller à la gestion"
+        },
+        "users": {
+          "title": "Utilisateurs du site",
+          "description": "Gérer et voir tous les utilisateurs enregistrés",
+          "loading": "Chargement des utilisateurs...",
+          "adminBadge": "admin"
+        },
+        "projects": {
+          "title": "Projets",
+          "description": "Gérez vos projets et suivez l'importance de vos articles",
+          "recalculateScores": "Recalculer les scores",
+          "newProject": "Nouveau projet",
+          "tabs": {
+            "projects": "Projets",
+            "topItems": "Articles importants",
+            "criticalItems": "Articles critiques"
+          }
+        },
+        "personalInfo": {
+          "title": "Informations personnelles",
+          "description": "Mettez à jour votre nom d'utilisateur et votre adresse e-mail",
+          "username": {
+            "label": "Nom d'utilisateur",
+            "placeholder": "Entrez votre nom d'utilisateur",
+            "button": "Mettre à jour"
+          },
+          "email": {
+            "label": "E-mail",
+            "placeholder": "Entrez votre e-mail",
+            "button": "Mettre à jour"
+          }
+        },
+        "accountSecurity": {
+          "title": "Compte et sécurité",
+          "description": "Gérez votre session et les paramètres de sécurité de votre compte",
+          "changePassword": {
+            "title": "Changer le mot de passe",
+            "newPassword": "Nouveau mot de passe",
+            "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+            "confirmPassword": "Confirmer le nouveau mot de passe",
+            "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+            "button": "Mettre à jour le mot de passe"
+          },
+          "session": {
+            "title": "Session actuelle",
+            "loggedIn": "Connecté",
+            "activeSession": "Session active",
+            "thisDevice": "Cet appareil"
+          },
+          "signOut": {
+            "title": "Déconnexion",
+            "description": "La déconnexion mettra fin à votre session actuelle. Vous devrez vous reconnecter pour accéder à votre compte.",
+            "button": "Se déconnecter",
+            "cancel": "Annuler"
+          }
+        },
+        "features": {
+          "title": "Fonctionnalités du tableau de bord",
+          "description": "Personnalisez les éléments qui apparaissent sur votre écran d'accueil",
+          "loading": "Chargement des préférences...",
+          "welcomeHeader": {
+            "title": "En-tête de bienvenue",
+            "description": "Afficher la bannière de bienvenue avec barre de recherche"
+          },
+          "statsCards": {
+            "title": "Cartes de statistiques",
+            "description": "Afficher les statistiques rapides (articles, pièces, etc.)"
+          },
+          "recentItems": {
+            "title": "Articles récents",
+            "description": "Afficher le panneau des articles récemment ajoutés"
+          },
+          "charts": {
+            "header": "Graphiques analytiques",
+            "description": "Choisissez les graphiques à afficher",
+            "roomDistribution": {
+              "title": "Distribution par pièce",
+              "description": "Graphique circulaire montrant les articles par pièce"
+            },
+            "alertsPerMonth": {
+              "title": "Alertes par mois",
+              "description": "Graphique à barres montrant les alertes mensuelles"
+            },
+            "inventoryValue": {
+              "title": "Valeur de l'inventaire",
+              "description": "Graphique linéaire montrant la valeur de l'inventaire au fil du temps"
+            },
+            "statusDistribution": {
+              "title": "Distribution par statut",
+              "description": "Graphique à barres montrant la distribution des statuts d'articles"
+            }
+          }
+        }
+      },
+      "messages": {
+        "nameUpdated": "Nom mis à jour avec succès",
+        "emailUpdated": "E-mail mis à jour avec succès",
+        "passwordUpdated": "Mot de passe mis à jour avec succès",
+        "passwordMismatch": "Les mots de passe ne correspondent pas.",
+        "errorUpdatingName": "Erreur lors de la mise à jour du nom",
+        "errorUpdatingEmail": "Erreur lors de la mise à jour de l'e-mail",
+        "errorUpdatingPassword": "Erreur lors de la mise à jour du mot de passe"
+      }
+    },
+    "dashboard": {
+      "welcomeBack": "Bienvenue",
+      "findItems": "Trouvez vos articles rapidement et gérez votre inventaire efficacement",
+      "searchPlaceholder": "Rechercher un article dans votre inventaire...",
+      "searching": "Recherche dans votre inventaire...",
+      "searchWontTakeLong": "Cela ne prendra pas longtemps",
+      "noItemsFound": "Aucun article trouvé",
+      "tryDifferentSearch": "Essayez un autre terme de recherche ou vérifiez l'orthographe",
+      "itemsFound": "article(s) trouvé(s)",
+      "unknownRoom": "Pièce inconnue",
+      "analytics": "Analytiques",
+      "recentItems": "Articles récents",
+      "created": "Créé",
+      "status": "Statut",
+      "quantity": "Quantité",
+      "location": "Emplacement",
+      "room": "Pièce",
+      "place": "Lieu",
+      "container": "Conteneur",
+      "clickToViewDetails": "✨ Cliquez pour voir les détails",
+      "noRecentItems": "Aucun article récent",
+      "itemsWillAppearHere": "Les articles que vous ajoutez apparaîtront ici",
+      "stats": {
+        "totalItems": "Articles totaux",
+        "rooms": "Pièces",
+        "places": "Lieux",
+        "containers": "Conteneurs",
+        "tags": "Étiquettes",
+        "consumables": "Consommables"
+      },
+      "charts": {
+        "distributionByRoom": "Distribution par pièce",
+        "alertsPerMonth": "Alertes par mois",
+        "inventoryValue": "Valeur de l'inventaire",
+        "statusDistribution": "Distribution par statut",
+        "alerts": "Alertes",
+        "itemsByStatus": "Articles par statut",
+        "valueEuro": "Valeur (€)",
+        "items": "articles",
+        "noChartsEnabled": "Aucun graphique activé",
+        "enableChartsMessage": "Activez les graphiques dans vos préférences pour voir les analyses",
+        "loadingRoomData": "Chargement des données des pièces...",
+        "errorLoadingRooms": "Erreur lors du chargement des pièces",
+        "noRoomsFound": "Aucune pièce trouvée",
+        "createFirstRoom": "Créez votre première pièce pour voir la distribution",
+        "noItemsFound": "Aucun article trouvé",
+        "addItemsToSeeDistribution": "Ajoutez des articles pour voir la distribution par pièce",
+        "loadingAlertsData": "Chargement des données d'alertes...",
+        "errorLoadingAlerts": "Erreur lors du chargement des alertes",
+        "noAlertsData": "Aucune donnée d'alerte",
+        "noAlertsCreated": "Aucune alerte n'a encore été créée",
+        "totalAlertsLast12Months": "Total des alertes des 12 derniers mois",
+        "calculatingInventoryValue": "Calcul de la valeur de l'inventaire...",
+        "basedOnItems": "Basé sur {{count}} articles avec prix de vente",
+        "noInventoryValueData": "Aucune donnée de valeur d'inventaire",
+        "addSellingPrices": "Ajoutez des prix de vente aux articles pour voir la valeur de l'inventaire",
+        "loadingStatusData": "Chargement des données de statut...",
+        "errorLoadingStatusData": "Erreur lors du chargement des données de statut",
+        "noStatusData": "Aucune donnée de statut",
+        "addStatusToItems": "Ajoutez des informations de statut aux articles pour voir la distribution",
+        "months": {
+          "jan": "Jan",
+          "feb": "Fév",
+          "mar": "Mar",
+          "apr": "Avr",
+          "may": "Mai"
+        }
+      }
+    },
+    "inventory": {
+      "title": "Inventaire",
+      "description": "Parcourez et gérez tous les articles de votre maison",
+      "errorFetching": "Erreur lors de la récupération de vos articles",
+      "confirmDeleteMultiple": "Supprimer {{count}} objet(s) sélectionné(s) ?",
+      "confirmDeleteMultipleFinal": "Êtes-vous vraiment sûr de vouloir supprimer définitivement {{count}} objet(s) ? Cette action est irréversible.",
+      "errorDeletingMultiple": "Erreur lors de la suppression multiple",
+      "errorUpdatingTags": "Erreur lors de la mise à jour des tags",
+      "errorSaving": "Erreur lors de la sauvegarde de l'objet",
+      "confirmDelete": "Supprimer cet objet ?",
+      "errorDeleting": "Erreur lors de la suppression",
+      "edit": "Modifier",
+      "itemPage": "Page de l'objet",
+      "addToFavourites": "Ajouter aux favoris",
+      "removeFromFavourites": "Retirer des favoris",
+      "deleteItem": "Supprimer l'objet",
+      "selected": "{{count}} sélectionné(s)",
+      "deleteSelectedItems": "Supprimer les éléments sélectionnés",
+      "exportSelectedItems": "Exporter les éléments sélectionnés",
+      "exportAsCSV": "Exporter en CSV",
+      "exportAsJSON": "Exporter en JSON",
+      "manageTagsForSelected": "Gérer les tags des éléments sélectionnés",
+      "addTag": "Ajouter un tag",
+      "removeTag": "Retirer un tag",
+      "clearSelection": "Effacer la sélection",
+      "searchPlaceholder": "Rechercher un article...",
+      "loadingTags": "Chargement des tags...",
+      "noTags": "Aucun tag",
+      "columns": {
+        "name": "Nom",
+        "quantity": "Quantité",
+        "status": "Statut",
+        "room": "Pièce",
+        "place": "Emplacement",
+        "container": "Contenant",
+        "tags": "Tags",
+        "actions": "Actions"
+      }
+    },
+    "manage": {
+      "title": "Gérer",
+      "description": "Gérez vos articles existants et créez des tags. Utilisez le bouton \"Créer\" dans la navigation pour ajouter de nouvelles pièces, emplacements et conteneurs.",
+      "confirmDeleteTag": "Êtes-vous sûr de vouloir supprimer le tag \"{{tagName}}\" ? Cette action est irréversible.",
+      "unknownRoom": "Pièce inconnue",
+      "rooms": {
+        "title": "Pièces",
+        "description": "Gérer les pièces existantes",
+        "noRooms": "Aucune pièce trouvée. Créez-en une en utilisant le bouton \"Créer\" dans la navigation."
+      },
+      "places": {
+        "title": "Emplacements",
+        "description": "Gérer les emplacements existants dans les pièces",
+        "noPlaces": "Aucun emplacement trouvé. Créez-en un en utilisant le bouton \"Créer\" dans la navigation."
+      },
+      "containers": {
+        "title": "Conteneurs",
+        "description": "Gérer les conteneurs existants dans les emplacements",
+        "containerName": "Nom du conteneur",
+        "selectRoom": "Sélectionner une pièce",
+        "selectPlace": "Sélectionner un emplacement",
+        "noContainers": "Aucun conteneur trouvé. Créez-en un en utilisant le bouton \"Créer\" dans la navigation."
+      },
+      "tags": {
+        "title": "Tags",
+        "description": "Créer et gérer les tags des articles",
+        "tagName": "Nom du tag"
+      }
+    },
+    "manageItem": {
+      "missingParameter": "Paramètre manquant",
+      "noIdProvided": "Aucun ID fourni.",
+      "error": "Erreur",
+      "noObjectFound": "Aucun objet trouvé.",
+      "subtitle": "Détails et gestion de l'article",
+      "itemInformation": "Informations sur l'article",
+      "quantity": "Quantité",
+      "status": "Statut",
+      "room": "Pièce",
+      "place": "Emplacement",
+      "container": "Conteneur",
+      "tags": "Tags",
+      "noTags": "Aucun tag",
+      "actions": "Actions"
+    },
+    "consommables": {
+      "title": "Consommables",
+      "description": "Gérez vos consommables et suivez leur utilisation",
+      "loading": "Chargement des consommables...",
+      "error": "Une erreur est survenue lors du chargement des consommables : {{error}}",
+      "empty": "Aucun consommable trouvé. Créez votre premier consommable pour commencer."
+    },
+    "projects": {
+      "title": "Projets",
+      "description": "Gérez vos projets et suivez l'importance de vos articles",
+      "recalculateScores": "Recalculer les scores",
+      "newProject": "Nouveau projet",
+      "tabs": {
+        "projects": "Projets",
+        "topItems": "Articles importants",
+        "criticalItems": "Articles critiques"
+      }
+    }
+  }
+}

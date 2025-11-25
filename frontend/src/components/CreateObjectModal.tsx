@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Archive, DoorOpen, Lamp, SquareLibrary, FolderOpen } from "lucide-react";
+import { Archive, DoorOpen, Lamp, SquareLibrary, FolderOpen, Tag } from "lucide-react";
 import { backendApi } from "@/lib/backend-api";
 
 interface CreateObjectModalProps {
@@ -18,6 +18,7 @@ const objectTypes = [
     { key: "container", label: "Container", icon: <Archive className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
     { key: "item", label: "Item", icon: <Lamp className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
     { key: "project", label: "Project", icon: <FolderOpen className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
+    { key: "tag", label: "Tag", icon: <Tag className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
 ];
 
 export default function CreateObjectModal({ open, onClose }: CreateObjectModalProps) {
@@ -155,6 +156,9 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                         endDate?: string;
                     });
                     break;
+                case "tag":
+                    await backendApi.createTag(payload);
+                    break;
                 default:
                     throw new Error(`Unknown type: ${selectedType}`);
             }
@@ -235,6 +239,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                     {selectedType === "container" && "How should this container be called?"}
                                     {selectedType === "item" && "How should this item be called?"}
                                     {selectedType === "project" && "How should this project be called?"}
+                                    {selectedType === "tag" && "How should this tag be called?"}
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-300">
                                     Fill in the details below to create your {selectedType}
@@ -591,6 +596,22 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                             </label>
                                         </div>
                                     </>
+                                )}
+
+                                {/* TAG */}
+                                {selectedType === "tag" && (
+                                    <div className="col-span-full">
+                                        <label className="block">
+                                            <span className="block mb-3 text-lg font-semibold text-gray-900 dark:text-white">Enter the name of the tag</span>
+                                            <input
+                                                name="name"
+                                                className="w-full px-4 py-4 border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white text-lg placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 shadow-md"
+                                                onChange={handleChange}
+                                                required
+                                                placeholder="e.g., Electronics, Books, Tools..."
+                                            />
+                                        </label>
+                                    </div>
                                 )}
                             </div>
 

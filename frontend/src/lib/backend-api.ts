@@ -23,6 +23,9 @@ class BackendApiError extends Error {
 }
 
 class BackendApiService {
+  private isRefreshing = false;
+  private refreshPromise: Promise<any> | null = null;
+
   private getAuthHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -39,9 +42,37 @@ class BackendApiService {
     return headers;
   }
 
+  private async refreshAccessToken(): Promise<void> {
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (!refreshToken) {
+      throw new Error("No refresh token available");
+    }
+
+    const response = await fetch(`${BACKEND_URL}/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!response.ok) {
+      // Refresh token invalid, clear everything
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      document.cookie =
+        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      throw new Error("Refresh token expired");
+    }
+
+    const data = await response.json();
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("refresh_token", data.refresh_token);
+    document.cookie = `access_token=${data.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`;
+  }
+
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    isRetry = false
   ): Promise<T> {
     const url = `${BACKEND_URL}${endpoint}`;
     const headers = this.getAuthHeaders();
@@ -55,6 +86,36 @@ class BackendApiService {
     });
 
     if (!response.ok) {
+      // Handle 401 with automatic token refresh
+      if (response.status === 401 && !isRetry && endpoint !== "/auth/refresh") {
+        console.log("[BackendAPI] Received 401 on endpoint:", endpoint);
+        try {
+          // If already refreshing, wait for it
+          if (this.isRefreshing && this.refreshPromise) {
+            console.log("[BackendAPI] Waiting for ongoing refresh...");
+            await this.refreshPromise;
+          } else {
+            // Start refresh
+            console.log("[BackendAPI] Starting new token refresh...");
+            this.isRefreshing = true;
+            this.refreshPromise = this.refreshAccessToken();
+            await this.refreshPromise;
+            this.isRefreshing = false;
+            this.refreshPromise = null;
+          }
+
+          // Retry the original request with new token
+          console.log("[BackendAPI] Retrying original request to:", endpoint);
+          return this.request<T>(endpoint, options, true);
+        } catch (error) {
+          console.error("[BackendAPI] Token refresh failed:", error);
+          this.isRefreshing = false;
+          this.refreshPromise = null;
+          // Redirect to login will be handled by the auth context
+          throw new BackendApiError(401, "Session expired");
+        }
+      }
+
       let errorMessage = `HTTP ${response.status}`;
       try {
         const errorData = await response.json();
@@ -75,14 +136,22 @@ class BackendApiService {
 
   // Auth methods
   async login(email: string, password: string) {
-    return this.request<{ access_token: string; user: any }>("/auth/login", {
+    return this.request<{
+      access_token: string;
+      refresh_token: string;
+      user: any;
+    }>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
   }
 
   async register(email: string, password: string, name?: string) {
-    return this.request<{ access_token: string; user: any }>("/auth/register", {
+    return this.request<{
+      access_token: string;
+      refresh_token: string;
+      user: any;
+    }>("/auth/register", {
       method: "POST",
       body: JSON.stringify({ email, password, name }),
     });
@@ -488,6 +557,7 @@ class BackendApiService {
       showAlertsPerMonth: boolean;
       showInventoryValue: boolean;
       showStatusDistribution: boolean;
+      preferredLanguage: string;
     }>("/preferences");
   }
 
@@ -499,6 +569,7 @@ class BackendApiService {
     showAlertsPerMonth?: boolean;
     showInventoryValue?: boolean;
     showStatusDistribution?: boolean;
+    preferredLanguage?: string;
   }) {
     return this.request<{
       id: number;
@@ -510,6 +581,7 @@ class BackendApiService {
       showAlertsPerMonth: boolean;
       showInventoryValue: boolean;
       showStatusDistribution: boolean;
+      preferredLanguage: string;
     }>("/preferences", {
       method: "PUT",
       body: JSON.stringify(preferences),

@@ -9,6 +9,7 @@ import { useFloating, FloatingPortal, offset, flip, shift } from '@floating-ui/r
 import { Item, Tag } from "@/app/types";
 import TablePagination from "@/components/TablePagination";
 import { backendApi } from "@/lib/backend-api";
+import { useTranslation } from "react-i18next";
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
 
@@ -41,6 +42,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
     "tags",
     "actions",
 ], }: ItemsTableProps) {
+    const { t } = useTranslation();
     const [items, setItems] = useState<Item[]>(itemsProp || []);
     const [loading, setLoading] = useState(!itemsProp);
     const [error, setError] = useState<string | null>(null);
@@ -91,7 +93,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                 const data = await backendApi.getItems();
                 setItems(data);
             } catch {
-                setError("Error fetching your items");
+                setError(t('page.inventory.errorFetching'));
             } finally {
                 setLoading(false);
             }
@@ -115,14 +117,14 @@ function ItemsTable({ search, items: itemsProp, columns = [
     // Handler to delete multiple items
     const handleDeleteSelected = async () => {
         if (selectedIds.length === 0) return;
-        if (!window.confirm(`Supprimer ${selectedIds.length} objet(s) sélectionné(s) ?`)) return;
-        if (!window.confirm(`Êtes-vous vraiment sûr de vouloir supprimer définitivement ${selectedIds.length} objet(s) ? Cette action est irréversible.`)) return;
+        if (!window.confirm(t('page.inventory.confirmDeleteMultiple', { count: selectedIds.length }))) return;
+        if (!window.confirm(t('page.inventory.confirmDeleteMultipleFinal', { count: selectedIds.length }))) return;
         try {
             await Promise.all(selectedIds.map(id => backendApi.deleteItem(id)));
             setItems((prev) => prev.filter((item) => !selectedIds.includes(item.id)));
             setSelectedIds([]);
         } catch {
-            alert("Erreur lors de la suppression multiple");
+            alert(t('page.inventory.errorDeletingMultiple'));
         }
     };
 
@@ -210,7 +212,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
             );
         } catch (error) {
             console.error("Error updating tags:", error);
-            alert("Erreur lors de la mise à jour des tags");
+            alert(t('page.inventory.errorUpdatingTags'));
         }
     };
 
@@ -233,7 +235,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [selectedIds, editId, paginatedItems]);
 
-    if (loading) return <div>Chargement...</div>;
+    if (loading) return <div>{t('loading')}</div>;
     if (error) return <div>{error}</div>;
 
     const handleEdit = (item: Item) => {
@@ -282,7 +284,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
             setEditValues({});
         } catch (error) {
             console.error("Error saving item:", error);
-            alert("Erreur lors de la sauvegarde de l'objet");
+            alert(t('page.inventory.errorSaving'));
         }
     };
 
@@ -293,12 +295,12 @@ function ItemsTable({ search, items: itemsProp, columns = [
 
     // Handler to delete a single item
     const handleDelete = async (id: number) => {
-        if (!window.confirm("Supprimer cet objet ?")) return;
+        if (!window.confirm(t('page.inventory.confirmDelete'))) return;
         try {
             await backendApi.deleteItem(id);
             setItems((prev) => prev.filter((item: Item) => item.id !== id));
         } catch {
-            alert("Erreur lors de la suppression");
+            alert(t('page.inventory.errorDeleting'));
         }
     };
 
@@ -334,7 +336,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                 className={`w-full text-left px-4 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                                                 onClick={() => handleEdit(item)}
                                             >
-                                                Modifier
+                                                {t('page.inventory.edit')}
                                             </button>
                                         )}
                                     </Menu.Item>
@@ -348,7 +350,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                     }
                                                 }}
                                             >
-                                                Page de l&apos;objet
+                                                {t('page.inventory.itemPage')}
                                             </button>
                                         )}
                                     </Menu.Item>
@@ -368,7 +370,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                         }
                                                     }}
                                                 >
-                                                    {isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                                                    {isFav ? t('page.inventory.removeFromFavourites') : t('page.inventory.addToFavourites')}
                                                 </button>
                                             );
                                         }}
@@ -379,7 +381,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                 className={`w-full text-left px-4 py-2 text-sm rounded text-red-600 ${active ? 'bg-red-100 dark:bg-red-900' : ''}`}
                                                 onClick={() => handleDelete(item.id)}
                                             >
-                                                Supprimer l&apos;objet
+                                                {t('page.inventory.deleteItem')}
                                             </button>
                                         )}
                                     </Menu.Item>
@@ -401,7 +403,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 border border-blue-300 dark:border-blue-700 rounded-sm">
                             <CheckSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                             <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-                                {selectedIds.length} selected
+                                {t('page.inventory.selected', { count: selectedIds.length })}
                             </span>
                         </div>
 
@@ -413,7 +415,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 variant="ghost"
                                 className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900"
                                 onClick={handleDeleteSelected}
-                                title="Delete selected items"
+                                title={t('page.inventory.deleteSelectedItems')}
                             >
                                 <Trash2 className="w-4 h-4" />
                             </Button>
@@ -425,7 +427,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     size="sm"
                                     variant="ghost"
                                     className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                    title="Export selected items"
+                                    title={t('page.inventory.exportSelectedItems')}
                                 >
                                     <Download className="w-4 h-4" />
                                 </Menu.Button>
@@ -436,7 +438,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                 className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                                                 onClick={handleExportCSV}
                                             >
-                                                Export as CSV
+                                                {t('page.inventory.exportAsCSV')}
                                             </button>
                                         )}
                                     </Menu.Item>
@@ -446,7 +448,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                 className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                                                 onClick={handleExportJSON}
                                             >
-                                                Export as JSON
+                                                {t('page.inventory.exportAsJSON')}
                                             </button>
                                         )}
                                     </Menu.Item>
@@ -461,13 +463,13 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                         size="sm"
                                         variant="ghost"
                                         className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                        title="Manage tags for selected items"
+                                        title={t('page.inventory.manageTagsForSelected')}
                                     >
                                         <Tags className="w-4 h-4" />
                                     </Menu.Button>
                                     <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
                                         <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
-                                            Add Tag
+                                            {t('page.inventory.addTag')}
                                         </div>
                                         {allTags.map((tag: Tag) => (
                                             <Menu.Item key={`add-${tag.id}`}>
@@ -484,7 +486,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                         ))}
                                         <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
                                         <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
-                                            Remove Tag
+                                            {t('page.inventory.removeTag')}
                                         </div>
                                         {allTags.map((tag: Tag) => (
                                             <Menu.Item key={`remove-${tag.id}`}>
@@ -509,7 +511,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 variant="ghost"
                                 className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                                 onClick={handleClearSelection}
-                                title="Clear selection"
+                                title={t('page.inventory.clearSelection')}
                             >
                                 <X className="w-4 h-4" />
                             </Button>
@@ -520,7 +522,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                 {/* Search Input */}
                 <input
                     type="text"
-                    placeholder="Search an item..."
+                    placeholder={t('page.inventory.searchPlaceholder')}
                     className="theme-input rounded px-2 py-1 ml-auto w-56"
                     value={searchInput}
                     onChange={e => {
@@ -540,28 +542,28 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 </button>
                             </TableHead>
                             {columns.includes("name") && (
-                                <TableHead>Nom</TableHead>
+                                <TableHead>{t('page.inventory.columns.name')}</TableHead>
                             )}
                             {columns.includes("quantity") && (
-                                <TableHead>Quantité</TableHead>
+                                <TableHead>{t('page.inventory.columns.quantity')}</TableHead>
                             )}
                             {columns.includes("status") && (
-                                <TableHead>Statut</TableHead>
+                                <TableHead>{t('page.inventory.columns.status')}</TableHead>
                             )}
                             {columns.includes("room") && (
-                                <TableHead>Pièce</TableHead>
+                                <TableHead>{t('page.inventory.columns.room')}</TableHead>
                             )}
                             {columns.includes("place") && (
-                                <TableHead>Emplacement</TableHead>
+                                <TableHead>{t('page.inventory.columns.place')}</TableHead>
                             )}
                             {columns.includes("container") && (
-                                <TableHead>Contenant</TableHead>
+                                <TableHead>{t('page.inventory.columns.container')}</TableHead>
                             )}
                             {columns.includes("tags") && (
-                                <TableHead>Tags</TableHead>
+                                <TableHead>{t('page.inventory.columns.tags')}</TableHead>
                             )}
                             {columns.includes("actions") && (
-                                <TableHead>Actions</TableHead>
+                                <TableHead>{t('page.inventory.columns.actions')}</TableHead>
                             )}
                         </TableRow>
                     </TableHeader>
@@ -634,7 +636,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                         {columns.includes("tags") && (
                                             <TableCell>
                                                 {tagsLoading ? (
-                                                    <span>Chargement des tags…</span>
+                                                    <span>{t('page.inventory.loadingTags')}</span>
                                                 ) : (
                                                     <div className="flex flex-wrap gap-1">
                                                         {Array.isArray(allTags) && allTags.map((tag: Tag) => {
@@ -668,10 +670,10 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                             <TableCell>
                                                 <div className="flex gap-1">
                                                     <Button size="sm" variant="secondary" onClick={handleSave}>
-                                                        Enregistrer
+                                                        {t('save')}
                                                     </Button>
                                                     <Button size="sm" variant="ghost" onClick={handleCancel}>
-                                                        Annuler
+                                                        {t('cancel')}
                                                     </Button>
                                                 </div>
                                             </TableCell>
@@ -700,7 +702,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                         );
                                                     })
                                                 ) : (
-                                                    <span className="theme-muted text-xs">Aucun tag</span>
+                                                    <span className="theme-muted text-xs">{t('page.inventory.noTags')}</span>
                                                 )}
                                             </div>
                                         </TableCell>}

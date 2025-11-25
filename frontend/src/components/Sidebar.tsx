@@ -2,29 +2,35 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, Box, Star, Settings, Package, Warehouse, FolderOpen } from "lucide-react";
-import { useState } from "react";
+import { Home, Star, Settings, Package, Warehouse, FolderOpen } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import UserChip from "@/components/ui/UserChip";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import CreateObjectModal from "@/components/CreateObjectModal";
 import CreateMultipleItemsModal from "@/components/CreateMultipleItemsModal";
-
-const navLinks = [
-    { href: "/dashboard", label: "Dashboard", icon: Home },
-    { href: "/inventory", label: "Inventory", icon: Warehouse },
-    { href: "/consumables", label: "Consumables", icon: Package },
-    { href: "/projects", label: "Projects", icon: FolderOpen },
-    { href: "/favourites", label: "Favorites", icon: Star },
-    { href: "/manage", label: "Manage", icon: Box },
-];
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
+    const { t } = useTranslation();
+    const [isMounted, setIsMounted] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
     const [showCreate, setShowCreate] = useState(false);
     const [showBulkCreate, setShowBulkCreate] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    const navLinks = [
+        { href: "/dashboard", label: isMounted ? t("component.sidebar.dashboard") : "Dashboard", icon: Home },
+        { href: "/inventory", label: isMounted ? t("component.sidebar.inventory") : "Inventory", icon: Warehouse },
+        { href: "/consumables", label: isMounted ? t("component.sidebar.consumables") : "Consumables", icon: Package },
+        { href: "/projects", label: isMounted ? t("component.sidebar.projects") : "Projects", icon: FolderOpen },
+        { href: "/favourites", label: isMounted ? t("component.sidebar.favourites") : "Favourites", icon: Star },
+    ];
 
     return (
         <>
@@ -64,14 +70,14 @@ export default function Sidebar() {
                         className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                         onClick={() => setShowCreate(true)}
                     >
-                        + Create New
+                        {t("component.sidebar.createItem")}
                     </button>
                     <button
                         type="button"
                         className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-sm border border-gray-200/60 dark:border-gray-700/60 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200"
                         onClick={() => setShowBulkCreate(true)}
                     >
-                        Create multiples
+                        {t("component.sidebar.createBulky")}
                     </button>
                 </div>
 

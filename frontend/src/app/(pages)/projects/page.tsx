@@ -7,6 +7,7 @@ import { backendApi } from '@/lib/backend-api';
 import CreateProjectModal from '../../../components/CreateProjectModal';
 import ProjectDetailsModal from '../../../components/ProjectDetailsModal';
 import EditProjectModal from '../../../components/EditProjectModal';
+import { useTranslation } from 'react-i18next';
 
 // Component to display project status
 const ProjectStatus = ({ status }: { status: Project['status'] }) => {
@@ -45,6 +46,7 @@ export default function ProjectsPage() {
     const { statistics, refetch: refetchStats } = useGetScoringStatistics();
     const { topItems, loading: topItemsLoading, refetch: refetchTopItems } = useGetTopItems();
     const { criticalItems, loading: criticalLoading, refetch: refetchCritical } = useGetCriticalItems();
+    const { t } = useTranslation();
 
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
