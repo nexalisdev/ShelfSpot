@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // API service to communicate with the NestJS backend
 
-const BACKEND_URL =
+// Normalize BACKEND_URL: remove trailing slash if present so joining with
+// endpoints that start with '/' doesn't produce '//' in the final URL.
+const rawBackendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+const BACKEND_URL = rawBackendUrl.replace(/\/+$/, "");
 
 interface ApiResponse<T = any> {
   success: boolean;
@@ -74,7 +77,11 @@ class BackendApiService {
     options: RequestInit = {},
     isRetry = false
   ): Promise<T> {
-    const url = `${BACKEND_URL}${endpoint}`;
+    // Ensure endpoint starts with a single slash
+    const normalizedEndpoint = endpoint.startsWith("/")
+      ? endpoint
+      : `/${endpoint}`;
+    const url = `${BACKEND_URL}${normalizedEndpoint}`;
     const headers = this.getAuthHeaders();
 
     const response = await fetch(url, {

@@ -125,9 +125,9 @@ export default function ProjectsPage() {
             {/* Page Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Projects</h1>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('page.settings.sections.projects.title')}</h1>
                     <p className="text-gray-600 dark:text-gray-400 mt-1">
-                        Manage your projects and track the importance of your items
+                        {t('page.settings.sections.projects.description')}
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -136,14 +136,14 @@ export default function ProjectsPage() {
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                         <Activity className="w-4 h-4" />
-                        Recalculate Scores
+                        {t('page.settings.sections.projects.recalculateScores')}
                     </button>
                     <button
                         onClick={() => setShowCreateModal(true)}
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-sm"
                     >
                         <Plus className="w-4 h-4" />
-                        New Project
+                        {t('page.settings.sections.projects.newProject')}
                     </button>
                 </div>
             </div>
@@ -154,7 +154,7 @@ export default function ProjectsPage() {
                     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Items</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page.dashboard.stats.totalItems')}</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics.totalItems}</p>
                             </div>
                             <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-md">
@@ -166,7 +166,7 @@ export default function ProjectsPage() {
                     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">With Score</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page.projects.withScore')}</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics.itemsWithScore}</p>
                             </div>
                             <div className="p-3 bg-green-100 dark:bg-green-900 rounded-md">
@@ -178,7 +178,7 @@ export default function ProjectsPage() {
                     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Average Score</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page.projects.averageScore')}</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{statistics.averageScore}</p>
                             </div>
                             <div className="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-md">
@@ -190,7 +190,7 @@ export default function ProjectsPage() {
                     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Critical Items</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page.projects.criticalItemsStat')}</p>
                                 <p className="text-2xl font-bold text-red-600 dark:text-red-400">{statistics.distribution.critical}</p>
                             </div>
                             <div className="p-3 bg-red-100 dark:bg-red-900 rounded-md">
@@ -205,9 +205,9 @@ export default function ProjectsPage() {
             <div className="border-b border-gray-200 dark:border-gray-700">
                 <nav className="-mb-px flex space-x-8">
                     {[
-                        { key: 'projects', label: 'Projects', count: projects.length },
-                        { key: 'top-items', label: 'Important Items', count: topItems.length },
-                        { key: 'critical-items', label: 'Critical Items', count: criticalItems.length },
+                        { key: 'projects', label: t('page.settings.sections.projects.tabs.projects'), count: projects.length },
+                        { key: 'top-items', label: t('page.settings.sections.projects.tabs.topItems'), count: topItems.length },
+                        { key: 'critical-items', label: t('page.settings.sections.projects.tabs.criticalItems'), count: criticalItems.length },
                     ].map((tab) => (
                         <button
                             key={tab.key}
@@ -236,7 +236,7 @@ export default function ProjectsPage() {
                     <div className="p-6">
                         {projectsLoading && (
                             <div className="flex items-center justify-center h-32">
-                                <div className="text-gray-600 dark:text-gray-400">Loading projects...</div>
+                                <div className="text-gray-600 dark:text-gray-400">{t('loading')}</div>
                             </div>
                         )}
 
@@ -247,8 +247,8 @@ export default function ProjectsPage() {
                         {!projectsLoading && !projectsError && projects.length === 0 && (
                             <div className="text-center py-12">
                                 <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                                <p className="text-gray-600 dark:text-gray-400 text-lg">No projects found</p>
-                                <p className="text-gray-500 dark:text-gray-500">Create your first project to get started</p>
+                                <p className="text-gray-600 dark:text-gray-400 text-lg">{t('page.projects.noProjects')}</p>
+                                <p className="text-gray-500 dark:text-gray-500">{t('page.projects.createFirstProject')}</p>
                             </div>
                         )}
 
@@ -301,18 +301,18 @@ export default function ProjectsPage() {
                                                 <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
                                                     <div>
                                                         {project.startDate && (
-                                                            <div>Start: {formatDate(project.startDate)}</div>
+                                                            <div>{t('page.settings.sections.projects.startLabel', 'Start')}: {formatDate(project.startDate)}</div>
                                                         )}
                                                         {project.endDate && (
-                                                            <div>End: {formatDate(project.endDate)}</div>
+                                                            <div>{t('page.settings.sections.projects.endLabel', 'End')}: {formatDate(project.endDate)}</div>
                                                         )}
                                                         {!project.startDate && !project.endDate && (
-                                                            <span className="text-gray-500 dark:text-gray-400">Not defined</span>
+                                                            <span className="text-gray-500 dark:text-gray-400">{t('page.settings.sections.projects.notDefined')}</span>
                                                         )}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                                                    {project.projectItems?.length || 0} items
+                                                    {project.projectItems?.length || 0} {t('page.settings.sections.projects.itemsLabel')}
                                                 </td>
                                                 <td className="px-6 py-4 text-right text-sm font-medium">
                                                     <div className="flex items-center justify-end gap-2">
@@ -356,14 +356,14 @@ export default function ProjectsPage() {
                     <div className="p-6">
                         {topItemsLoading && (
                             <div className="flex items-center justify-center h-32">
-                                <div className="text-gray-600 dark:text-gray-400">Loading items...</div>
+                                <div className="text-gray-600 dark:text-gray-400">{t('loading')}</div>
                             </div>
                         )}
 
                         {!topItemsLoading && topItems.length === 0 && (
                             <div className="text-center py-12">
                                 <TrendingUp className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                                <p className="text-gray-600 dark:text-gray-400">No items with scores found</p>
+                                <p className="text-gray-600 dark:text-gray-400">{t('page.settings.sections.projects.noItemsWithScores')}</p>
                             </div>
                         )}
 
@@ -373,16 +373,16 @@ export default function ProjectsPage() {
                                     <thead className="bg-gray-50 dark:bg-gray-900">
                                         <tr>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                Item
+                                                {t('page.projects.tabs.topItems.item')}
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                Importance Score
+                                                {t('page.projects.tabs.topItems.importanceScore')}
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                Stock
+                                                {t('page.projects.tabs.topItems.stock')}
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                Location
+                                                {t('page.projects.tabs.topItems.location')}
                                             </th>
                                         </tr>
                                     </thead>
@@ -421,15 +421,15 @@ export default function ProjectsPage() {
                     <div className="p-6">
                         {criticalLoading && (
                             <div className="flex items-center justify-center h-32">
-                                <div className="text-gray-600 dark:text-gray-400">Loading critical items...</div>
+                                <div className="text-gray-600 dark:text-gray-400">{t('loading')}</div>
                             </div>
                         )}
 
                         {!criticalLoading && criticalItems.length === 0 && (
                             <div className="text-center py-12">
                                 <AlertTriangle className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                                <p className="text-gray-600 dark:text-gray-400">No critical items detected</p>
-                                <p className="text-gray-500 dark:text-gray-500 text-sm">All your important items have sufficient stock</p>
+                                <p className="text-gray-600 dark:text-gray-400">{t('page.projects.noCriticalItems')}</p>
+                                <p className="text-gray-500 dark:text-gray-500 text-sm">{t('page.projects.allItemsSufficient')}</p>
                             </div>
                         )}
 
@@ -452,19 +452,19 @@ export default function ProjectsPage() {
                                         <thead className="bg-gray-50 dark:bg-gray-900">
                                             <tr>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                    Item
+                                                    {t('page.dashboard.item')}
                                                 </th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                    Score
+                                                    {t('page.dashboard.score')}
                                                 </th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                    Stock
+                                                    {t('page.dashboard.stock')}
                                                 </th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                    Criticality
+                                                    {t('page.dashboard.criticality')}
                                                 </th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                    Location
+                                                    {t('page.dashboard.location')}
                                                 </th>
                                             </tr>
                                         </thead>

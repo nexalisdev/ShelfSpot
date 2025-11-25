@@ -310,9 +310,29 @@
       "description": "Gérez vos projets et suivez l'importance de vos articles",
       "recalculateScores": "Recalculer les scores",
       "newProject": "Nouveau projet",
+      "withScore": "Avec score",
+      "averageScore": "Score moyen",
+      "criticalItemsStat": "Articles critiques",
+      "notDefined": "Non défini",
+      "startLabel": "Début",
+      "endLabel": "Fin",
+      "itemsLabel": "articles",
+      "noProjects": "Aucun projet trouvé",
+      "createFirstProject": "Créez votre premier projet pour commencer",
+      "noItemsWithScores": "Aucun article avec score trouvé",
+      "noCriticalItems": "Aucun article critique détecté",
+      "allItemsSufficient": "Tous vos articles importants ont un stock suffisant",
       "tabs": {
         "projects": "Projets",
-        "topItems": "Articles importants",
+        "topItems": {
+          "title": "Articles importants",
+          "item": "Article",
+          "importanceScore": "Score d'importance",
+          "stock": "Stock",
+          "score": "Score",
+          "criticality": "Criticité",
+          "location": "Emplacement"
+        },
         "criticalItems": "Articles critiques"
       }
     }

@@ -42,17 +42,6 @@
           "content": "Access the management page to view and manage all your inventory objects.",
           "button": "Go to Management"
         },
-        "projects": {
-          "title": "Projects",
-          "description": "Manage your projects and track the importance of your items",
-          "recalculateScores": "Recalculate Scores",
-          "newProject": "New Project",
-          "tabs": {
-            "projects": "Projects",
-            "topItems": "Important Items",
-            "criticalItems": "Critical Items"
-          }
-        },
         "users": {
           "title": "Site Users",
           "description": "Manage and view all registered users",
@@ -310,9 +299,29 @@
       "description": "Manage your projects and track the importance of your items",
       "recalculateScores": "Recalculate Scores",
       "newProject": "New Project",
+      "withScore": "With Score",
+      "averageScore": "Average Score",
+      "criticalItemsStat": "Critical Items",
+      "notDefined": "Not defined",
+      "startLabel": "Start",
+      "endLabel": "End",
+      "itemsLabel": "items",
+      "noProjects": "No projects found",
+      "createFirstProject": "Create your first project to get started",
+      "noItemsWithScores": "No items with scores found",
+      "noCriticalItems": "No critical items detected",
+      "allItemsSufficient": "All your important items have sufficient stock",
       "tabs": {
         "projects": "Projects",
-        "topItems": "Important Items",
+        "topItems": {
+          "title": "Important Items",
+          "item": "Item",
+          "importanceScore": "Importance Score",
+          "stock": "Stock",
+          "score": "Score",
+          "criticality": "Criticality",
+          "location": "Location"
+        },
         "criticalItems": "Critical Items"
       }
     }

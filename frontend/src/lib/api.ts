@@ -1,5 +1,8 @@
-const BACKEND_URL =
+// Normalize BACKEND_URL to remove trailing slash so joining with endpoints
+// that start with '/' doesn't produce double slashes.
+const rawBackendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+const BACKEND_URL = rawBackendUrl.replace(/\/+$/, "");
 
 export interface ApiResponse<T> {
   data: T;
@@ -33,7 +36,10 @@ export async function apiRequest<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
-  const url = `${BACKEND_URL}${endpoint}`;
+  const normalizedEndpoint = endpoint.startsWith("/")
+    ? endpoint
+    : `/${endpoint}`;
+  const url = `${BACKEND_URL}${normalizedEndpoint}`;
   const headers = getAuthHeaders();
 
   const response = await fetch(url, {
