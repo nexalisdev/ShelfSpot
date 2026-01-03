@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNumber, IsOptional } from "class-validator";
+import { IsString, IsNumber, IsOptional, IsArray, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
 export class CreateContainerDto {
   @ApiProperty({ example: "Storage Box", description: "Container name" })
@@ -24,6 +25,14 @@ export class CreateContainerDto {
   @IsOptional()
   @IsNumber()
   roomId?: number;
+}
+
+export class BulkCreateContainerDto {
+  @ApiProperty({ type: [CreateContainerDto], description: "Array of containers to create" })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateContainerDto)
+  containers: CreateContainerDto[];
 }
 
 export class UpdateContainerDto {

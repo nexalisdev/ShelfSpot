@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -60,7 +60,7 @@ model Item {
 
   @@index([placeId])
   @@index([roomId])
-  @@index([containerId], map: "Item_containerId_fkey")
+  @@index([containerId])
   @@index([importanceScore])
 }
 

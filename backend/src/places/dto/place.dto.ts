@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString, IsArray, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
 export class CreatePlaceDto {
   @ApiProperty({ example: "Kitchen Counter" })
@@ -21,4 +22,12 @@ export class UpdatePlaceDto {
   })
   @IsString()
   name: string;
+}
+
+export class BulkCreatePlaceDto {
+  @ApiProperty({ type: [CreatePlaceDto], description: "Array of places to create" })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreatePlaceDto)
+  places: CreatePlaceDto[];
 }

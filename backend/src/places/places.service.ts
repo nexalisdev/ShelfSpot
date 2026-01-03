@@ -12,6 +12,13 @@ export class PlacesService {
     });
   }
 
+  async createMany(data: Prisma.PlaceCreateManyInput[]) {
+    return this.prisma.place.createMany({
+      data,
+      skipDuplicates: true,
+    });
+  }
+
   async createWithValidation(data: Prisma.PlaceCreateInput) {
     // Check that the room exists if roomId is provided
     if (data.room && typeof data.room === "object" && "connect" in data.room) {

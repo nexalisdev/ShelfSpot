@@ -12,6 +12,20 @@ export class RoomsService {
     });
   }
 
+  async createMany(data: Prisma.RoomCreateManyInput[]) {
+    const created: any[] = [];
+    for (const d of data) {
+      // Ensure we only pass allowed fields to create (strip unknown fields like description)
+      const payload: Prisma.RoomCreateInput = {
+        name: (d as any).name,
+        icon: (d as any).icon || undefined,
+      };
+      const room = await this.create(payload);
+      created.push(room);
+    }
+    return { count: created.length } as Prisma.BatchPayload;
+  }
+
   findAll() {
     return this.prisma.room.findMany({
       include: {

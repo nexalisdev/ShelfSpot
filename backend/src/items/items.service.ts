@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
+import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { AlertsService } from "../alerts/alerts.service";
 import { ScoringService } from "../scoring/scoring.service";
@@ -123,11 +123,67 @@ export class ItemsService {
 
   async createMany(
     data: Prisma.ItemCreateManyInput[]
-  ): Promise<Prisma.BatchPayload> {
-    return this.prisma.item.createMany({
-      data,
-      skipDuplicates: true,
-    });
+  ) {
+    const created: (TransformedItem | null)[] = [];
+    for (const d of data) {
+      // Basic validation: ensure roomId provided (DTO requires it)
+      if (d.roomId === undefined || d.roomId === null) {
+        throw new BadRequestException("roomId is required for each item in bulk create");
+      }
+
+      // Validate referenced room
+      const room = await this.prisma.room.findUnique({
+        where: { id: d.roomId as number },
+      });
+      if (!room) {
+        throw new NotFoundException(`Room with ID ${d.roomId} not found`);
+      }
+
+      // Validate optional placeId
+      if (d.placeId) {
+        const place = await this.prisma.place.findUnique({
+          where: { id: d.placeId as number },
+        });
+        if (!place) {
+          throw new NotFoundException(`Place with ID ${d.placeId} not found`);
+        }
+        // If place has a roomId, ensure it matches provided roomId
+        if (place.roomId && place.roomId !== (d.roomId as number)) {
+          throw new BadRequestException(
+            `Place ${d.placeId} is not in room ${d.roomId} (belongs to room ${place.roomId})`
+          );
+        }
+      }
+
+      // Validate optional containerId
+      if (d.containerId) {
+        const container = await this.prisma.container.findUnique({
+          where: { id: d.containerId as number },
+        });
+        if (!container) {
+          throw new NotFoundException(`Container with ID ${d.containerId} not found`);
+        }
+      }
+
+      // Use the safe create() method to keep behaviour (includes, alerts)
+      const itemPayload: Prisma.ItemCreateInput = {
+        name: d.name as string,
+        quantity: (d.quantity as number) || 1,
+        image: (d as any).image || undefined,
+        price: (d as any).price || undefined,
+        sellprice: (d as any).sellprice || undefined,
+        status: (d as any).status || undefined,
+        consumable: (d as any).consumable === undefined ? false : (d as any).consumable,
+        place: d.placeId ? { connect: { id: d.placeId as number } } : undefined,
+        room: d.roomId ? { connect: { id: d.roomId as number } } : undefined,
+        container: d.containerId ? { connect: { id: d.containerId as number } } : undefined,
+        itemLink: (d as any).itemLink || undefined,
+      };
+
+      const createdItem = await this.create(itemPayload);
+      created.push(createdItem);
+    }
+    return created;
   }
 
   async findAll(): Promise<(TransformedItem | null)[]> {

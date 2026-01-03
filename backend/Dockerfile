@@ -39,6 +39,10 @@ COPY --from=prod-deps --chown=nestjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nestjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nestjs:nodejs /app/package.json ./
 
+# Add startup script that runs migrations before starting the app
+COPY --chown=nestjs:nodejs docker-entrypoint.sh ./docker-entrypoint.sh
+RUN sed -i 's/\r$//' ./docker-entrypoint.sh && chmod +x ./docker-entrypoint.sh
+
 RUN chown -R nestjs:nodejs /app && \
     chmod -R 755 /app
 
@@ -47,8 +51,4 @@ USER nestjs
 EXPOSE 3001
 ENV PORT=3001
 
-# Add startup script that runs migrations before starting the app
-COPY --chown=nestjs:nodejs docker-entrypoint.sh ./
-RUN chmod +x docker-entrypoint.sh
-
-CMD ["./docker-entrypoint.sh"]
+CMD ["sh", "./docker-entrypoint.sh"]

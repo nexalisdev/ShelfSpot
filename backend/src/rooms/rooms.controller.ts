@@ -19,7 +19,7 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 import { RoomsService } from "./rooms.service";
-import { CreateRoomDto, UpdateRoomDto } from "./dto/room.dto";
+import { CreateRoomDto, UpdateRoomDto, BulkCreateRoomDto } from "./dto/room.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Rooms")
@@ -37,6 +37,16 @@ export class RoomsController {
   @ApiResponse({ status: 401, description: "Unauthorized" })
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomsService.create(createRoomDto);
+  }
+
+  @Post("bulk")
+  @ApiOperation({ summary: "Create multiple rooms at once" })
+  @ApiBody({ type: BulkCreateRoomDto })
+  @ApiResponse({ status: 201, description: "Rooms created successfully" })
+  @ApiResponse({ status: 400, description: "Invalid input data" })
+  @ApiResponse({ status: 401, description: "Unauthorized" })
+  createBulk(@Body() bulkCreateRoomDto: BulkCreateRoomDto) {
+    return this.roomsService.createMany(bulkCreateRoomDto.rooms);
   }
 
   @Get()

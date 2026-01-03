@@ -19,7 +19,7 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 import { PlacesService } from "./places.service";
-import { CreatePlaceDto, UpdatePlaceDto } from "./dto/place.dto";
+import { CreatePlaceDto, UpdatePlaceDto, BulkCreatePlaceDto } from "./dto/place.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Places")
@@ -37,6 +37,16 @@ export class PlacesController {
   @ApiResponse({ status: 401, description: "Unauthorized" })
   create(@Body() createPlaceDto: CreatePlaceDto) {
     return this.placesService.create(createPlaceDto);
+  }
+
+  @Post("bulk")
+  @ApiOperation({ summary: "Create multiple places at once" })
+  @ApiBody({ type: BulkCreatePlaceDto })
+  @ApiResponse({ status: 201, description: "Places created successfully" })
+  @ApiResponse({ status: 400, description: "Invalid input data" })
+  @ApiResponse({ status: 401, description: "Unauthorized" })
+  createBulk(@Body() bulkCreatePlaceDto: BulkCreatePlaceDto) {
+    return this.placesService.createMany(bulkCreatePlaceDto.places);
   }
 
   @Get()

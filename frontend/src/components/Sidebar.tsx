@@ -9,7 +9,7 @@ import UserChip from "@/components/ui/UserChip";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import CreateObjectModal from "@/components/CreateObjectModal";
-import CreateMultipleItemsModal from "@/components/CreateMultipleItemsModal";
+import CreateMultipleModal from "@/components/CreateMultipleModal";
 
 const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: Home },
@@ -29,7 +29,7 @@ export default function Sidebar() {
     return (
         <>
             <CreateObjectModal open={showCreate} onClose={() => setShowCreate(false)} />
-            <CreateMultipleItemsModal open={showBulkCreate} onClose={() => setShowBulkCreate(false)} />
+            <CreateMultipleModal open={showBulkCreate} onClose={() => setShowBulkCreate(false)} />
             {/* Modern Desktop Sidebar */}
             <aside className=" dark:bg-gray-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 fixed left-0 top-0 h-full w-[220px] flex-col z-40 hidden md:flex shadow-xl"
             >

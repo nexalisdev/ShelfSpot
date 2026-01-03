@@ -19,7 +19,7 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 import { ContainersService } from "./containers.service";
-import { CreateContainerDto, UpdateContainerDto } from "./dto/container.dto";
+import { CreateContainerDto, UpdateContainerDto, BulkCreateContainerDto } from "./dto/container.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Containers")
@@ -38,6 +38,16 @@ export class ContainersController {
   @ApiResponse({ status: 401, description: "Unauthorized" })
   create(@Body() createContainerDto: CreateContainerDto) {
     return this.containersService.create(createContainerDto);
+  }
+
+  @Post("bulk")
+  @ApiOperation({ summary: "Create multiple containers at once" })
+  @ApiBody({ type: BulkCreateContainerDto })
+  @ApiResponse({ status: 201, description: "Containers created successfully" })
+  @ApiResponse({ status: 400, description: "Invalid input data" })
+  @ApiResponse({ status: 401, description: "Unauthorized" })
+  createBulk(@Body() bulkCreateContainerDto: BulkCreateContainerDto) {
+    return this.containersService.createMany(bulkCreateContainerDto.containers);
   }
 
   @Get()

@@ -2,6 +2,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { CreateContainerDto, UpdateContainerDto } from "./dto/container.dto";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class ContainersService {
@@ -45,6 +46,22 @@ export class ContainersService {
         items: true,
       },
     });
+  }
+
+  async createMany(data: Prisma.ContainerCreateManyInput[]) {
+    const created: any[] = [];
+    for (const d of data) {
+      // Reuse existing create() which performs place/room existence checks
+      const payload: CreateContainerDto = {
+        name: (d as any).name,
+        icon: (d as any).icon,
+        placeId: (d as any).placeId,
+        roomId: (d as any).roomId,
+      };
+      const container = await this.create(payload);
+      created.push(container);
+    }
+    return { count: created.length } as Prisma.BatchPayload;
   }
 
   async findAll() {

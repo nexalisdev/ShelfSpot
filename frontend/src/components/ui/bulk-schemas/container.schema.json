@@ -1,0 +1,11 @@
+{
+  "title": "Container",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "title": "Name" },
+    "icon": { "type": "string", "title": "Icon" },
+    "roomId": { "type": "integer", "title": "Room ID" },
+    "placeId": { "type": "integer", "title": "Place ID" }
+  },
+  "required": ["name"]
+}

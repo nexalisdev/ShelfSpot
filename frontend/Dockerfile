@@ -9,7 +9,6 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-COPY .env .env
 
 RUN yarn prisma generate && \
     yarn build
@@ -27,7 +26,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/package.json /app/yarn.lock ./
-COPY --from=builder --chown=nextjs:nodejs /app/.env .env
 
 RUN rm -rf /app/.next/cache && \
     yarn autoclean --force

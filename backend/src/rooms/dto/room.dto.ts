@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { IsString, IsOptional, IsArray, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
 export class CreateRoomDto {
   @ApiProperty({ example: "Living Room", description: "Room name" })
@@ -34,4 +35,12 @@ export class UpdateRoomDto {
   @IsOptional()
   @IsString()
   description?: string;
+}
+
+export class BulkCreateRoomDto {
+  @ApiProperty({ type: [CreateRoomDto], description: "Array of rooms to create" })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateRoomDto)
+  rooms: CreateRoomDto[];
 }

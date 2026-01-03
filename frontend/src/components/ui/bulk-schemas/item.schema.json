@@ -1,0 +1,14 @@
+{
+  "title": "Item",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "title": "Name" },
+    "quantity": { "type": "integer", "title": "Quantity" },
+    "itemLink": { "type": "string", "title": "Item link" },
+    "roomId": { "type": "integer", "title": "Room ID" },
+    "placeId": { "type": "integer", "title": "Place ID" },
+    "containerId": { "type": "integer", "title": "Container ID" },
+    "consumable": { "type": "boolean", "title": "Consumable" }
+  },
+  "required": ["name", "quantity", "roomId"]
+}

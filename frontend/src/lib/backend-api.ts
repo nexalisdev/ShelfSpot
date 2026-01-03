@@ -13,10 +13,7 @@ interface ApiResponse<T = any> {
 }
 
 class BackendApiError extends Error {
-  constructor(
-    public status: number,
-    message: string
-  ) {
+  constructor(public status: number, message: string) {
     super(message);
     this.name = "BackendApiError";
   }
@@ -181,6 +178,13 @@ class BackendApiService {
     });
   }
 
+  async createBulkRooms(rooms: any[]) {
+    return this.request<any>("/rooms/bulk", {
+      method: "POST",
+      body: JSON.stringify({ rooms }),
+    });
+  }
+
   async updateRoom(id: number, data: any) {
     return this.request<any>(`/rooms/${id}`, {
       method: "PATCH",
@@ -210,6 +214,13 @@ class BackendApiService {
     });
   }
 
+  async createBulkPlaces(places: any[]) {
+    return this.request<any>("/places/bulk", {
+      method: "POST",
+      body: JSON.stringify({ places }),
+    });
+  }
+
   async updatePlace(id: number, data: any) {
     return this.request<any>(`/places/${id}`, {
       method: "PATCH",
@@ -236,6 +247,13 @@ class BackendApiService {
     return this.request<any>("/containers", {
       method: "POST",
       body: JSON.stringify(data),
+    });
+  }
+
+  async createBulkContainers(containers: any[]) {
+    return this.request<any>("/containers/bulk", {
+      method: "POST",
+      body: JSON.stringify({ containers }),
     });
   }
 
