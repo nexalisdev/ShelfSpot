@@ -1,16 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// API service to communicate with the NestJS backend
-
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
-
-interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-}
+// API service — routes through Next.js proxy (/api/*) so cookies stay same-origin
 
 class BackendApiError extends Error {
   constructor(public status: number, message: string) {
@@ -20,33 +9,19 @@ class BackendApiError extends Error {
 }
 
 class BackendApiService {
-  private getAuthHeaders(): Record<string, string> {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      console.log("BackendAPI: Using token:", token.substring(0, 50) + "...");
-      headers.Authorization = `Bearer ${token}`;
-    } else {
-      console.log("BackendAPI: No token found");
-    }
-
-    return headers;
-  }
-
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${BACKEND_URL}${endpoint}`;
-    const headers = this.getAuthHeaders();
+    // Use /api prefix — Next.js rewrites proxy this to the backend service
+    // This keeps cookies same-origin (HttpOnly cookies work correctly)
+    const url = `/api${endpoint}`;
 
     const response = await fetch(url, {
       ...options,
+      credentials: "include",
       headers: {
-        ...headers,
+        "Content-Type": "application/json",
         ...options.headers,
       },
     });
@@ -103,10 +78,10 @@ class BackendApiService {
     });
   }
 
-  async resetPassword(email: string, newPassword: string) {
+  async resetPassword(currentPassword: string, newPassword: string) {
     return this.request<{ message: string }>("/auth/password/reset", {
       method: "POST",
-      body: JSON.stringify({ email, newPassword }),
+      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
     });
   }
 
@@ -115,6 +90,10 @@ class BackendApiService {
       method: "POST",
       body: JSON.stringify({ email }),
     });
+  }
+
+  async logout() {
+    return this.request<void>("/auth/logout", { method: "POST" });
   }
 
   // Items methods

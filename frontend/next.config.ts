@@ -1,19 +1,58 @@
 import type { NextConfig } from "next";
 
+const backendUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.BACKEND_URL ||
+  "http://localhost:3001";
+
 const nextConfig: NextConfig = {
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  output: "standalone", // Ajoute le mode standalone pour optimiser l'image Docker
+  output: "standalone",
 
-  // Proxy API calls to backend when running in unified container
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob:",
+              `connect-src 'self' ${backendUrl}`,
+              "font-src 'self'",
+              "object-src 'none'",
+              "frame-ancestors 'none'",
+            ].join("; "),
+          },
+        ],
+      },
+    ];
+  },
+
+  // Proxy API calls to backend — keeps auth cookies same-origin
   async rewrites() {
     return [
       {
         source: "/api/:path*",
-        destination: process.env.NEXT_PUBLIC_BACKEND_URL
-          ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/:path*`
-          : "http://localhost:3001/:path*",
+        destination: `${backendUrl}/:path*`,
       },
     ];
   },

@@ -16,6 +16,7 @@ UNIFIED-CONTAINER.md
 **/dist
 **/.next
 **/build
+backend/target/
 
 # Environment files (will be handled separately)
 **/.env

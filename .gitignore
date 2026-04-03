@@ -116,8 +116,17 @@ build/
 # NestJS build output
 /backend/dist
 
+# Rust build output
+backend/target/
+
+# Docker secrets
+.env.docker
+
 # VSCode
 .vscode/
 
 # IDE
 .idea/
+/.claude
+/backend/target
+/backend/target/debug/shelfspot.exe

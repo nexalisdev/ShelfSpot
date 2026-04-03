@@ -7,8 +7,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
-      - NEXT_PUBLIC_API_URL=http://backend:3001
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_BACKEND_URL=http://backend:3001
     depends_on:
       - backend
 
@@ -20,11 +20,12 @@ services:
       - "3001:3001"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
-      - JWT_SECRET=test_jwt_secret_change_in_production
-      - RESEND_API_KEY=test_resend_api_key
-      - RESEND_FROM_EMAIL=ShelfSpot <test@local.app>
-      - ALERT_EMAIL_RECIPIENT=admin@local.app
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL}
+      - ALERT_EMAIL_RECIPIENT=${ALERT_EMAIL_RECIPIENT}
+      - FRONTEND_URL=${FRONTEND_URL}
     depends_on:
       - db
 
@@ -34,9 +35,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: shelfspot
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db_data:/var/lib/postgresql/data
 

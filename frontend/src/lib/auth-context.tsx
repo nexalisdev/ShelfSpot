@@ -1,7 +1,6 @@
-// New authentication system using the NestJS backend
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { backendApi } from './backend-api';
 
 interface User {
@@ -16,10 +15,10 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name?: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   updateProfile: (name: string) => Promise<void>;
   updateProfileEmail: (email: string) => Promise<void>;
-  resetPassword: (email: string, newPassword: string) => Promise<void>;
+  resetPassword: (currentPassword: string, newPassword: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   refreshUser: () => Promise<void>;
 }
@@ -29,124 +28,68 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Avoid double initializations
-    if (isInitialized) {
-      console.log("AuthContext: Already initialized, skipping");
-      return;
-    }
-
     const initAuth = async () => {
-      console.log("AuthContext: Initializing authentication");
-      setIsInitialized(true);
-
-      const token = localStorage.getItem('access_token');
-      console.log("AuthContext: Token found:", !!token);
-
-      if (token) {
-        try {
-          console.log("AuthContext: Getting profile from backend");
-          const profile = await backendApi.getProfile();
-          console.log("AuthContext: Profile received:", profile);
-          setUser(profile);
-        } catch (error) {
-          console.log("AuthContext: Profile fetch failed, removing tokens:", error);
-          // Invalid token, remove it completely
-          localStorage.removeItem('access_token');
-          document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        }
+      try {
+        // If the HttpOnly cookie is present, this request will succeed
+        const profile = await backendApi.getProfile();
+        setUser(profile);
+      } catch {
+        // No valid session — user is not authenticated
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-      console.log("AuthContext: Authentication initialization complete");
     };
 
     initAuth();
-  }, [isInitialized]);
+  }, []);
 
   const login = async (email: string, password: string) => {
-    try {
-      const response = await backendApi.login(email, password);
-
-      // Store the token in localStorage and cookies
-      localStorage.setItem('access_token', response.access_token);
-
-      // Also store in cookies for the middleware
-      document.cookie = `access_token=${response.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 jours
-
-      setUser(response.user);
-    } catch (error) {
-      throw error;
-    }
+    const response = await backendApi.login(email, password);
+    // Backend sets the HttpOnly cookie via Set-Cookie header
+    setUser(response.user);
   };
 
   const register = async (email: string, password: string, name?: string) => {
-    try {
-      const response = await backendApi.register(email, password, name);
-      localStorage.setItem('access_token', response.access_token);
-      setUser(response.user);
-    } catch (error) {
-      throw error;
-    }
+    const response = await backendApi.register(email, password, name);
+    setUser(response.user);
   };
 
-  const logout = () => {
-    localStorage.removeItem('access_token');
-
-    // Also remove the cookie
-    document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-
+  const logout = async () => {
+    await backendApi.logout();
     setUser(null);
   };
 
   const updateProfile = async (name: string) => {
-    try {
-      const updatedUser = await backendApi.updateProfile(name);
-      setUser(updatedUser);
-    } catch (error) {
-      throw error;
-    }
+    const updatedUser = await backendApi.updateProfile(name);
+    setUser(updatedUser);
   };
 
   const updateProfileEmail = async (email: string) => {
-    try {
-      const updatedUser = await backendApi.updateProfileEmail(email);
-      setUser(updatedUser);
-    } catch (error) {
-      throw error;
-    }
+    const updatedUser = await backendApi.updateProfileEmail(email);
+    setUser(updatedUser);
   };
 
-  const resetPassword = async (email: string, newPassword: string) => {
-    try {
-      await backendApi.resetPassword(email, newPassword);
-    } catch (error) {
-      throw error;
-    }
+  const resetPassword = async (currentPassword: string, newPassword: string) => {
+    await backendApi.resetPassword(currentPassword, newPassword);
   };
 
   const forgotPassword = async (email: string) => {
-    try {
-      await backendApi.forgotPassword(email);
-    } catch (error) {
-      throw error;
-    }
+    await backendApi.forgotPassword(email);
   };
 
   const refreshUser = async () => {
     try {
       const profile = await backendApi.getProfile();
       setUser(profile);
-    } catch (error) {
-      // If the error is due to an invalid token, log out the user
-      localStorage.removeItem('access_token');
+    } catch {
       setUser(null);
-      throw error;
     }
   };
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     loading,
     login,
@@ -157,7 +100,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     resetPassword,
     forgotPassword,
     refreshUser,
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [user, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

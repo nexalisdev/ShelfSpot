@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import { Providers } from "./utils/providers";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "ShelfSpot",
@@ -43,11 +44,13 @@ export default function RootLayout({
         style={{ margin: 0, padding: 0 }}
       >
         <Providers>
-          <div className="flex h-screen flex-col">
-            <div className="flex-1 flex">
-              {children}
+          <ErrorBoundary>
+            <div className="flex h-screen flex-col">
+              <div className="flex-1 flex">
+                {children}
+              </div>
             </div>
-          </div>
+          </ErrorBoundary>
         </Providers>
       </body>
     </html>

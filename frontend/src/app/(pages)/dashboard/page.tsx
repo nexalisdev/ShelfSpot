@@ -58,17 +58,12 @@ export default function Dashboard() {
   useEffect(() => {
     // Ne charger les données que si l'utilisateur est authentifié
     if (!user || authLoading) {
-      console.log("Dashboard: User not authenticated yet", { user, authLoading });
       return;
     }
 
-    console.log("Dashboard: Starting to fetch data for user:", user);
-
     const fetchData = async () => {
       try {
-        console.log("Dashboard: Calling backendApi.getItems()");
         const itemsData = await backendApi.getItems();
-        console.log("Dashboard: Received items data:", itemsData);
         // Prendre les 5 plus récents (assumant qu'ils sont déjà triés)
         setRecentItems(itemsData.slice(0, 5));
       } catch (error) {

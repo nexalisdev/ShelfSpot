@@ -5,6 +5,7 @@ import { BackendApiError } from "@/lib/backend-api";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -13,20 +14,37 @@ export default function LoginForm() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    React.useEffect(() => {
+        const hasEmailInUrl = searchParams.has("email");
+        const hasPasswordInUrl = searchParams.has("password");
+
+        if (!hasEmailInUrl && !hasPasswordInUrl) {
+            return;
+        }
+
+        const sanitizedParams = new URLSearchParams(searchParams.toString());
+        sanitizedParams.delete("email");
+        sanitizedParams.delete("password");
+
+        const nextUrl = sanitizedParams.toString()
+            ? `/login?${sanitizedParams.toString()}`
+            : "/login";
+
+        router.replace(nextUrl);
+    }, [router, searchParams]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError("");
 
-        console.log("LoginForm: Starting login process", { email });
-
         try {
             await login(email, password);
-            console.log("LoginForm: Login successful, redirecting to dashboard");
             window.location.href = "/dashboard";
         } catch (error) {
-            console.error("LoginForm: Login failed", error);
             if (error instanceof BackendApiError) {
                 setError("Incorrect email or password.");
             } else {
@@ -39,7 +57,7 @@ export default function LoginForm() {
 
     return (
         <div className="space-y-6">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} method="post" className="space-y-5">
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Email address

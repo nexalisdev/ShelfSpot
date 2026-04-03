@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Ensure /app directory is writable
-chmod -R 777 /app
+chmod -R 755 /app
 
 # Check if .env file exists
 if [ ! -f "/app/.env" ]; then

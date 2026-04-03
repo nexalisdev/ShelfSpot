@@ -1,0 +1,65 @@
+[package]
+name = "shelfspot-backend"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "shelfspot"
+path = "src/main.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Web framework
+axum = { version = "0.7", features = ["macros"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Database
+sqlx = { version = "0.8", features = ["runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "migrate"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Auth / Crypto
+jsonwebtoken = "9"
+bcrypt = "0.15"
+sha2 = "0.10"
+
+# HTTP client (for Resend + Expo)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# Config / Env
+dotenvy = "0.15"
+
+# Error handling
+thiserror = "1"
+anyhow = "1"
+
+# Validation
+validator = { version = "0.18", features = ["derive"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Logging / tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Misc
+uuid = { version = "1", features = ["v4", "serde"] }
+rand = "0.8"
+async-trait = "0.1"
+
+# Rate limiting
+tower_governor = { version = "0.4", features = ["axum"] }
+
+# OpenAPI / Swagger
+utoipa = { version = "4", features = ["axum_extras", "chrono"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

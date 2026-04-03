@@ -34,12 +34,15 @@ export default function SignUpForm() {
             newErrors.name = "Username must be at least 5 characters long.";
         }
 
-        if (!email || !email.includes("@")) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
             newErrors.email = "Please enter a valid email address.";
         }
 
-        if (password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters long.";
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasDigit = /\d/.test(password);
+        if (password.length < 8 || !hasUppercase || !hasDigit) {
+            newErrors.password = "Password must be at least 8 characters, include 1 uppercase letter and 1 number.";
         }
 
         if (password !== confirmPassword) {
