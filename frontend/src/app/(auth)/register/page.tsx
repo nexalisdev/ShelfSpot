@@ -1,71 +1,79 @@
 import React from "react";
 import SignUpForm from "@/components/forms/SignUpForm";
 import Link from "next/link";
+import { Clock3, Grid3X3, ShieldCheck, Sparkles } from "lucide-react";
+
+const registerHighlights = [
+  {
+    icon: Sparkles,
+    title: "Quick onboarding",
+    description: "Set up rooms, places and containers in just a few minutes.",
+  },
+  {
+    icon: Clock3,
+    title: "Save daily time",
+    description: "Find tools and assets instantly instead of searching manually.",
+  },
+  {
+    icon: Grid3X3,
+    title: "Scales with your projects",
+    description: "Works from small home storage to larger team workspaces.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Private workspace",
+    description: "Your inventory data stays controlled and account-protected.",
+  },
+];
 
 export default function RegisterPage() {
   return (
-    <div className="w-full h-full flex">
-      {/* Left side - Branding */}
-      <div className="hidden lg:block relative flex-1 bg-gradient-to-br from-green-500/20 via-blue-500/10 to-background">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent" />
-        <div className="relative flex flex-col justify-center items-center h-full px-12">
-          <div className="text-center">
-            <h1 className="text-6xl font-bold text-primary mb-6">ShelfSpot</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-              Start organizing your space
-              <br />
-              in minutes
+    <div className="grid min-h-screen w-full lg:grid-cols-2">
+      <section className="relative hidden overflow-hidden border-r border-border lg:block">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/18 via-primary/10 to-cyan-400/15" />
+        <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-emerald-400/25 blur-3xl" />
+
+        <div className="relative flex h-full flex-col justify-between p-10 xl:p-14">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary/80">ShelfSpot</p>
+            <h1 className="app-heading mt-5 max-w-md text-4xl font-bold leading-tight text-foreground">
+              Build a reliable inventory system from day one.
+            </h1>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+              Create your workspace and start organizing assets with a structure that stays readable as you grow.
             </p>
-            <div className="space-y-4 max-w-md">
-              <div className="bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
-                <div className="text-2xl">✨</div>
-                <div className="text-left">
-                  <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Free Forever</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">No hidden costs</div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            {registerHighlights.map(({ icon: Icon, title, description }) => (
+              <div key={title} className="app-panel bg-card/85 p-4">
+                <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/12 text-primary">
+                  <Icon className="h-5 w-5" />
                 </div>
+                <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{description}</p>
               </div>
-              <div className="bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
-                <div className="text-2xl">⚡</div>
-                <div className="text-left">
-                  <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Quick Setup</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">Ready in 2 minutes</div>
-                </div>
-              </div>
-              <div className="bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 flex items-center space-x-3">
-                <div className="text-2xl">🔒</div>
-                <div className="text-left">
-                  <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Secure & Private</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">Your data stays yours</div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Right side - Form */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 xl:px-24">
-        <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div>
-            <h2 className="mt-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Create your account
-            </h2>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Already have an account?{" "}
-              <Link
-                href="/login"
-                className="font-semibold text-primary hover:text-primary/80 transition-colors"
-              >
-                Sign in here
-              </Link>
-            </p>
-          </div>
+      <section className="flex items-center justify-center px-6 py-10 md:px-10">
+        <div className="app-panel-elevated w-full max-w-md p-8 md:p-10">
+          <p className="app-kicker">Create account</p>
+          <h2 className="app-heading mt-5 text-3xl font-bold text-foreground">Get started</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link href="/login" className="font-semibold text-primary hover:underline">
+              Sign in here
+            </Link>
+          </p>
 
-          <div className="mt-10">
+          <div className="mt-8">
             <SignUpForm />
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

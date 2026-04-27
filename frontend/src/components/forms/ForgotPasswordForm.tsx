@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { BackendApiError } from "@/lib/backend-api";
 
@@ -34,29 +35,30 @@ export default function ForgotPasswordForm() {
     };
 
     return (
-        <div className="w-80">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full p-6">
+        <div className="w-full max-w-md">
+            <div className="app-panel-elevated">
+                <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4 p-6 md:p-8">
                     <h2 className="text-xl font-bold mb-2">Forgot Password</h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="mb-4 text-sm text-muted-foreground">
                         Enter your email address and we&apos;ll send you a temporary password.
                     </p>
 
-                    <label className="flex flex-col">
+                    <label htmlFor="forgot-email" className="flex flex-col">
                         Email
                         <input
+                            id="forgot-email"
                             type="email"
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="app-input mt-1 min-h-[44px]"
                             required
                         />
                     </label>
 
                     <button
                         type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 transition-colors disabled:opacity-60"
+                        className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 disabled:opacity-60"
                         disabled={loading}
                     >
                         {loading ? "Sending..." : "Send Temporary Password"}
@@ -75,12 +77,9 @@ export default function ForgotPasswordForm() {
                     )}
 
                     <div className="text-center mt-4">
-                        <a
-                            href="/login"
-                            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                        >
+                        <Link href="/login" className="text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 rounded">
                             Back to Sign In
-                        </a>
+                        </Link>
                     </div>
                 </form>
             </div>

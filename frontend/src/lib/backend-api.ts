@@ -3,7 +3,7 @@
 // API service to communicate with the NestJS backend
 
 const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8082";
 
 interface ApiResponse<T = any> {
   success: boolean;
@@ -13,7 +13,10 @@ interface ApiResponse<T = any> {
 }
 
 class BackendApiError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
     super(message);
     this.name = "BackendApiError";
   }
@@ -38,7 +41,7 @@ class BackendApiService {
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<T> {
     const url = `${BACKEND_URL}${endpoint}`;
     const headers = this.getAuthHeaders();
@@ -337,7 +340,7 @@ class BackendApiService {
 
   async updateAlert(
     id: number,
-    data: { isActive?: boolean; threshold?: number; name?: string }
+    data: { isActive?: boolean; threshold?: number; name?: string },
   ) {
     return this.request<any>(`/alerts/${id}`, {
       method: "PATCH",
@@ -429,7 +432,7 @@ class BackendApiService {
       priority?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
       startDate?: string;
       endDate?: string;
-    }
+    },
   ) {
     return this.request<any>(`/projects/${id}`, {
       method: "PATCH",
@@ -463,7 +466,7 @@ class BackendApiService {
       `/projects/${projectId}/items/${itemId}`,
       {
         method: "DELETE",
-      }
+      },
     );
   }
 
@@ -501,7 +504,6 @@ class BackendApiService {
       userId: number;
       showWelcomeHeader: boolean;
       showStatsCards: boolean;
-      showRecentItems: boolean;
       showRoomDistribution: boolean;
       showAlertsPerMonth: boolean;
       showInventoryValue: boolean;
@@ -512,7 +514,6 @@ class BackendApiService {
   async updateUserPreferences(preferences: {
     showWelcomeHeader?: boolean;
     showStatsCards?: boolean;
-    showRecentItems?: boolean;
     showRoomDistribution?: boolean;
     showAlertsPerMonth?: boolean;
     showInventoryValue?: boolean;
@@ -523,7 +524,6 @@ class BackendApiService {
       userId: number;
       showWelcomeHeader: boolean;
       showStatsCards: boolean;
-      showRecentItems: boolean;
       showRoomDistribution: boolean;
       showAlertsPerMonth: boolean;
       showInventoryValue: boolean;

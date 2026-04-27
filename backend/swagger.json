@@ -1344,6 +1344,42 @@
         ]
       }
     },
+    "/rooms/bulk": {
+      "post": {
+        "operationId": "RoomsController_createBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCreateRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rooms created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create multiple rooms at once",
+        "tags": [
+          "Rooms"
+        ]
+      }
+    },
     "/rooms/{id}": {
       "get": {
         "operationId": "RoomsController_findOne",
@@ -1513,6 +1549,42 @@
           }
         ],
         "summary": "Get all places",
+        "tags": [
+          "Places"
+        ]
+      }
+    },
+    "/places/bulk": {
+      "post": {
+        "operationId": "PlacesController_createBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCreatePlaceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Places created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create multiple places at once",
         "tags": [
           "Places"
         ]
@@ -2253,6 +2325,42 @@
           }
         ],
         "summary": "Get all containers",
+        "tags": [
+          "Containers"
+        ]
+      }
+    },
+    "/containers/bulk": {
+      "post": {
+        "operationId": "ContainersController_createBulk",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCreateContainerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Containers created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create multiple containers at once",
         "tags": [
           "Containers"
         ]
@@ -3401,6 +3509,21 @@
           "name"
         ]
       },
+      "BulkCreateRoomDto": {
+        "type": "object",
+        "properties": {
+          "rooms": {
+            "description": "Array of rooms to create",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateRoomDto"
+            }
+          }
+        },
+        "required": [
+          "rooms"
+        ]
+      },
       "UpdateRoomDto": {
         "type": "object",
         "properties": {
@@ -3432,6 +3555,21 @@
         "required": [
           "name",
           "roomId"
+        ]
+      },
+      "BulkCreatePlaceDto": {
+        "type": "object",
+        "properties": {
+          "places": {
+            "description": "Array of places to create",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreatePlaceDto"
+            }
+          }
+        },
+        "required": [
+          "places"
         ]
       },
       "UpdatePlaceDto": {
@@ -3583,6 +3721,21 @@
         },
         "required": [
           "name"
+        ]
+      },
+      "BulkCreateContainerDto": {
+        "type": "object",
+        "properties": {
+          "containers": {
+            "description": "Array of containers to create",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateContainerDto"
+            }
+          }
+        },
+        "required": [
+          "containers"
         ]
       },
       "UpdateContainerDto": {

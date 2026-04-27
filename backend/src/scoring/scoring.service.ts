@@ -75,7 +75,7 @@ export class ScoringService {
     topItems: ItemScoreBreakdown[];
   }> {
     this.logger.log(
-      "Starting calculation of importance scores for all items..."
+      "Starting calculation of importance scores for all items...",
     );
 
     const items = await this.prisma.item.findMany({
@@ -108,7 +108,7 @@ export class ScoringService {
       } catch (error) {
         this.logger.error(
           `Error calculating score for item ${item.id}:`,
-          error
+          error,
         );
         errors++;
       }
@@ -120,7 +120,7 @@ export class ScoringService {
       .slice(0, 10);
 
     this.logger.log(
-      `Importance scores updated: ${updated} items, ${errors} errors`
+      `Importance scores updated: ${updated} items, ${errors} errors`,
     );
 
     return { updated, errors, topItems };
@@ -170,7 +170,7 @@ export class ScoringService {
     }
 
     this.logger.log(
-      `Recalculated scores for ${updated} items in project "${project.name}"`
+      `Recalculated scores for ${updated} items in project "${project.name}"`,
     );
 
     return { updated, projectName: project.name };
@@ -280,13 +280,15 @@ export class ScoringService {
 
     // Bonus for being used in multiple projects (diversification)
     const activeProjectsCount = item.projectItems.filter(
-      (pi) => pi.project.status === ProjectStatus.ACTIVE
+      (pi) => pi.project.status === ProjectStatus.ACTIVE,
     ).length;
     projectCountBonus = activeProjectsCount > 1 ? activeProjectsCount * 0.5 : 0;
 
     // Total score
     const totalScore = Number(
-      (activeProjectsScore + pausedProjectsScore + projectCountBonus).toFixed(2)
+      (activeProjectsScore + pausedProjectsScore + projectCountBonus).toFixed(
+        2,
+      ),
     );
 
     return {
@@ -300,7 +302,7 @@ export class ScoringService {
         priorityMultiplier: Number(
           (
             totalPriorityMultiplier / Math.max(item.projectItems.length, 1)
-          ).toFixed(2)
+          ).toFixed(2),
         ),
       },
       projectsUsage,
@@ -313,22 +315,22 @@ export class ScoringService {
   private getPriorityMultiplier(priority: ProjectPriority): number {
     switch (priority) {
       case ProjectPriority.CRITICAL:
-        return 4.0;
+        return 4;
       case ProjectPriority.HIGH:
-        return 2.0;
+        return 2;
       case ProjectPriority.MEDIUM:
-        return 1.0;
+        return 1;
       case ProjectPriority.LOW:
         return 0.5;
       default:
-        return 1.0;
+        return 1;
     }
   }
 
   /**
    * Get global statistics about importance scores
    */
-  async getScorignStatistics(): Promise<{
+  async getScoringStatistics(): Promise<{
     totalItems: number;
     itemsWithScore: number;
     averageScore: number;
@@ -347,7 +349,7 @@ export class ScoringService {
 
     const totalItems = items.length;
     const itemsWithScore = items.filter(
-      (item) => item.importanceScore > 0
+      (item) => item.importanceScore > 0,
     ).length;
     const scores = items.map((item) => item.importanceScore);
     const averageScore =
@@ -357,13 +359,13 @@ export class ScoringService {
     const distribution = {
       critical: items.filter((item) => item.importanceScore > 10).length,
       high: items.filter(
-        (item) => item.importanceScore > 5 && item.importanceScore <= 10
+        (item) => item.importanceScore > 5 && item.importanceScore <= 10,
       ).length,
       medium: items.filter(
-        (item) => item.importanceScore > 1 && item.importanceScore <= 5
+        (item) => item.importanceScore > 1 && item.importanceScore <= 5,
       ).length,
       low: items.filter(
-        (item) => item.importanceScore > 0 && item.importanceScore <= 1
+        (item) => item.importanceScore > 0 && item.importanceScore <= 1,
       ).length,
       zero: items.filter((item) => item.importanceScore === 0).length,
     };

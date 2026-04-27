@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Plus, Calendar, AlertTriangle, TrendingUp, Activity, Trash2, Edit, Eye } from 'lucide-react';
+import { Plus, Calendar, AlertTriangle, TrendingUp, Activity, Trash2, PenLine, BadgePlus } from 'lucide-react';
 import { useGetProjects, useGetScoringStatistics, useGetTopItems, useGetCriticalItems, Project } from '@/app/hooks/useGetProjects';
 import { backendApi } from '@/lib/backend-api';
 import CreateProjectModal from '../../../components/CreateProjectModal';
@@ -321,7 +321,7 @@ export default function ProjectsPage() {
                                                             }}
                                                             className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                                                         >
-                                                            <Eye className="w-4 h-4" />
+                                                            <BadgePlus className="w-4 h-4" />
                                                         </button>
                                                         <button
                                                             onClick={() => {
@@ -330,7 +330,7 @@ export default function ProjectsPage() {
                                                             }}
                                                             className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
                                                         >
-                                                            <Edit className="w-4 h-4" />
+                                                            <PenLine className="w-4 h-4" />
                                                         </button>
                                                         <button
                                                             onClick={() => handleDeleteProject(project)}

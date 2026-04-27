@@ -35,17 +35,20 @@ export function FormField({
     children,
     onChange,
 }: FormFieldProps) {
+    const inputId = `field-${name}`;
+
     if (type === "checkbox") {
         return (
             <div className={cn("col-span-full", className)}>
-                <label className="flex items-center text-gray-900 dark:text-white">
+                <label htmlFor={inputId} className="flex items-center text-sm font-medium text-foreground">
                     <input
+                        id={inputId}
                         name={name}
                         type="checkbox"
-                        className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="mr-2 h-4 w-4 rounded border border-border bg-input text-primary"
                         onChange={onChange}
                     />
-                    <span className="font-medium">{label}</span>
+                    <span>{label}</span>
                 </label>
             </div>
         );
@@ -53,6 +56,7 @@ export function FormField({
 
     // Use controlled or uncontrolled input pattern
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+        id: inputId,
         name,
         type,
         placeholder,
@@ -63,25 +67,21 @@ export function FormField({
         step,
         className: COMMON_INPUT_CLASSES,
         onChange,
+        "aria-required": required || undefined,
     };
 
     // If value is provided, use controlled input
     if (value !== undefined) {
         inputProps.value = value;
     } else if (defaultValue !== undefined) {
-        // If only defaultValue is provided, use uncontrolled input
         inputProps.defaultValue = defaultValue;
     }
 
     return (
         <div className={className}>
-            <label className="block text-gray-900 dark:text-white">
-                <span className="block mb-2 font-medium">{label}</span>
-                {children ? (
-                    children
-                ) : (
-                    <input {...inputProps} />
-                )}
+            <label htmlFor={inputId} className="block text-sm font-medium text-foreground">
+                <span className="mb-2 block">{label}</span>
+                {children ? children : <input {...inputProps} />}
             </label>
         </div>
     );
@@ -103,15 +103,18 @@ export function SelectField({
     emptyLabel = "Select an option",
     onChange,
 }: SelectFieldProps) {
+    const selectId = `field-${name}`;
     return (
         <div className={className}>
-            <label className="block text-gray-900 dark:text-white">
-                <span className="block mb-2 font-medium">{label}</span>
+            <label htmlFor={selectId} className="block text-sm font-medium text-foreground">
+                <span className="mb-2 block">{label}</span>
                 <select
+                    id={selectId}
                     name={name}
                     value={value}
                     required={required}
                     disabled={disabled}
+                    aria-required={required || undefined}
                     className={COMMON_INPUT_CLASSES}
                     onChange={onChange}
                 >

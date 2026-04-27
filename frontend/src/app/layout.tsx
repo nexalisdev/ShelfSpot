@@ -1,11 +1,37 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Manrope, Sora } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import { Providers } from "./utils/providers";
+import ServiceWorkerRegistrar from "@/components/ServiceWorkerRegistrar";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "ShelfSpot",
-  description: "Keep an eye on your business",
+  description: "Keep an eye on your inventory",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "ShelfSpot",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0a5adf",
 };
 
 export default function RootLayout({
@@ -17,6 +43,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/app-ico.svg" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         {/* Script to apply the theme on load */}
         <script
           dangerouslySetInnerHTML={{
@@ -27,24 +54,20 @@ export default function RootLayout({
     if (!theme) {
       theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    var isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
   } catch(e) {}
 })();
             `,
           }}
         />
       </head>
-      <body
-        className={`antialiased bg-white dark:bg-black`}
-        style={{ margin: 0, padding: 0 }}
-      >
+      <body className={`${manrope.variable} ${sora.variable} app-shell antialiased`}>
+        <ServiceWorkerRegistrar />
         <Providers>
-          <div className="flex h-screen flex-col">
-            <div className="flex-1 flex">
+          <div className="flex min-h-screen flex-col">
+            <div className="flex flex-1">
               {children}
             </div>
           </div>

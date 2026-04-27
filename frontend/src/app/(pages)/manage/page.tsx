@@ -249,13 +249,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleSaveRoom(room.id)}
-                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                            className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                            className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Cancel
                           </button>
@@ -267,13 +267,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditRoom(room)}
-                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteRoom(room.id)}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Delete
                           </button>
@@ -320,13 +320,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleSavePlace(place.id)}
-                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                            className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                            className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Cancel
                           </button>
@@ -343,13 +343,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditPlace(place)}
-                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeletePlace(place.id)}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Delete
                           </button>
@@ -417,13 +417,13 @@ const ManagePage = () => {
                         <div className="flex gap-2 mt-1">
                           <button
                             onClick={() => handleSaveContainer(container.id)}
-                            className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                            className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                            className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Cancel
                           </button>
@@ -440,13 +440,13 @@ const ManagePage = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditContainer(container)}
-                            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteContainer(container.id)}
-                            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Delete
                           </button>
@@ -484,7 +484,7 @@ const ManagePage = () => {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-medium rounded-sm transition-all duration-200 shadow-md hover:shadow-lg"
+                  className="min-h-[44px] px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-medium rounded-sm transition-all duration-200 shadow-md hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                 >
                   Add
                 </button>
@@ -504,13 +504,15 @@ const ManagePage = () => {
                       />
                       <button
                         onClick={() => handleSaveTag(tag.id)}
-                        className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                        aria-label="Save tag"
+                        className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ✓
                       </button>
                       <button
                         onClick={handleCancelEdit}
-                        className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                        aria-label="Cancel edit"
+                        className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ×
                       </button>
@@ -520,13 +522,15 @@ const ManagePage = () => {
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">{tag.name}</span>
                       <button
                         onClick={() => handleEditTag(tag)}
-                        className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                        aria-label={`Edit tag ${tag.name}`}
+                        className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ✎
                       </button>
                       <button
                         onClick={() => handleDeleteTag(tag.id)}
-                        className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        aria-label={`Delete tag ${tag.name}`}
+                        className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ×
                       </button>

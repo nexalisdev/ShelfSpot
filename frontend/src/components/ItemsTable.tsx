@@ -318,7 +318,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
             <Menu as="div" className="inline-block text-left relative z-[60]">
                 {({ open }: { open: boolean }) => (
                     <>
-                        <Menu.Button ref={refs.setReference} as="button" className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <Menu.Button ref={refs.setReference} as="button" aria-label="Item actions" className="flex h-11 w-11 items-center justify-center rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80">
                             <MoreVertical className="w-5 h-5" />
                         </Menu.Button>
                         {open && (
@@ -326,7 +326,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                 <Menu.Items
                                     ref={refs.setFloating}
                                     style={{ ...floatingStyles, zIndex: 60 }}
-                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none flex flex-col p-1"
+                                    className="bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal focus:outline-none flex flex-col p-1"
                                 >
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
@@ -398,9 +398,9 @@ function ItemsTable({ search, items: itemsProp, columns = [
                 {selectedIds.length > 0 && (
                     <>
                         {/* Selection Counter Badge */}
-                        <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 border border-blue-300 dark:border-blue-700 rounded-sm">
-                            <CheckSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                            <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal">
+                            <CheckSquare className="w-4 h-4 text-foreground" />
+                            <span className="text-sm font-bold text-foreground">
                                 {selectedIds.length} selected
                             </span>
                         </div>
@@ -411,9 +411,9 @@ function ItemsTable({ search, items: itemsProp, columns = [
                             <Button
                                 size="sm"
                                 variant="ghost"
-                                className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900"
+                                className="h-11 w-11 p-0 text-red-600 hover:bg-red-100 dark:hover:bg-red-900"
                                 onClick={handleDeleteSelected}
-                                title="Delete selected items"
+                                aria-label="Delete selected items"
                             >
                                 <Trash2 className="w-4 h-4" />
                             </Button>
@@ -424,12 +424,12 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     as={Button}
                                     size="sm"
                                     variant="ghost"
-                                    className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                    title="Export selected items"
+                                    className="h-11 w-11 p-0 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                    aria-label="Export selected items"
                                 >
                                     <Download className="w-4 h-4" />
                                 </Menu.Button>
-                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none p-1 min-w-[140px]">
+                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal focus:outline-none p-1 min-w-[140px]">
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
@@ -460,13 +460,13 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                         as={Button}
                                         size="sm"
                                         variant="ghost"
-                                        className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                                        title="Manage tags for selected items"
+                                        className="h-11 w-11 p-0 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                        aria-label="Manage tags for selected items"
                                     >
                                         <Tags className="w-4 h-4" />
                                     </Menu.Button>
-                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
-                                        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
+                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
+                                        <div className="text-xs font-bold text-foreground px-2 py-1 mb-1">
                                             Add Tag
                                         </div>
                                         {allTags.map((tag: Tag) => (
@@ -507,9 +507,9 @@ function ItemsTable({ search, items: itemsProp, columns = [
                             <Button
                                 size="sm"
                                 variant="ghost"
-                                className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                className="h-11 w-11 p-0 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                                 onClick={handleClearSelection}
-                                title="Clear selection"
+                                aria-label="Clear selection"
                             >
                                 <X className="w-4 h-4" />
                             </Button>
@@ -520,8 +520,9 @@ function ItemsTable({ search, items: itemsProp, columns = [
                 {/* Search Input */}
                 <input
                     type="text"
+                    aria-label="Search items"
                     placeholder="Search an item..."
-                    className="theme-input rounded px-2 py-1 ml-auto w-56"
+                    className="theme-input rounded-global border-2 border-foreground dark:border-gray-800 bg-white dark:bg-gray-900 px-2 py-1 ml-auto w-56 shadow-brutal transition-transform hover:-translate-y-[1px] hover:-translate-x-[1px] active:translate-y-[1px] active:translate-x-[1px] active:shadow-none focus:outline-none"
                     value={searchInput}
                     onChange={e => {
                         setSearchInput(e.target.value);
@@ -529,11 +530,11 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     }}
                 />
             </div>
-            <div className="dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-sm shadow-sm"
+            <div className="bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-global shadow-brutal"
             >
                 <Table>
                     <TableHeader>
-                        <TableRow className="h-8">
+                        <TableRow className="h-11">
                             <TableHead className="w-8 px-2">
                                 <button onClick={toggleSelectAll} aria-label="Tout sélectionner">
                                     {allSelected ? <CheckSquare className="w-5 h-5 text-primary" /> : <Square className="w-5 h-5 text-muted-foreground" />}
@@ -567,7 +568,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     </TableHeader>
                     <TableBody>
                         {paginatedItems.map((item: Item, idx: number) => (
-                            <TableRow key={item.id} className={(idx % 2 === 0 ? "bg-white dark:bg-gray-800 h-8" : "bg-gray-50 dark:bg-gray-700/50 h-8") + " hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"}>
+                            <TableRow key={item.id} className={(idx % 2 === 0 ? "bg-white dark:bg-gray-800 h-11" : "bg-gray-50 dark:bg-gray-700/50 h-11") + " hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"}>
                                 <TableCell className="w-8 px-2 py-1">
                                     <input
                                         type="checkbox"

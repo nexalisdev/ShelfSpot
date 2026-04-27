@@ -32,7 +32,7 @@ RUN rm -rf /app/.next/cache && \
 
 USER nextjs
 
-EXPOSE 3000
-ENV PORT=3000
+EXPOSE 8083
+ENV PORT=8083
 
 CMD ["node", "server.js"]

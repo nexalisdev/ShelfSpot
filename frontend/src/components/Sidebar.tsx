@@ -1,13 +1,20 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, Box, Star, Settings, Package, Warehouse, FolderOpen } from "lucide-react";
+import {
+    Home,
+    Box,
+    Star,
+    Settings,
+    Package,
+    Warehouse,
+    FolderOpen,
+    Plus,
+} from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import UserChip from "@/components/ui/UserChip";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
-import { Dock, DockIcon } from "@/components/magicui/dock";
 import CreateObjectModal from "@/components/CreateObjectModal";
 import CreateMultipleModal from "@/components/CreateMultipleModal";
 
@@ -25,92 +32,139 @@ export default function Sidebar() {
     const router = useRouter();
     const [showCreate, setShowCreate] = useState(false);
     const [showBulkCreate, setShowBulkCreate] = useState(false);
+    const isAnyModalOpen = showCreate || showBulkCreate;
+
+    const isActiveLink = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
     return (
         <>
             <CreateObjectModal open={showCreate} onClose={() => setShowCreate(false)} />
             <CreateMultipleModal open={showBulkCreate} onClose={() => setShowBulkCreate(false)} />
-            {/* Modern Desktop Sidebar */}
-            <aside className=" dark:bg-gray-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 fixed left-0 top-0 h-full w-[220px] flex-col z-40 hidden md:flex shadow-xl"
-            >
-                <div className="h-16 flex items-center justify-center ">
-                    <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">ShelfSpot</span>
+
+            <aside className="app-sidebar-surface fixed inset-y-0 left-0 z-40 hidden w-[264px] flex-col md:flex">
+                <div className="border-b border-sidebar-border px-6 py-5">
+                    <Link href="/dashboard" className="flex items-center gap-3" aria-label="Go to dashboard">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary/20 text-sidebar-primary">
+                            <Warehouse className="h-5 w-5" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-sidebar-foreground/70">ShelfSpot</p>
+                            <p className="text-base font-semibold text-sidebar-foreground">Inventory Workspace</p>
+                        </div>
+                    </Link>
                 </div>
 
-                <nav className="flex-1 flex flex-col py-4 px-3">
+                <nav className="flex-1 space-y-1 px-4 py-5" aria-label="Main navigation">
                     {navLinks.map(({ href, label, icon: Icon }) => (
                         <Link
                             key={href}
                             href={href}
                             className={cn(
-                                "flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-sm mb-1 group hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-gray-800 dark:hover:to-purple-900/20",
-                                pathname === href
-                                    ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-purple-900/20 text-blue-700 dark:text-blue-300 shadow-sm border border-blue-200/50 dark:border-blue-700/50"
-                                    : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                                "group flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring/70",
+                                isActiveLink(href)
+                                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                                    : "text-sidebar-foreground/82 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                             )}
+                            aria-current={isActiveLink(href) ? "page" : undefined}
                         >
-                            <Icon className={cn(
-                                "w-5 h-5 transition-colors",
-                                pathname === href ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400 group-hover:text-blue-500"
-                            )} />
+                            <Icon
+                                className={cn(
+                                    "h-4 w-4",
+                                    isActiveLink(href)
+                                        ? "text-sidebar-primary-foreground"
+                                        : "text-sidebar-foreground/65 group-hover:text-sidebar-accent-foreground"
+                                )}
+                            />
                             {label}
                         </Link>
                     ))}
                 </nav>
 
-                <div className="p-4 space-y-3">
+                <div className="space-y-2 border-t border-sidebar-border px-4 py-4">
                     <button
                         type="button"
-                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-sidebar-primary px-4 py-2.5 text-sm font-semibold text-sidebar-primary-foreground transition-colors hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring/70"
                         onClick={() => setShowCreate(true)}
                     >
-                        + Create New
+                        <Plus className="h-4 w-4" />
+                        Create New
                     </button>
+
                     <button
                         type="button"
-                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-sm border border-gray-200/60 dark:border-gray-700/60 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200"
+                        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-sidebar-border bg-sidebar-accent px-4 py-2.5 text-sm font-semibold text-sidebar-accent-foreground transition-colors hover:bg-sidebar-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring/70"
                         onClick={() => setShowBulkCreate(true)}
                     >
                         Create multiples
                     </button>
                 </div>
 
-                <div className=" p-4 flex items-center justify-between backdrop-blur-sm">
+                <div className="flex items-center justify-between border-t border-sidebar-border px-4 py-4">
                     <UserChip />
                     <div className="flex items-center gap-1">
                         <ThemeSwitcher />
                         <button
-                            aria-label="Settings"
-                            onClick={() => router.push('/settings')}
-                            className="p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                            aria-label="Open settings"
+                            onClick={() => router.push("/settings")}
+                            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring/70"
                         >
-                            <Settings className="w-4 h-4" />
+                            <Settings className="h-4 w-4" />
                         </button>
                     </div>
                 </div>
             </aside>
-            {/* Mobile Dock */}
-            <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden flex justify-center pointer-events-none">
-                <Dock className="pointer-events-auto">
-                    {navLinks.map(({ href, label, icon: Icon }) => (
-                        <DockIcon key={href}>
-                            <button
-                                aria-label={label}
-                                onClick={() => router.push(href)}
+
+            <nav
+                className={cn(
+                    "app-mobile-nav-safe fixed inset-x-0 bottom-0 z-50 md:hidden",
+                    isAnyModalOpen && "hidden"
+                )}
+                aria-label="Mobile navigation"
+                aria-hidden={isAnyModalOpen}
+            >
+                <div className="app-panel-elevated flex items-end gap-2 rounded-2xl bg-card/95 p-2 backdrop-blur">
+                    <div className="scrollbar-hide app-mobile-nav-scroll flex min-w-0 flex-1 items-stretch gap-2 overflow-x-auto pb-1">
+                        {navLinks.map(({ href, label, icon: Icon }) => (
+                            <Link
+                                key={href}
+                                href={href}
                                 className={cn(
-                                    "flex flex-col items-center justify-center gap-1 text-xs text-zinc-700 dark:text-zinc-200 px-2 py-1 focus:outline-none",
-                                    pathname === href && "text-primary"
+                                    "app-mobile-nav-item group inline-flex shrink-0 flex-col items-center justify-center gap-1 rounded-xl text-center font-medium transition-colors",
+                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+                                    isActiveLink(href)
+                                        ? "bg-primary text-primary-foreground shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]"
+                                        : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                                 )}
+                                aria-current={isActiveLink(href) ? "page" : undefined}
                             >
-                                <Icon className="w-6 h-6" />
-                            </button>
-                        </DockIcon>
-                    ))}
-                    <DockIcon>
-                        <ThemeSwitcher />
-                    </DockIcon>
-                </Dock>
+                                <Icon className={cn("h-5 w-5", isActiveLink(href) ? "text-primary-foreground" : "text-current")} />
+                                <span className="app-mobile-nav-label">{label}</span>
+                            </Link>
+                        ))}
+                    </div>
+
+                    <div className="mb-px flex shrink-0 items-center gap-2">
+                        <button
+                            type="button"
+                            aria-label="Create new"
+                            onClick={() => setShowCreate(true)}
+                            className="app-mobile-nav-control inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground transition-colors hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+                        >
+                            <Plus className="h-5 w-5" />
+                        </button>
+
+                        <ThemeSwitcher className="app-mobile-nav-control" />
+                    </div>
+                </div>
             </nav>
         </>
     );
 }
+
+
+
+
+
+
+

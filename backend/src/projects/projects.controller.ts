@@ -37,7 +37,7 @@ import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 export class ProjectsController {
   constructor(
     private readonly projectsService: ProjectsService,
-    private readonly scoringService: ScoringService
+    private readonly scoringService: ScoringService,
   ) {}
 
   @Post()
@@ -95,7 +95,7 @@ export class ProjectsController {
   })
   @ApiResponse({ status: 401, description: "Unauthorized" })
   getScoringStatistics() {
-    return this.scoringService.getScorignStatistics();
+    return this.scoringService.getScoringStatistics();
   }
 
   @Get("scoring/top-items")
@@ -195,14 +195,14 @@ export class ProjectsController {
   @ApiResponse({ status: 401, description: "Unauthorized" })
   @ApiResponse({ status: 404, description: "Project not found" })
   async getProjectScoringBreakdown(
-    @Param("id", ParseIntPipe) projectId: number
+    @Param("id", ParseIntPipe) projectId: number,
   ) {
     const project = await this.projectsService.findOne(projectId);
     const scores: any[] = [];
 
     for (const projectItem of project.projectItems) {
       const scoreBreakdown = await this.scoringService.calculateItemScore(
-        projectItem.item.id
+        projectItem.item.id,
       );
       if (scoreBreakdown) {
         scores.push({
@@ -219,7 +219,7 @@ export class ProjectsController {
       projectStatus: project.status,
       projectPriority: project.priority,
       itemsScores: (scores as Array<{ totalScore: number }>).sort(
-        (a, b) => b.totalScore - a.totalScore
+        (a, b) => b.totalScore - a.totalScore,
       ),
     };
   }
@@ -237,7 +237,7 @@ export class ProjectsController {
   })
   update(
     @Param("id", ParseIntPipe) id: number,
-    @Body() updateProjectDto: UpdateProjectDto
+    @Body() updateProjectDto: UpdateProjectDto,
   ) {
     return this.projectsService.update(id, updateProjectDto);
   }
@@ -274,7 +274,7 @@ export class ProjectsController {
   })
   addItemToProject(
     @Param("id", ParseIntPipe) projectId: number,
-    @Body() addItemDto: AddItemToProjectDto
+    @Body() addItemDto: AddItemToProjectDto,
   ) {
     return this.projectsService.addItemToProject(projectId, addItemDto);
   }
@@ -300,7 +300,7 @@ export class ProjectsController {
   updateProjectItem(
     @Param("id", ParseIntPipe) projectId: number,
     @Param("itemId", ParseIntPipe) itemId: number,
-    @Body() updateDto: UpdateProjectItemDto
+    @Body() updateDto: UpdateProjectItemDto,
   ) {
     return this.projectsService.updateProjectItem(projectId, itemId, updateDto);
   }
@@ -324,7 +324,7 @@ export class ProjectsController {
   })
   removeItemFromProject(
     @Param("id", ParseIntPipe) projectId: number,
-    @Param("itemId", ParseIntPipe) itemId: number
+    @Param("itemId", ParseIntPipe) itemId: number,
   ) {
     return this.projectsService.removeItemFromProject(projectId, itemId);
   }

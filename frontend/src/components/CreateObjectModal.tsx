@@ -172,10 +172,15 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60 modal-backdrop p-4">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center backdrop-blur-sm bg-black/60 modal-backdrop p-4">
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="create-object-modal-title"
+                className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content"
+            >
                 <button
-                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm"
+                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 h-11 w-11 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                     onClick={() => {
                         resetModal();
                         onClose();
@@ -190,7 +195,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                 {step === "select" && (
                     <div className="p-10">
                         <div className="text-center mb-10">
-                            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 mb-4">
+                            <h2 id="create-object-modal-title" className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 mb-4">
                                 What would you like to add to your home?
                             </h2>
                             <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -199,17 +204,18 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {objectTypes.map((type) => (
-                                <div
+                                <button
                                     key={type.key}
-                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 cursor-pointer bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden"
+                                    type="button"
+                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                                     onClick={() => handleTypeSelect(type.key)}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     <div className="relative z-10 flex flex-col items-center">
-                                        <div className="text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">{type.icon}</div>
+                                        <div className="text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">{type.icon}</div>
                                         <span className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-center">{type.label}</span>
                                     </div>
-                                </div>
+                                </button>
                             ))}
                         </div>
                     </div>

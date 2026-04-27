@@ -66,7 +66,7 @@ export default function DynamicSchemaForm({ schema, initialRows = [{}], onSubmit
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             {rows.map((row, idx) => (
-                <div key={idx} className="grid gap-3 rounded-sm border p-3">
+                <div key={idx} className="app-panel grid gap-3 p-4">
                     <div className="grid grid-cols-12 gap-3">
                         {properties.map(([key, def]: [string, SchemaProperty]) => {
                             const title = def.title || key;
@@ -74,27 +74,27 @@ export default function DynamicSchemaForm({ schema, initialRows = [{}], onSubmit
                             const fieldType = def.type || "string";
                             const opts = options[key];
                             return (
-                                <label key={key} className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                    <span className="block mb-1 font-medium">{title}{required ? " *" : ""}</span>
+                                <label key={key} className="col-span-12 text-sm text-foreground sm:col-span-6">
+                                    <span className="mb-1 block font-medium">{title}{required ? " *" : ""}</span>
                                     {opts ? (
-                                        <select className="w-full rounded-sm border px-3 py-2" value={row[key] ?? ""} onChange={(e) => handleChange(idx, key, e.target.value ? Number(e.target.value) : null)}>
+                                        <select className="app-input" value={(row[key] as string | number) ?? ""} onChange={(e) => handleChange(idx, key, e.target.value ? Number(e.target.value) : null)}>
                                             <option value="">Select</option>
                                             {opts.map((o) => (<option key={o.value} value={o.value}>{o.label}</option>))}
                                         </select>
                                     ) : fieldType === "integer" || fieldType === "number" ? (
-                                        <input type="number" className="w-full rounded-sm border px-3 py-2" value={row[key] ?? ""} onChange={(e) => handleChange(idx, key, e.target.value === "" ? undefined : Number(e.target.value))} />
+                                        <input type="number" className="app-input" value={(row[key] as string | number) ?? ""} onChange={(e) => handleChange(idx, key, e.target.value === "" ? undefined : Number(e.target.value))} />
                                     ) : fieldType === "boolean" ? (
-                                        <input type="checkbox" checked={Boolean(row[key])} onChange={(e) => handleChange(idx, key, e.target.checked)} />
+                                        <input type="checkbox" className="h-4 w-4 rounded border border-border bg-input text-primary" checked={Boolean(row[key])} onChange={(e) => handleChange(idx, key, e.target.checked)} />
                                     ) : (
-                                        <input type="text" className="w-full rounded-sm border px-3 py-2" value={row[key] ?? ""} onChange={(e) => handleChange(idx, key, e.target.value)} />
+                                        <input type="text" className="app-input" value={(row[key] as string | number) ?? ""} onChange={(e) => handleChange(idx, key, e.target.value)} />
                                     )}
                                 </label>
                             );
                         })}
                     </div>
-                    <div className="flex justify-between text-xs text-gray-500">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                         <p>Line {idx + 1}</p>
-                        {rows.length > 1 && <button type="button" className="text-red-500" onClick={() => removeRow(idx)}>Remove</button>}
+                        {rows.length > 1 && <button type="button" className="text-destructive hover:underline" onClick={() => removeRow(idx)}>Remove</button>}
                     </div>
                 </div>
             ))}
@@ -102,8 +102,8 @@ export default function DynamicSchemaForm({ schema, initialRows = [{}], onSubmit
             {error && <p className="text-sm text-red-600">{error}</p>}
 
             <div className="flex gap-3">
-                <button type="button" className="rounded-sm border border-dashed px-4 py-2 text-sm font-semibold" onClick={addRow}>Add another line</button>
-                <button type="submit" className="ml-auto rounded-sm bg-blue-600 px-4 py-2 text-sm text-white" disabled={loading}>{loading ? "Preparing…" : "Bulk create"}</button>
+                <button type="button" className="app-button-secondary" onClick={addRow}>Add another line</button>
+                <button type="submit" className="ml-auto inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70" disabled={loading}>{loading ? "Preparing..." : "Bulk create"}</button>
             </div>
         </form>
     );

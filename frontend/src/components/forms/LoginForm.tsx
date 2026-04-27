@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { BackendApiError } from "@/lib/backend-api";
 import { Button } from "@/components/ui/button";
+import { COMMON_INPUT_CLASSES } from "@/lib/constants";
 import Link from "next/link";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
@@ -13,6 +14,8 @@ export default function LoginForm() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
+
+    const fieldClasses = `${COMMON_INPUT_CLASSES} py-3 pr-10 pl-4`;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,7 +55,7 @@ export default function LoginForm() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                        className={fieldClasses}
                         placeholder="Enter your email"
                     />
                 </div>
@@ -70,18 +73,19 @@ export default function LoginForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                            className={fieldClasses}
                             placeholder="Enter your password"
                         />
                         <button
                             type="button"
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            className="absolute inset-y-0 right-0 flex min-w-[44px] items-center justify-center pr-3 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
                             onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                             {showPassword ? (
-                                <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                                <EyeSlashIcon className="h-5 w-5" />
                             ) : (
-                                <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                                <EyeIcon className="h-5 w-5" />
                             )}
                         </button>
                     </div>
@@ -93,9 +97,9 @@ export default function LoginForm() {
                             id="remember-me"
                             name="remember-me"
                             type="checkbox"
-                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            className="h-4 w-4 rounded border border-border bg-input text-primary"
                         />
-                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                        <label htmlFor="remember-me" className="ml-2 block text-sm text-foreground/90">
                             Remember me
                         </label>
                     </div>
@@ -111,7 +115,7 @@ export default function LoginForm() {
                 </div>
 
                 {error && (
-                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-sm p-4">
+                    <div className="rounded-md border border-red-300 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
                         <div className="flex">
                             <div className="ml-3">
                                 <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
@@ -147,10 +151,10 @@ export default function LoginForm() {
             <div className="mt-6">
                 <div className="relative">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+                        <div className="w-full border-t border-border" />
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+                        <span className="bg-card px-2 text-muted-foreground">
                             New to ShelfSpot?
                         </span>
                     </div>
@@ -159,7 +163,7 @@ export default function LoginForm() {
                 <div className="mt-6">
                     <Link
                         href="/register"
-                        className="w-full flex justify-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        className="app-button-secondary w-full"
                     >
                         Create a free account
                     </Link>
