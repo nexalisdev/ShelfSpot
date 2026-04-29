@@ -25,7 +25,10 @@ export class UpdatePlaceDto {
 }
 
 export class BulkCreatePlaceDto {
-  @ApiProperty({ type: [CreatePlaceDto], description: "Array of places to create" })
+  @ApiProperty({
+    type: [CreatePlaceDto],
+    description: "Array of places to create",
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreatePlaceDto)

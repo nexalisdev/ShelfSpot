@@ -79,7 +79,7 @@ export interface InventoryValueResponse {
 export class ItemsService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly alertsService: AlertsService,
+    private readonly alertsService: AlertsService
   ) {}
 
   private transformItem(item: ItemWithIncludes | null): TransformedItem | null {
@@ -115,7 +115,7 @@ export class ItemsService {
         .catch((error) => {
           console.error(
             `Error checking alerts for new item ${item.id}:`,
-            error,
+            error
           );
         });
     }
@@ -129,7 +129,7 @@ export class ItemsService {
       // Basic validation: ensure roomId provided (DTO requires it)
       if (d.roomId === undefined || d.roomId === null) {
         throw new BadRequestException(
-          "roomId is required for each item in bulk create",
+          "roomId is required for each item in bulk create"
         );
       }
 
@@ -152,7 +152,7 @@ export class ItemsService {
         // If place has a roomId, ensure it matches provided roomId
         if (place.roomId && place.roomId !== d.roomId) {
           throw new BadRequestException(
-            `Place ${d.placeId} is not in room ${d.roomId} (belongs to room ${place.roomId})`,
+            `Place ${d.placeId} is not in room ${d.roomId} (belongs to room ${place.roomId})`
           );
         }
       }
@@ -164,7 +164,7 @@ export class ItemsService {
         });
         if (!container) {
           throw new NotFoundException(
-            `Container with ID ${d.containerId} not found`,
+            `Container with ID ${d.containerId} not found`
           );
         }
       }
@@ -227,7 +227,7 @@ export class ItemsService {
 
   async update(
     id: number,
-    data: UpdateItemData,
+    data: UpdateItemData
   ): Promise<TransformedItem | null> {
     const oldItem = await this.prisma.item.findUnique({
       where: { id },

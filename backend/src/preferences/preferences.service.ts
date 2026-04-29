@@ -43,7 +43,7 @@ export class PreferencesService {
 
   async updateUserPreferences(
     userId: string,
-    updates: UpdatePreferencesDto,
+    updates: UpdatePreferencesDto
   ): Promise<UserPreferences> {
     const numericUserId = parseInt(userId, 10);
 

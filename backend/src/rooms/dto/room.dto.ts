@@ -38,7 +38,10 @@ export class UpdateRoomDto {
 }
 
 export class BulkCreateRoomDto {
-  @ApiProperty({ type: [CreateRoomDto], description: "Array of rooms to create" })
+  @ApiProperty({
+    type: [CreateRoomDto],
+    description: "Array of rooms to create",
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateRoomDto)

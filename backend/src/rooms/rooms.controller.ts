@@ -19,7 +19,11 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 import { RoomsService } from "./rooms.service";
-import { CreateRoomDto, UpdateRoomDto, BulkCreateRoomDto } from "./dto/room.dto";
+import {
+  CreateRoomDto,
+  UpdateRoomDto,
+  BulkCreateRoomDto,
+} from "./dto/room.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Rooms")
