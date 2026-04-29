@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Archive, DoorOpen, Lamp, SquareLibrary, FolderOpen } from "lucide-react";
+import { Archive, DoorOpen, Lamp, SquareLibrary } from "lucide-react";
 import { backendApi } from "@/lib/backend-api";
 
 interface CreateObjectModalProps {
@@ -17,10 +17,9 @@ const objectTypes = [
     { key: "place", label: "Place", icon: <SquareLibrary className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
     { key: "container", label: "Container", icon: <Archive className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
     { key: "item", label: "Item", icon: <Lamp className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
-    { key: "project", label: "Project", icon: <FolderOpen className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
 ];
 
-export default function CreateObjectModal({ open, onClose }: CreateObjectModalProps) {
+export default function CreateObjectModal({ open, onClose }: Readonly<CreateObjectModalProps>) {
     const [step, setStep] = useState<"select" | "form">("select");
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [form, setForm] = useState<Record<string, unknown>>({});
@@ -145,16 +144,6 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                 case "item":
                     await backendApi.createItem(payload);
                     break;
-                case "project":
-                    await backendApi.createProject(payload as {
-                        name: string;
-                        description?: string;
-                        status?: "ACTIVE" | "COMPLETED" | "PAUSED" | "CANCELLED";
-                        priority?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
-                        startDate?: string;
-                        endDate?: string;
-                    });
-                    break;
                 default:
                     throw new Error(`Unknown type: ${selectedType}`);
             }
@@ -240,7 +229,6 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                     {selectedType === "place" && "How should this place be called?"}
                                     {selectedType === "container" && "How should this container be called?"}
                                     {selectedType === "item" && "How should this item be called?"}
-                                    {selectedType === "project" && "How should this project be called?"}
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-300">
                                     Fill in the details below to create your {selectedType}
@@ -503,97 +491,6 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                     onChange={e => setForm({ ...form, consumable: e.target.checked })}
                                                 />
                                                 <span className="font-medium">Consumable Item</span>
-                                            </label>
-                                        </div>
-                                    </>
-                                )}
-
-                                {/* PROJECT */}
-                                {selectedType === "project" && (
-                                    <>
-                                        {/* Project name - Full width */}
-                                        <div className="col-span-full">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Project name</span>
-                                                <input
-                                                    name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={handleChange}
-                                                    required
-                                                    placeholder="Project name"
-                                                />
-                                            </label>
-                                        </div>
-
-                                        {/* Description - Full width */}
-                                        <div className="col-span-full">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Description (optional)</span>
-                                                <textarea
-                                                    name="description"
-                                                    rows={3}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                                                    onChange={(e) => setForm({ ...form, description: e.target.value })}
-                                                    placeholder="Describe your project..."
-                                                />
-                                            </label>
-                                        </div>
-
-                                        {/* Status, Priority row - 2 columns */}
-                                        <div className="col-span-2">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Status</span>
-                                                <select
-                                                    name="status"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={(e) => setForm({ ...form, status: e.target.value })}
-                                                    defaultValue="ACTIVE"
-                                                >
-                                                    <option value="ACTIVE">Active</option>
-                                                    <option value="PAUSED">Paused</option>
-                                                    <option value="COMPLETED">Completed</option>
-                                                    <option value="CANCELLED">Cancelled</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Priority</span>
-                                                <select
-                                                    name="priority"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={(e) => setForm({ ...form, priority: e.target.value })}
-                                                    defaultValue="MEDIUM"
-                                                >
-                                                    <option value="LOW">Low</option>
-                                                    <option value="MEDIUM">Medium</option>
-                                                    <option value="HIGH">High</option>
-                                                    <option value="CRITICAL">Critical</option>
-                                                </select>
-                                            </label>
-                                        </div>
-
-                                        {/* Start Date, End Date row - 2 columns */}
-                                        <div className="col-span-2">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Start Date (optional)</span>
-                                                <input
-                                                    name="startDate"
-                                                    type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={handleChange}
-                                                />
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">End Date (optional)</span>
-                                                <input
-                                                    name="endDate"
-                                                    type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={handleChange}
-                                                />
                                             </label>
                                         </div>
                                     </>

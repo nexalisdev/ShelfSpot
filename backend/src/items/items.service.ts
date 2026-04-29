@@ -1,8 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { AlertsService } from "../alerts/alerts.service";
-import { ScoringService } from "../scoring/scoring.service";
 import { Prisma } from "@prisma/client";
 
 // Interface for update data with tags support
@@ -75,9 +78,8 @@ export interface InventoryValueResponse {
 @Injectable()
 export class ItemsService {
   constructor(
-    private prisma: PrismaService,
-    private alertsService: AlertsService,
-    private scoringService: ScoringService
+    private readonly prisma: PrismaService,
+    private readonly alertsService: AlertsService,
   ) {}
 
   private transformItem(item: ItemWithIncludes | null): TransformedItem | null {
@@ -113,7 +115,7 @@ export class ItemsService {
         .catch((error) => {
           console.error(
             `Error checking alerts for new item ${item.id}:`,
-            error
+            error,
           );
         });
     }
@@ -121,19 +123,19 @@ export class ItemsService {
     return this.transformItem(item);
   }
 
-  async createMany(
-    data: Prisma.ItemCreateManyInput[]
-  ) {
+  async createMany(data: Prisma.ItemCreateManyInput[]) {
     const created: (TransformedItem | null)[] = [];
     for (const d of data) {
       // Basic validation: ensure roomId provided (DTO requires it)
       if (d.roomId === undefined || d.roomId === null) {
-        throw new BadRequestException("roomId is required for each item in bulk create");
+        throw new BadRequestException(
+          "roomId is required for each item in bulk create",
+        );
       }
 
       // Validate referenced room
       const room = await this.prisma.room.findUnique({
-        where: { id: d.roomId as number },
+        where: { id: d.roomId },
       });
       if (!room) {
         throw new NotFoundException(`Room with ID ${d.roomId} not found`);
@@ -142,15 +144,15 @@ export class ItemsService {
       // Validate optional placeId
       if (d.placeId) {
         const place = await this.prisma.place.findUnique({
-          where: { id: d.placeId as number },
+          where: { id: d.placeId },
         });
         if (!place) {
           throw new NotFoundException(`Place with ID ${d.placeId} not found`);
         }
         // If place has a roomId, ensure it matches provided roomId
-        if (place.roomId && place.roomId !== (d.roomId as number)) {
+        if (place.roomId && place.roomId !== d.roomId) {
           throw new BadRequestException(
-            `Place ${d.placeId} is not in room ${d.roomId} (belongs to room ${place.roomId})`
+            `Place ${d.placeId} is not in room ${d.roomId} (belongs to room ${place.roomId})`,
           );
         }
       }
@@ -158,26 +160,30 @@ export class ItemsService {
       // Validate optional containerId
       if (d.containerId) {
         const container = await this.prisma.container.findUnique({
-          where: { id: d.containerId as number },
+          where: { id: d.containerId },
         });
         if (!container) {
-          throw new NotFoundException(`Container with ID ${d.containerId} not found`);
+          throw new NotFoundException(
+            `Container with ID ${d.containerId} not found`,
+          );
         }
       }
 
       // Use the safe create() method to keep behaviour (includes, alerts)
       const itemPayload: Prisma.ItemCreateInput = {
-        name: d.name as string,
+        name: d.name,
         quantity: (d.quantity as number) || 1,
-        image: (d as any).image || undefined,
-        price: (d as any).price || undefined,
-        sellprice: (d as any).sellprice || undefined,
-        status: (d as any).status || undefined,
-        consumable: (d as any).consumable === undefined ? false : (d as any).consumable,
-        place: d.placeId ? { connect: { id: d.placeId as number } } : undefined,
-        room: d.roomId ? { connect: { id: d.roomId as number } } : undefined,
-        container: d.containerId ? { connect: { id: d.containerId as number } } : undefined,
-        itemLink: (d as any).itemLink || undefined,
+        image: d.image || undefined,
+        price: d.price || undefined,
+        sellprice: d.sellprice || undefined,
+        status: d.status || undefined,
+        consumable: d.consumable ?? false,
+        place: d.placeId ? { connect: { id: d.placeId } } : undefined,
+        room: d.roomId ? { connect: { id: d.roomId } } : undefined,
+        container: d.containerId
+          ? { connect: { id: d.containerId } }
+          : undefined,
+        itemLink: d.itemLink || undefined,
       };
 
       const createdItem = await this.create(itemPayload);
@@ -221,7 +227,7 @@ export class ItemsService {
 
   async update(
     id: number,
-    data: UpdateItemData
+    data: UpdateItemData,
   ): Promise<TransformedItem | null> {
     const oldItem = await this.prisma.item.findUnique({
       where: { id },
@@ -262,11 +268,9 @@ export class ItemsService {
             where: { name: tagName },
           });
 
-          if (!tag) {
-            tag = await this.prisma.tag.create({
-              data: { name: tagName },
-            });
-          }
+          tag ??= await this.prisma.tag.create({
+            data: { name: tagName },
+          });
 
           // Create item-tag relationship
           await this.prisma.itemTag.create({

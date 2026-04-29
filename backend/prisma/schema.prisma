@@ -57,7 +57,6 @@ model Item {
   place           Place?        @relation(fields: [placeId], references: [id])
   room            Room?         @relation("RoomToItems", fields: [roomId], references: [id])
   itemTags        ItemTag[]
-  projectItems    ProjectItem[]
 
   @@index([placeId])
   @@index([roomId])
@@ -148,34 +147,6 @@ model Alert {
   @@index([threshold])
 }
 
-model Project {
-  id           Int             @id @default(autoincrement())
-  name         String          @db.VarChar(100)
-  description  String?         @db.VarChar(500)
-  status       ProjectStatus   @default(ACTIVE)
-  priority     ProjectPriority @default(MEDIUM)
-  startDate    DateTime?       @db.Timestamptz(6)
-  endDate      DateTime?       @db.Timestamptz(6)
-  createdAt    DateTime        @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime        @default(now()) @updatedAt @db.Timestamptz(6)
-  projectItems ProjectItem[]
-}
-
-model ProjectItem {
-  id        Int      @id @default(autoincrement())
-  projectId Int
-  itemId    Int
-  quantity  Int      @default(1)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
-  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@unique([projectId, itemId])
-  @@index([projectId])
-  @@index([itemId])
-}
 
 model sqlx_migrations {
   version        BigInt   @id
@@ -191,18 +162,4 @@ model sqlx_migrations {
 model users {
   id      String @id @db.VarChar
   credits Int    @default(0)
-}
-
-enum ProjectStatus {
-  ACTIVE
-  COMPLETED
-  PAUSED
-  CANCELLED
-}
-
-enum ProjectPriority {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
 }

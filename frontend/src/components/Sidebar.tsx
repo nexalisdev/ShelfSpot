@@ -9,7 +9,6 @@ import {
     Settings,
     Package,
     Warehouse,
-    FolderOpen,
     Plus,
 } from "lucide-react";
 import { useState } from "react";
@@ -22,7 +21,6 @@ const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: Home },
     { href: "/inventory", label: "Inventory", icon: Warehouse },
     { href: "/consumables", label: "Consumables", icon: Package },
-    { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/favourites", label: "Favorites", icon: Star },
     { href: "/manage", label: "Manage", icon: Box },
 ];
