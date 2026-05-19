@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { backendApi, BackendApiError } from "@/lib/backend-api";
 import { Button } from "@/components/ui/button";
+import { COMMON_INPUT_CLASSES } from "@/lib/constants";
 import Link from "next/link";
 import { EyeIcon, EyeSlashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
@@ -21,6 +22,9 @@ export default function SignUpForm() {
         password: "",
         confirmPassword: "",
     });
+
+    const inputClasses = (hasError: boolean) =>
+        `${COMMON_INPUT_CLASSES} py-3 pr-10 pl-4 ${hasError ? "border-destructive focus-visible:ring-destructive/30" : ""}`;
 
     const validateForm = () => {
         const newErrors = {
@@ -102,8 +106,7 @@ export default function SignUpForm() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.name ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
-                            }`}
+                        className={inputClasses(Boolean(errors.name))}
                         placeholder="Choose a username"
                     />
                     {errors.name && (
@@ -123,8 +126,7 @@ export default function SignUpForm() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.email ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
-                            }`}
+                        className={inputClasses(Boolean(errors.email))}
                         placeholder="Enter your email"
                     />
                     {errors.email && (
@@ -145,19 +147,19 @@ export default function SignUpForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`w-full px-4 py-3 pr-12 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.password ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
-                                }`}
+                            className={inputClasses(Boolean(errors.password))}
                             placeholder="Create a password"
                         />
                         <button
                             type="button"
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            className="absolute inset-y-0 right-0 flex min-w-[44px] items-center justify-center pr-3 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
                             onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                             {showPassword ? (
-                                <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                                <EyeSlashIcon className="h-5 w-5" />
                             ) : (
-                                <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                                <EyeIcon className="h-5 w-5" />
                             )}
                         </button>
                     </div>
@@ -179,19 +181,19 @@ export default function SignUpForm() {
                             required
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className={`w-full px-4 py-3 pr-12 border rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${errors.confirmPassword ? "border-red-300 dark:border-red-600" : "border-gray-300 dark:border-gray-600"
-                                }`}
+                            className={inputClasses(Boolean(errors.confirmPassword))}
                             placeholder="Confirm your password"
                         />
                         <button
                             type="button"
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            className="absolute inset-y-0 right-0 flex min-w-[44px] items-center justify-center pr-3 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                         >
                             {showConfirmPassword ? (
-                                <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                                <EyeSlashIcon className="h-5 w-5" />
                             ) : (
-                                <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                                <EyeIcon className="h-5 w-5" />
                             )}
                         </button>
                     </div>
@@ -201,7 +203,7 @@ export default function SignUpForm() {
                 </div>
 
                 {password && (
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
+                    <div className="app-panel-muted p-4">
                         <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password requirements:</h4>
                         <ul className="space-y-1">
                             {passwordRequirements.map((req, index) => (
@@ -225,22 +227,22 @@ export default function SignUpForm() {
                         name="terms"
                         type="checkbox"
                         required
-                        className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        className="h-4 w-4 rounded border border-border bg-input text-primary"
                     />
                     <label htmlFor="terms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                         I agree to the{" "}
-                        <Link href="/terms" className="text-primary hover:text-primary/80 underline">
+                        <Link href="/terms" className="text-primary hover:text-primary/80 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 rounded">
                             Terms of Service
                         </Link>{" "}
                         and{" "}
-                        <Link href="/privacy" className="text-primary hover:text-primary/80 underline">
+                        <Link href="/privacy" className="text-primary hover:text-primary/80 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 rounded">
                             Privacy Policy
                         </Link>
                     </label>
                 </div>
 
                 {message && (
-                    <div className={`rounded-lg p-4 ${isSuccess
+                    <div className={`rounded-md p-4 ${isSuccess
                         ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
                         : "bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
                         }`}>
@@ -282,7 +284,7 @@ export default function SignUpForm() {
                 <div className="text-center">
                     <Link
                         href="/login"
-                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-sm shadow-sm bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
+                        className="app-button-secondary w-full"
                     >
                         Go to sign in
                     </Link>

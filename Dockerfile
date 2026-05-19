@@ -75,7 +75,7 @@ module.exports = {
       cwd: '/app',
       env: {
         NODE_ENV: 'production',
-        PORT: 3001
+        PORT: 8082
       },
       exec_mode: 'fork',
       instances: 1,
@@ -89,8 +89,8 @@ module.exports = {
       cwd: '/app',
       env: {
         NODE_ENV: 'production',
-        PORT: 3000,
-        NEXT_PUBLIC_BACKEND_URL: 'http://localhost:3001'
+        PORT: 8083,
+        NEXT_PUBLIC_BACKEND_URL: 'http://localhost:8082'
       },
       exec_mode: 'fork',
       instances: 1,
@@ -145,7 +145,7 @@ RUN chown -R shelfspot:shelfspot /app
 USER shelfspot
 
 # Expose only the frontend port
-EXPOSE 3000
-ENV PORT=3000
+EXPOSE 8083
+ENV PORT=8083
 
 CMD ["./start.sh"]

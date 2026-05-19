@@ -3,7 +3,7 @@
 // API service to communicate with the NestJS backend
 
 const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8082";
 
 interface ApiResponse<T = any> {
   success: boolean;
@@ -13,7 +13,10 @@ interface ApiResponse<T = any> {
 }
 
 class BackendApiError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
     super(message);
     this.name = "BackendApiError";
   }
@@ -38,7 +41,7 @@ class BackendApiService {
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<T> {
     const url = `${BACKEND_URL}${endpoint}`;
     const headers = this.getAuthHeaders();
@@ -337,7 +340,7 @@ class BackendApiService {
 
   async updateAlert(
     id: number,
-    data: { isActive?: boolean; threshold?: number; name?: string }
+    data: { isActive?: boolean; threshold?: number; name?: string },
   ) {
     return this.request<any>(`/alerts/${id}`, {
       method: "PATCH",
@@ -397,103 +400,6 @@ class BackendApiService {
     });
   }
 
-  // Projects methods
-  async getProjects() {
-    return this.request<any[]>("/projects");
-  }
-
-  async getProject(id: number) {
-    return this.request<any>(`/projects/${id}`);
-  }
-
-  async createProject(data: {
-    name: string;
-    description?: string;
-    status?: "ACTIVE" | "COMPLETED" | "PAUSED" | "CANCELLED";
-    priority?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
-    startDate?: string;
-    endDate?: string;
-  }) {
-    return this.request<any>("/projects", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  }
-
-  async updateProject(
-    id: number,
-    data: {
-      name?: string;
-      description?: string;
-      status?: "ACTIVE" | "COMPLETED" | "PAUSED" | "CANCELLED";
-      priority?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
-      startDate?: string;
-      endDate?: string;
-    }
-  ) {
-    return this.request<any>(`/projects/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    });
-  }
-
-  async deleteProject(id: number) {
-    return this.request<{ message: string }>(`/projects/${id}`, {
-      method: "DELETE",
-    });
-  }
-
-  // Project items methods
-  async addItemToProject(projectId: number, itemId: number, quantity: number) {
-    return this.request<any>(`/projects/${projectId}/items`, {
-      method: "POST",
-      body: JSON.stringify({ itemId, quantity }),
-    });
-  }
-
-  async updateProjectItem(projectId: number, itemId: number, quantity: number) {
-    return this.request<any>(`/projects/${projectId}/items/${itemId}`, {
-      method: "PATCH",
-      body: JSON.stringify({ quantity }),
-    });
-  }
-
-  async removeItemFromProject(projectId: number, itemId: number) {
-    return this.request<{ message: string }>(
-      `/projects/${projectId}/items/${itemId}`,
-      {
-        method: "DELETE",
-      }
-    );
-  }
-
-  // Scoring methods
-  async getScoringStatistics() {
-    return this.request<any>("/projects/scoring/statistics");
-  }
-
-  async getTopItems() {
-    return this.request<any[]>("/projects/scoring/top-items");
-  }
-
-  async getCriticalItems() {
-    return this.request<any[]>("/projects/scoring/critical-items");
-  }
-
-  async recalculateScores() {
-    return this.request<any>("/projects/scoring/recalculate", {
-      method: "POST",
-    });
-  }
-
-  async getProjectStatistics(id: number) {
-    return this.request<any>(`/projects/${id}/statistics`);
-  }
-
-  async getProjectScoringBreakdown(id: number) {
-    return this.request<any>(`/projects/${id}/scoring/breakdown`);
-  }
-
   // Preferences methods
   async getUserPreferences() {
     return this.request<{
@@ -501,7 +407,6 @@ class BackendApiService {
       userId: number;
       showWelcomeHeader: boolean;
       showStatsCards: boolean;
-      showRecentItems: boolean;
       showRoomDistribution: boolean;
       showAlertsPerMonth: boolean;
       showInventoryValue: boolean;
@@ -512,7 +417,6 @@ class BackendApiService {
   async updateUserPreferences(preferences: {
     showWelcomeHeader?: boolean;
     showStatsCards?: boolean;
-    showRecentItems?: boolean;
     showRoomDistribution?: boolean;
     showAlertsPerMonth?: boolean;
     showInventoryValue?: boolean;
@@ -523,7 +427,6 @@ class BackendApiService {
       userId: number;
       showWelcomeHeader: boolean;
       showStatsCards: boolean;
-      showRecentItems: boolean;
       showRoomDistribution: boolean;
       showAlertsPerMonth: boolean;
       showInventoryValue: boolean;

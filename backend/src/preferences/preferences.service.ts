@@ -6,7 +6,6 @@ import { UserPreferences } from "@prisma/client";
 export interface UpdatePreferencesDto {
   showWelcomeHeader?: boolean;
   showStatsCards?: boolean;
-  showRecentItems?: boolean;
   showRoomDistribution?: boolean;
   showAlertsPerMonth?: boolean;
   showInventoryValue?: boolean;
@@ -31,7 +30,6 @@ export class PreferencesService {
           userId: numericUserId,
           showWelcomeHeader: true,
           showStatsCards: true,
-          showRecentItems: true,
           showRoomDistribution: true,
           showAlertsPerMonth: true,
           showInventoryValue: true,

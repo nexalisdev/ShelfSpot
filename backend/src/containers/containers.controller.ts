@@ -19,7 +19,11 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 import { ContainersService } from "./containers.service";
-import { CreateContainerDto, UpdateContainerDto, BulkCreateContainerDto } from "./dto/container.dto";
+import {
+  CreateContainerDto,
+  UpdateContainerDto,
+  BulkCreateContainerDto,
+} from "./dto/container.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Containers")

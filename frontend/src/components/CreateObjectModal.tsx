@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Archive, DoorOpen, Lamp, SquareLibrary, FolderOpen } from "lucide-react";
+import { Archive, DoorOpen, Lamp, SquareLibrary } from "lucide-react";
 import { backendApi } from "@/lib/backend-api";
 
 interface CreateObjectModalProps {
@@ -17,10 +17,9 @@ const objectTypes = [
     { key: "place", label: "Place", icon: <SquareLibrary className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
     { key: "container", label: "Container", icon: <Archive className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
     { key: "item", label: "Item", icon: <Lamp className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
-    { key: "project", label: "Project", icon: <FolderOpen className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
 ];
 
-export default function CreateObjectModal({ open, onClose }: CreateObjectModalProps) {
+export default function CreateObjectModal({ open, onClose }: Readonly<CreateObjectModalProps>) {
     const [step, setStep] = useState<"select" | "form">("select");
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [form, setForm] = useState<Record<string, unknown>>({});
@@ -145,16 +144,6 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                 case "item":
                     await backendApi.createItem(payload);
                     break;
-                case "project":
-                    await backendApi.createProject(payload as {
-                        name: string;
-                        description?: string;
-                        status?: "ACTIVE" | "COMPLETED" | "PAUSED" | "CANCELLED";
-                        priority?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
-                        startDate?: string;
-                        endDate?: string;
-                    });
-                    break;
                 default:
                     throw new Error(`Unknown type: ${selectedType}`);
             }
@@ -172,10 +161,15 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60 modal-backdrop p-4">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center backdrop-blur-sm bg-black/60 modal-backdrop p-4">
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="create-object-modal-title"
+                className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content"
+            >
                 <button
-                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm"
+                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 h-11 w-11 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                     onClick={() => {
                         resetModal();
                         onClose();
@@ -190,7 +184,7 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                 {step === "select" && (
                     <div className="p-10">
                         <div className="text-center mb-10">
-                            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 mb-4">
+                            <h2 id="create-object-modal-title" className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 mb-4">
                                 What would you like to add to your home?
                             </h2>
                             <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -199,17 +193,18 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {objectTypes.map((type) => (
-                                <div
+                                <button
                                     key={type.key}
-                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 cursor-pointer bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden"
+                                    type="button"
+                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                                     onClick={() => handleTypeSelect(type.key)}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     <div className="relative z-10 flex flex-col items-center">
-                                        <div className="text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">{type.icon}</div>
+                                        <div className="text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">{type.icon}</div>
                                         <span className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-center">{type.label}</span>
                                     </div>
-                                </div>
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -234,7 +229,6 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                     {selectedType === "place" && "How should this place be called?"}
                                     {selectedType === "container" && "How should this container be called?"}
                                     {selectedType === "item" && "How should this item be called?"}
-                                    {selectedType === "project" && "How should this project be called?"}
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-300">
                                     Fill in the details below to create your {selectedType}
@@ -497,97 +491,6 @@ export default function CreateObjectModal({ open, onClose }: CreateObjectModalPr
                                                     onChange={e => setForm({ ...form, consumable: e.target.checked })}
                                                 />
                                                 <span className="font-medium">Consumable Item</span>
-                                            </label>
-                                        </div>
-                                    </>
-                                )}
-
-                                {/* PROJECT */}
-                                {selectedType === "project" && (
-                                    <>
-                                        {/* Project name - Full width */}
-                                        <div className="col-span-full">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Project name</span>
-                                                <input
-                                                    name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={handleChange}
-                                                    required
-                                                    placeholder="Project name"
-                                                />
-                                            </label>
-                                        </div>
-
-                                        {/* Description - Full width */}
-                                        <div className="col-span-full">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Description (optional)</span>
-                                                <textarea
-                                                    name="description"
-                                                    rows={3}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                                                    onChange={(e) => setForm({ ...form, description: e.target.value })}
-                                                    placeholder="Describe your project..."
-                                                />
-                                            </label>
-                                        </div>
-
-                                        {/* Status, Priority row - 2 columns */}
-                                        <div className="col-span-2">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Status</span>
-                                                <select
-                                                    name="status"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={(e) => setForm({ ...form, status: e.target.value })}
-                                                    defaultValue="ACTIVE"
-                                                >
-                                                    <option value="ACTIVE">Active</option>
-                                                    <option value="PAUSED">Paused</option>
-                                                    <option value="COMPLETED">Completed</option>
-                                                    <option value="CANCELLED">Cancelled</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Priority</span>
-                                                <select
-                                                    name="priority"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={(e) => setForm({ ...form, priority: e.target.value })}
-                                                    defaultValue="MEDIUM"
-                                                >
-                                                    <option value="LOW">Low</option>
-                                                    <option value="MEDIUM">Medium</option>
-                                                    <option value="HIGH">High</option>
-                                                    <option value="CRITICAL">Critical</option>
-                                                </select>
-                                            </label>
-                                        </div>
-
-                                        {/* Start Date, End Date row - 2 columns */}
-                                        <div className="col-span-2">
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">Start Date (optional)</span>
-                                                <input
-                                                    name="startDate"
-                                                    type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={handleChange}
-                                                />
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label className="block text-gray-900 dark:text-white">
-                                                <span className="block mb-2 font-medium">End Date (optional)</span>
-                                                <input
-                                                    name="endDate"
-                                                    type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    onChange={handleChange}
-                                                />
                                             </label>
                                         </div>
                                     </>

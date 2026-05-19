@@ -6,21 +6,21 @@ export interface UserPreferences {
   userId: number;
   showWelcomeHeader: boolean;
   showStatsCards: boolean;
-  showRecentItems: boolean;
   showRoomDistribution: boolean;
   showAlertsPerMonth: boolean;
   showInventoryValue: boolean;
   showStatusDistribution: boolean;
+  showRecentItems?: boolean;
 }
 
 export interface UpdatePreferencesData {
   showWelcomeHeader?: boolean;
   showStatsCards?: boolean;
-  showRecentItems?: boolean;
   showRoomDistribution?: boolean;
   showAlertsPerMonth?: boolean;
   showInventoryValue?: boolean;
   showStatusDistribution?: boolean;
+  showRecentItems?: boolean;
 }
 
 export function useUserPreferences() {
@@ -36,7 +36,7 @@ export function useUserPreferences() {
       setPreferences(prefs);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to fetch preferences"
+        err instanceof Error ? err.message : "Failed to fetch preferences",
       );
     } finally {
       setLoading(false);
@@ -51,7 +51,7 @@ export function useUserPreferences() {
       return updatedPrefs;
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to update preferences"
+        err instanceof Error ? err.message : "Failed to update preferences",
       );
       throw err;
     }

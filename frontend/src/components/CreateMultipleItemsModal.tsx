@@ -131,28 +131,44 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
     }
 
     const formContent = (
-        <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2.5">
                 {items.map((item, index) => (
                     <div
                         key={item.id}
-                        className="grid items-end gap-3 rounded-sm border border-gray-200/60 bg-white/70 p-3 dark:border-gray-700/60 dark:bg-gray-800/70"
+                        className="app-panel-muted space-y-2.5 p-3"
                     >
-                        <div className="grid grid-cols-12 gap-3">
-                            <label className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                <span className="block mb-1 font-medium">Item name</span>
+                        <div className="flex items-center justify-between">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                                Line {index + 1}
+                            </p>
+                            {items.length > 1 && (
+                                <button
+                                    type="button"
+                                    className="text-xs font-semibold text-destructive transition-colors hover:underline"
+                                    onClick={() => removeRow(item.id)}
+                                >
+                                    Remove
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-12 gap-2">
+                            <label className="col-span-12 text-sm text-foreground md:col-span-4">
+                                <span className="mb-1 block text-xs font-medium text-muted-foreground">Item name</span>
                                 <input
-                                    className="w-full rounded-sm border border-gray-300/80 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900/60 dark:text-white"
+                                    className="app-input py-2"
                                     value={item.name}
                                     onChange={(event) => handleChange(item.id, "name", event.target.value)}
                                     placeholder="e.g., Box of screws"
                                     required
                                 />
                             </label>
-                            <label className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                <span className="block mb-1 font-medium">Room</span>
+
+                            <label className="col-span-12 text-sm text-foreground md:col-span-3">
+                                <span className="mb-1 block text-xs font-medium text-muted-foreground">Room</span>
                                 <select
-                                    className="w-full rounded-sm border border-gray-300/80 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900/60 dark:text-white"
+                                    className="app-input py-2"
                                     value={item.roomId ?? ""}
                                     onChange={(event) => handleChange(item.id, "roomId", event.target.value ? Number(event.target.value) : null)}
                                     required
@@ -165,40 +181,28 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
                                     ))}
                                 </select>
                             </label>
-                        </div>
-                        <div className="grid grid-cols-12 gap-3">
-                            <label className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                <span className="block mb-1 font-medium">Quantity</span>
+
+                            <label className="col-span-6 text-sm text-foreground md:col-span-2">
+                                <span className="mb-1 block text-xs font-medium text-muted-foreground">Quantity</span>
                                 <input
                                     type="number"
                                     min={1}
-                                    className="w-full rounded-sm border border-gray-300/80 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900/60 dark:text-white"
+                                    className="app-input py-2"
                                     value={item.quantity}
                                     onChange={(event) => handleChange(item.id, "quantity", Number(event.target.value) || 1)}
                                     required
                                 />
                             </label>
-                            <label className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                <span className="block mb-1 font-medium">Item link (optional)</span>
+
+                            <label className="col-span-6 text-sm text-foreground md:col-span-3">
+                                <span className="mb-1 block text-xs font-medium text-muted-foreground">Item link (optional)</span>
                                 <input
-                                    className="w-full rounded-sm border border-gray-300/80 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900/60 dark:text-white"
+                                    className="app-input py-2"
                                     value={item.itemLink}
                                     onChange={(event) => handleChange(item.id, "itemLink", event.target.value)}
                                     placeholder="https://..."
                                 />
                             </label>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                            <p>Line {index + 1}</p>
-                            {items.length > 1 && (
-                                <button
-                                    type="button"
-                                    className="text-red-500 transition-all hover:text-red-600"
-                                    onClick={() => removeRow(item.id)}
-                                >
-                                    Remove
-                                </button>
-                            )}
                         </div>
                     </div>
                 ))}
@@ -207,10 +211,10 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
             {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
             {success && <p className="text-sm text-green-600 dark:text-green-400">Items prepared, backend call pending.</p>}
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
                 <button
                     type="button"
-                    className="rounded-sm border border-dashed border-blue-500/60 px-4 py-2 text-sm font-semibold text-blue-600 transition hover:border-blue-500 hover:bg-blue-50 dark:border-blue-400/60 dark:text-blue-300 dark:hover:bg-blue-500/10"
+                    className="rounded-md border border-dashed border-blue-500/60 px-3 py-1.5 text-sm font-semibold text-blue-600 transition hover:border-blue-500 hover:bg-blue-50 dark:border-blue-400/60 dark:text-blue-300 dark:hover:bg-blue-500/10"
                     onClick={addRow}
                 >
                     Add another line
@@ -220,7 +224,7 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
             <div className="flex flex-wrap justify-end gap-3">
                 <button
                     type="button"
-                    className="rounded-sm border border-gray-200/60 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-100 dark:border-gray-700/60 dark:text-gray-200 dark:hover:bg-gray-800"
+                    className="rounded-md border border-gray-200/60 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-100 dark:border-gray-700/60 dark:text-gray-200 dark:hover:bg-gray-800"
                     onClick={() => {
                         resetState();
                         onClose();
@@ -230,7 +234,7 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
                 </button>
                 <button
                     type="submit"
-                    className="rounded-sm bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-purple-700 disabled:cursor-not-allowed disabled:opacity-70"
+                    className="rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
                     disabled={loading || !canSubmit}
                 >
                     {loading ? "Preparing…" : "Bulk creation"}
@@ -240,7 +244,7 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
     );
 
     if (embedded) {
-        return <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">{formContent}</div>;
+        return <div className="p-4 md:p-5 overflow-y-auto max-h-[calc(92vh-165px)]">{formContent}</div>;
     }
 
     return (

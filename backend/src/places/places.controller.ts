@@ -19,7 +19,11 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 import { PlacesService } from "./places.service";
-import { CreatePlaceDto, UpdatePlaceDto, BulkCreatePlaceDto } from "./dto/place.dto";
+import {
+  CreatePlaceDto,
+  UpdatePlaceDto,
+  BulkCreatePlaceDto,
+} from "./dto/place.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @ApiTags("Places")

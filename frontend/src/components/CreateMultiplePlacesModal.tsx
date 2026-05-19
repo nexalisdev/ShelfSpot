@@ -44,8 +44,17 @@ export default function CreateMultiplePlacesModal({ open, onClose, embedded = fa
         [rows]
     );
 
-    const handleChange = (id: string, field: keyof BulkPlaceRow, value: string | number) => {
-        setRows((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: value } : r)));
+    const handleChange = (id: string, field: keyof BulkPlaceRow, value: string | number | null) => {
+        setRows((prev) =>
+            prev.map((r) =>
+                r.id === id
+                    ? {
+                        ...r,
+                        [field]: field === "roomId" ? (value === null ? null : Number(value)) : String(value ?? ""),
+                    }
+                    : r
+            )
+        );
     };
 
     const addRow = () => setRows((prev) => [...prev, createEmptyRow()]);
@@ -87,27 +96,33 @@ export default function CreateMultiplePlacesModal({ open, onClose, embedded = fa
     if (!open) return null;
 
     const formContent = (
-        <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2.5">
                 {rows.map((row, idx) => (
-                    <div key={row.id} className="grid items-end gap-3 rounded-sm border border-gray-200/60 bg-white/70 p-3 dark:border-gray-700/60 dark:bg-gray-800/70">
-                        <div className="grid grid-cols-12 gap-3">
-                            <label className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                <span className="block mb-1 font-medium">Place name</span>
+                    <div key={row.id} className="app-panel-muted space-y-2.5 p-3">
+                        <div className="flex items-center justify-between">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Line {idx + 1}</p>
+                            {rows.length > 1 && <button type="button" className="text-xs font-semibold text-destructive hover:underline" onClick={() => removeRow(row.id)}>Remove</button>}
+                        </div>
+
+                        <div className="grid grid-cols-12 gap-2">
+                            <label className="col-span-12 text-sm text-foreground md:col-span-6">
+                                <span className="mb-1 block text-xs font-medium text-muted-foreground">Place name</span>
                                 <input
-                                    className="w-full rounded-sm border px-3 py-2"
+                                    className="app-input py-2"
                                     value={row.name}
                                     onChange={(e) => handleChange(row.id, "name", e.target.value)}
                                     placeholder="e.g., Kitchen Counter"
                                     required
                                 />
                             </label>
-                            <label className="col-span-12 sm:col-span-6 text-sm text-gray-900 dark:text-white">
-                                <span className="block mb-1 font-medium">Room</span>
+
+                            <label className="col-span-12 text-sm text-foreground md:col-span-6">
+                                <span className="mb-1 block text-xs font-medium text-muted-foreground">Room</span>
                                 <select
-                                    className="w-full rounded-sm border px-3 py-2"
+                                    className="app-input py-2"
                                     value={row.roomId || ""}
-                                    onChange={(e) => handleChange(row.id, "roomId", parseInt(e.target.value))}
+                                    onChange={(e) => handleChange(row.id, "roomId", e.target.value ? Number(e.target.value) : null)}
                                     required
                                 >
                                     <option value="">Select a room</option>
@@ -117,10 +132,6 @@ export default function CreateMultiplePlacesModal({ open, onClose, embedded = fa
                                 </select>
                             </label>
                         </div>
-                        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                            <p>Line {idx + 1}</p>
-                            {rows.length > 1 && <button type="button" className="text-red-500" onClick={() => removeRow(row.id)}>Remove</button>}
-                        </div>
                     </div>
                 ))}
             </div>
@@ -128,19 +139,19 @@ export default function CreateMultiplePlacesModal({ open, onClose, embedded = fa
             {error && <p className="text-sm text-red-600">{error}</p>}
             {success && <p className="text-sm text-green-600">Places created successfully.</p>}
 
-            <div className="flex flex-wrap gap-3">
-                <button type="button" className="rounded-sm border border-dashed px-4 py-2 text-sm font-semibold" onClick={addRow}>Add another line</button>
+            <div className="flex flex-wrap gap-2.5">
+                <button type="button" className="rounded-md border border-dashed px-3 py-1.5 text-sm font-semibold" onClick={addRow}>Add another line</button>
             </div>
 
             <div className="flex flex-wrap justify-end gap-3">
-                <button type="button" className="rounded-sm border px-4 py-2 text-sm" onClick={() => { resetState(); onClose(); }}>Cancel</button>
-                <button type="submit" className="rounded-sm bg-blue-600 px-4 py-2 text-sm text-white" disabled={loading || !canSubmit}>{loading ? "Preparing…" : "Bulk create places"}</button>
+                <button type="button" className="rounded-md border px-4 py-2 text-sm" onClick={() => { resetState(); onClose(); }}>Cancel</button>
+                <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white" disabled={loading || !canSubmit}>{loading ? "Preparing…" : "Bulk create places"}</button>
             </div>
         </form>
     );
 
     if (embedded) {
-        return <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">{formContent}</div>;
+        return <div className="p-4 md:p-5 overflow-y-auto max-h-[calc(92vh-165px)]">{formContent}</div>;
     }
 
     return (

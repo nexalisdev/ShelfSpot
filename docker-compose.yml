@@ -1,32 +1,32 @@
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
-      - NEXT_PUBLIC_API_URL=http://backend:3001
-    depends_on:
-      - backend
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8083:3000"
+  #   environment:
+  #     - NODE_ENV=production
+  #     - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
+  #     - NEXT_PUBLIC_API_URL=http://backend:8082
+  #   depends_on:
+  #     - backend
 
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "3001:3001"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
-      - JWT_SECRET=test_jwt_secret_change_in_production
-      - RESEND_API_KEY=test_resend_api_key
-      - RESEND_FROM_EMAIL=ShelfSpot <test@local.app>
-      - ALERT_EMAIL_RECIPIENT=admin@local.app
-    depends_on:
-      - db
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8082:3001"
+  #   environment:
+  #     - NODE_ENV=production
+  #     - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
+  #     - JWT_SECRET=test_jwt_secret_change_in_production
+  #     - RESEND_API_KEY=test_resend_api_key
+  #     - RESEND_FROM_EMAIL=ShelfSpot <test@local.app>
+  #     - ALERT_EMAIL_RECIPIENT=admin@local.app
+  #   depends_on:
+  #     - db
 
   db:
     image: postgres:15-alpine

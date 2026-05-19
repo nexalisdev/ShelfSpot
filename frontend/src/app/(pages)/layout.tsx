@@ -8,20 +8,12 @@ export default function PagesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen w-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-purple-900/10">
-      {/* Fixed Sidebar */}
-      <div className="w-64 flex-shrink-0">
-        <Sidebar />
-      </div>
+    <div className="app-shell relative flex min-h-dvh w-full">
+      <Sidebar />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-
-        {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-8">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
+      <div className="flex min-w-0 flex-1 flex-col md:pl-[264px]">
+        <main className="app-main-mobile-spacing app-page-inline-padding flex-1 overflow-y-auto pt-6 md:pt-8">
+          <div className="mx-auto w-full max-w-7xl">{children}</div>
         </main>
       </div>
     </div>

@@ -48,7 +48,7 @@ RUN chown -R nestjs:nodejs /app && \
 
 USER nestjs
 
-EXPOSE 3001
-ENV PORT=3001
+EXPOSE 8082
+ENV PORT=8082
 
 CMD ["sh", "./docker-entrypoint.sh"]
