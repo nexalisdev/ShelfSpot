@@ -1,0 +1,22 @@
+{
+  "name": "shelfspot-cli",
+  "version": "1.0.0",
+  "description": "ShelfSpot inventory management CLI",
+  "main": "dist/index.js",
+  "bin": {
+    "shelfspot": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}
