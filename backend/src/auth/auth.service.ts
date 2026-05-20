@@ -8,6 +8,7 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma.service";
+import { randomBytes } from "crypto";
 import { EmailService } from "../email/email.service";
 import * as bcrypt from "bcrypt";
 import { LoginDto } from "./dto/login.dto";
@@ -26,6 +27,22 @@ export class AuthService {
     private jwtService: JwtService,
     private emailService: EmailService
   ) {}
+
+  private static readonly REFRESH_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+  private generateRefreshToken(): string {
+    return randomBytes(40).toString("hex");
+  }
+
+  private async storeRefreshToken(userId: number, token: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        refreshToken: token,
+        refreshTokenExpiry: new Date(Date.now() + AuthService.REFRESH_TTL_MS),
+      },
+    });
+  }
 
   // Utility function to convert Prisma types to frontend types
   private convertPrismaUser(user: {
@@ -94,15 +111,14 @@ export class AuthService {
     console.log("AuthService: JWT payload:", JSON.stringify(payload, null, 2));
 
     const access_token = this.jwtService.sign(payload);
-    console.log(
-      "AuthService: Generated token:",
-      access_token.substring(0, 50) + "..."
-    );
+    const refresh_token = this.generateRefreshToken();
+    await this.storeRefreshToken(parseInt(user.id, 10), refresh_token);
 
     return {
       access_token,
+      refresh_token,
       token_type: "bearer",
-      expires_in: 3600, // 1 hour in seconds
+      expires_in: 3600,
       user: {
         id: user.id,
         email: user.email,
@@ -159,17 +175,67 @@ export class AuthService {
     };
 
     const access_token = this.jwtService.sign(payload);
+    const refresh_token = this.generateRefreshToken();
+    await this.storeRefreshToken(user.id, refresh_token);
 
     return {
       access_token,
+      refresh_token,
       token_type: "bearer",
       expires_in: 3600,
       user: {
-        id: String(user.id), // Conversion number -> string
+        id: String(user.id),
         email: user.email,
-        name: user.name || undefined, // null -> undefined
+        name: user.name || undefined,
         admin: user.admin,
-        notificationToken: user.notificationToken || undefined, // null -> undefined
+        notificationToken: user.notificationToken || undefined,
+      },
+    };
+  }
+
+  async refresh(refreshToken: string): Promise<AuthResult> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        refreshToken,
+        refreshTokenExpiry: { gt: new Date() },
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        admin: true,
+        notificationToken: true,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException("Invalid or expired refresh token");
+    }
+
+    const payload: JwtPayload = {
+      sub: String(user.id),
+      email: user.email,
+      name: user.name || undefined,
+      admin: user.admin,
+      notificationToken: user.notificationToken || undefined,
+    };
+
+    const access_token = this.jwtService.sign(payload);
+    // Rotate the refresh token on every use
+    const new_refresh_token = this.generateRefreshToken();
+    await this.storeRefreshToken(user.id, new_refresh_token);
+
+    return {
+      access_token,
+      refresh_token: new_refresh_token,
+      token_type: "bearer",
+      expires_in: 3600,
+      user: {
+        id: String(user.id),
+        email: user.email,
+        name: user.name || undefined,
+        admin: user.admin,
+        notificationToken: user.notificationToken || undefined,
       },
     };
   }
