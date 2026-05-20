@@ -1,44 +1,52 @@
 services:
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8083:3000"
-  #   environment:
-  #     - NODE_ENV=production
-  #     - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
-  #     - NEXT_PUBLIC_API_URL=http://backend:8082
-  #   depends_on:
-  #     - backend
-
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8082:3001"
-  #   environment:
-  #     - NODE_ENV=production
-  #     - DATABASE_URL=postgresql://postgres:password@db:5432/shelfspot
-  #     - JWT_SECRET=test_jwt_secret_change_in_production
-  #     - RESEND_API_KEY=test_resend_api_key
-  #     - RESEND_FROM_EMAIL=ShelfSpot <test@local.app>
-  #     - ALERT_EMAIL_RECIPIENT=admin@local.app
-  #   depends_on:
-  #     - db
-
   db:
     image: postgres:15-alpine
     container_name: shelfspot_db
+    profiles: ["backend", "full"]
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: shelfspot
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-shelfspot}
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shelfspot_backend
+    profiles: ["backend", "full"]
+    ports:
+      - "${BACKEND_PORT:-8082}:8082"
+    env_file:
+      - ./backend/.env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-shelfspot}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shelfspot_frontend
+    profiles: ["frontend", "full"]
+    ports:
+      - "${FRONTEND_PORT:-8083}:8083"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-http://backend:8082}
+    restart: unless-stopped
 
 volumes:
   db_data:
