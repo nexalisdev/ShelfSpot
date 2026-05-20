@@ -1,30 +1,9 @@
 # ShelfSpot – *Your Perfect Inventory*
 
-**ShelfSpot** is an open-source, self-hosted application designed to provide complete organization and traceability of items in your home or small warehouse. With its modern backend and web interface, plus a dedicated mobile app for iPhone, ShelfSpot ensures you always know where your belongings are and when you need to take action.
-
-
-## Why Choose ShelfSpot?
-
-- **Open Source**: Free to use, modify, and contribute.
-- **Privacy First**: All data stays on your own server.
-- **Adaptable**: Suitable for homes, garages, workshops, or small warehouses.
-- **Community-Driven**: Contributions and feature suggestions are welcome.
+**ShelfSpot** is an open-source, self-hosted home inventory application. Know what you own, where
+it lives, and when to reorder — from any device, without sharing your data with a third party.
 
 ---
-
-## Getting Started
-
-1. **Clone the repository** and set up your server (Docker support included).
-2. **Configure your environment** and launch the backend and web interface.
-3. **Install the mobile app** on your iPhone and connect to your server.
-4. **Start organizing** your inventory and enjoy peace of mind!
-
----
-
-> *ShelfSpot – Your Perfect Inventory. Organize, track, and never lose sight of what matters most.*
-
----
-
 
 ## Table of Contents
 
@@ -32,436 +11,245 @@
 2. [Technology Stack](#technology-stack)
 3. [Core Features](#core-features)
 4. [Deployment Guide](#deployment-guide)
-5. [API Documentation](#api-documentation)
-6. [Authentication System](#authentication-system)
-7. [Frontend Architecture](#frontend-architecture)
-8. [Mobile App Integration](#mobile-app-integration)
-9. [Development Setup](#development-setup)
-10. [Configuration](#configuration)
+   - [Option A — Setup Wizard (recommended)](#option-a--setup-wizard-recommended)
+   - [Option B — Docker Compose manually](#option-b--docker-compose-manually)
+   - [Option C — Local development (no Docker)](#option-c--local-development-no-docker)
+   - [Nginx reverse proxy](#nginx-reverse-proxy)
+   - [CLI installation](#cli-installation)
+5. [CLI Usage Guide](#cli-usage-guide)
+   - [Authentication](#authentication)
+   - [Items](#items)
+   - [Rooms](#rooms)
+   - [Places](#places)
+   - [Containers](#containers)
+   - [Tags](#tags)
+   - [Alerts](#alerts)
+   - [Favourites](#favourites)
+   - [Typical workflows](#typical-workflows)
+6. [Configuration Reference](#configuration-reference)
+7. [API Documentation](#api-documentation)
+8. [Authentication System](#authentication-system)
+9. [Frontend Architecture](#frontend-architecture)
+10. [Mobile Integration](#mobile-integration)
 11. [Troubleshooting](#troubleshooting)
 
 ---
 
 ## Architecture Overview
 
-ShelfSpot follows a modern three-tier architecture:
-
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │◄──►│    Backend      │◄──►│   Database      │
-│   (Next.js)     │    │   (NestJS)      │    │   (MySQL)       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       │                       │
-         ▼                       ▼                       ▼
-   Web Interface           REST API              Data Storage
-    React Components      JWT Authentication     Prisma ORM
-                          Swagger Documentation  Migrations
+┌─────────────────┐    ┌─────────────────┐    ┌──────────────────┐
+│   Frontend      │◄──►│    Backend      │◄──►│    Database      │
+│   (Next.js 15)  │    │   (NestJS 11)   │    │  (PostgreSQL 15) │
+└─────────────────┘    └─────────────────┘    └──────────────────┘
+        │                       │
+        ▼                       ▼
+  Web Interface           REST API
+  React 19                JWT Auth (55 min + 30-day refresh)
+  Tailwind CSS 4          Swagger / OpenAPI 3.0
+                          Prisma ORM + migrations
 ```
 
-### Key Components
+Default ports (all configurable):
 
-- **Frontend**: Next.js 15 with React 19, TypeScript, Tailwind CSS
-- **Backend**: NestJS with TypeScript, Prisma ORM, JWT Authentication
-- **Database**: MySQL/MariaDB with structured schema
-- **Mobile**: iPhone app with Expo push notifications
-- **Deployment**: Docker containers with health checks
+| Service  | Port |
+|----------|------|
+| Frontend | 8083 |
+| Backend  | 8082 |
+| Database | 5432 |
 
 ---
 
 ## Technology Stack
 
-### Backend Technologies
+### Backend
+- **NestJS 11** · TypeScript 5 · Prisma 6 · PostgreSQL 15
+- JWT authentication with Passport.js, bcrypt password hashing
+- Email alerts via [Resend](https://resend.com)
+- Push notifications via Expo Server SDK
+- Swagger / OpenAPI documentation
 
-- **Framework**: NestJS 11.x
-- **Language**: TypeScript 5.x
-- **Database**: MySQL/MariaDB
-- **ORM**: Prisma 6.x
-- **Authentication**: JWT with Passport.js
-- **Documentation**: Swagger/OpenAPI 3.0
-- **Email**: Resend service
-- **Push Notifications**: Expo Server SDK
-- **Validation**: Class Validator
-- **Testing**: Jest
+### Frontend
+- **Next.js 15** · React 19 · TypeScript 5 · Tailwind CSS 4
+- Headless UI · Radix UI · Heroicons · Lucide
+- Chart.js · React Hook Form + Zod validation
 
-### Frontend Technologies
-
-- **Framework**: Next.js 15.x
-- **Language**: TypeScript 5.x
-- **UI Framework**: React 19.x
-- **Styling**: Tailwind CSS 4.x
-- **Components**: Headless UI, Radix UI
-- **Icons**: Heroicons, Lucide React
-- **Charts**: Chart.js with React wrapper
-- **Forms**: React Hook Form with Zod validation
-- **State Management**: React Context API
-
-### DevOps & Tools
-
-- **Containerization**: Docker with multi-stage builds
-- **Database Migrations**: Prisma Migrate
-- **Code Quality**: ESLint, Prettier
-- **Version Control**: Git with conventional commits
-- **CI/CD**: GitHub Actions (CodeQL analysis)
+### Infrastructure
+- Docker with multi-stage builds and PM2 process manager
+- Docker Compose with deployment profiles (`backend`, `frontend`, `full`)
+- Nginx reverse-proxy configuration included
 
 ---
 
 ## Core Features
 
-### 🏠 Inventory Management
-
-- **Hierarchical Organization**: Items → Containers → Places → Rooms
-- **Advanced Search**: Full-text search with filters
-- **Tags System**: Flexible categorization with icons
-- **Status Tracking**: Custom status fields per item
-- **Image Support**: Item photos and visual identification
-- **Price Tracking**: Purchase and selling price management
-- **Quantity Management**: Stock levels with automatic alerts
-
-### 🔔 Smart Alerts & Notifications
-
-- **Automated Scoring**: Importance algorithm based on project usage
-- **Threshold Alerts**: Customizable quantity thresholds
-- **Multi-Channel Notifications**: Email and mobile push notifications
-- **Alert Management**: Enable/disable, naming, scheduling
-- **Anti-Spam Protection**: Cooldown periods between alerts
-
-### 📊 Projects & Scoring System
-
-- **Project Management**: Active, completed, paused, cancelled projects
-- **Priority Levels**: Low, medium, high, critical priorities
-- **Item Scoring**: Dynamic importance calculation based on:
-  - Active project participation
-  - Project priority multipliers
-  - Multi-project bonus scoring
-  - Paused project partial scoring
-- **Analytics**: Comprehensive project statistics and breakdowns
-
-### 👥 User Management
-
-- **Multi-User Support**: Role-based access control
-- **Admin Panel**: User creation, modification, deletion
-- **Authentication**: JWT-based security with refresh tokens
-- **Profile Management**: User preferences and notification settings
-- **Password Recovery**: Email-based reset with temporary passwords
-
-### 📱 Mobile Integration
-
-- **iPhone App**: Native mobile application support
-- **Push Notifications**: Real-time alerts via Expo
-- **Token Management**: Automatic device registration
-- **Cross-Platform**: Consistent experience across devices
-
-### 📈 Analytics & Reporting
-
-- **Dashboard Statistics**: Real-time inventory metrics
-- **Room Distribution**: Visual breakdown by location
-- **Inventory Value**: Total value calculations
-- **Alert Trends**: Monthly alert statistics
-- **Scoring Analytics**: Importance distribution insights
+- **Hierarchical inventory**: Room → Place → Container → Item
+- **Threshold alerts**: email + mobile push when stock falls below a level
+- **Projects & scoring**: importance algorithm based on active project usage
+- **Multi-user**: role-based access, admin panel, password recovery
+- **Analytics dashboard**: real-time metrics, value calculations, alert trends
+- **Mobile-ready**: iPhone app with Expo push notifications
+- **CLI tool**: `shelfspot` terminal client for scripting and quick lookups
 
 ---
 
-## Deployment guide
-
-A complete install guide is avaliable in the [installation guide](./install/readme.md).
-
-## API Documentation
-
-The backend provides a comprehensive REST API documented with Swagger/OpenAPI 3.0.
-
-### Base URL
-
-```
-http://localhost:3001/api
-```
-
-### API Documentation
-
-```
-http://localhost:3001/api/swagger
-```
-
-## Authentication System
-
-### JWT Implementation
-
-- **Algorithm**: HS256
-- **Expiration**: 1 hour
-- **Issuer**: `shelfspot-api`
-- **Audience**: `shelfspot-app`
-
-### Token Structure
-
-```typescript
-interface JwtPayload {
-  sub: string; // User ID
-  email?: string; // User email
-  name?: string; // User name
-  admin?: boolean; // Admin flag
-  notificationToken?: string; // Mobile push token
-  iat?: number; // Issued at
-  exp?: number; // Expiration
-}
-```
-
-### Authentication Flow
-
-1. **Login**: POST `/auth/login` with email/password
-2. **Token Generation**: JWT signed with secret
-3. **Token Storage**: localStorage + HTTP-only cookies
-4. **Request Authentication**: Bearer token in Authorization header
-5. **Token Validation**: JwtAuthGuard validates and extracts user info
-6. **Profile Access**: Authenticated routes access user via `@CurrentUser()` decorator
-
-### Security Features
-
-- **Password Hashing**: bcrypt with salt rounds
-- **Token Validation**: Automatic user existence check
-- **Route Protection**: Guards for authenticated and admin routes
-- **CORS Configuration**: Restricted origins for security
-- **Input Validation**: Class-validator for request DTOs
-
----
-
-## Frontend Architecture
-
-### Project Structure
-
-```
-frontend/src/
-├── app/                    # Next.js 13+ App Router
-│   ├── (auth)/            # Authentication routes group
-│   │   ├── login/
-│   │   └── register/
-│   ├── (pages)/           # Main application routes
-│   │   ├── dashboard/
-│   │   ├── inventory/
-│   │   ├── manage/
-│   │   ├── projects/
-│   │   └── settings/
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── types.d.ts         # Type definitions
-├── components/            # Reusable components
-│   ├── ui/               # Base UI components
-│   ├── forms/            # Form components
-│   ├── modals/           # Modal dialogs
-│   └── charts/           # Chart components
-├── lib/                  # Utility libraries
-│   ├── backend-api.ts    # API client
-│   ├── auth-context.tsx  # Authentication context
-│   └── utils.ts          # Helper functions
-└── hooks/                # Custom React hooks
-    ├── useApiData.ts
-    ├── useGetRooms.ts
-    └── useGetProjects.ts
-```
-
-### State Management
-
-- **Authentication**: React Context with localStorage persistence
-- **API Data**: Custom hooks with caching and error handling
-- **Form State**: React Hook Form with Zod validation
-- **UI State**: Component-level useState for modals and interactions
-
-### Key Components
-
-#### Authentication Context
-
-```typescript
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name?: string) => Promise<void>;
-  logout: () => void;
-}
-```
-
-#### API Client
-
-```typescript
-class BackendApiService {
-  private baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-
-  async request(endpoint: string, options?: RequestInit) {
-    const token = localStorage.getItem("access_token");
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      ...options,
-    });
-
-    if (!response.ok) {
-      throw new BackendApiError(response.status, await response.text());
-    }
-
-    return response.json();
-  }
-}
-```
-
-### Routing & Middleware
-
-- **App Router**: Next.js 13+ file-based routing
-- **Route Groups**: Organized by functionality
-- **Middleware**: Authentication checks and redirects
-- **Protected Routes**: Automatic login redirects
-- **Admin Routes**: Role-based access control
-
----
-
-## Mobile App Integration
-
-### Push Notifications
-
-ShelfSpot integrates with Expo's push notification service for real-time alerts on mobile devices.
-
-#### Implementation
-
-```typescript
-// Backend: Expo Server SDK
-import { Expo, ExpoPushMessage } from "expo-server-sdk";
-
-@Injectable()
-export class PushNotificationService {
-  private expo = new Expo();
-
-  async sendPushNotifications(
-    pushTokens: string[],
-    notification: PushNotificationData
-  ): Promise<void> {
-    const messages: ExpoPushMessage[] = pushTokens.map((token) => ({
-      to: token,
-      sound: "default",
-      title: notification.title,
-      body: notification.body,
-      data: notification.data || {},
-    }));
-
-    const chunks = this.expo.chunkPushNotifications(messages);
-
-    for (const chunk of chunks) {
-      const tickets = await this.expo.sendPushNotificationsAsync(chunk);
-      this.handlePushTickets(tickets);
-    }
-  }
-}
-```
-
-#### Token Management
-
-- **Registration**: Mobile app registers Expo push token
-- **Storage**: Token stored in user profile
-- **Updates**: Automatic token refresh and validation
-- **Multi-Device**: Support for multiple devices per user
-
-#### Notification Types
-
-```typescript
-interface PushNotificationData {
-  title: string;
-  body: string;
-  data?: {
-    type: "low_stock_alert" | "test" | "general";
-    itemId?: number;
-    itemName?: string;
-    currentQuantity?: number;
-    threshold?: number;
-  };
-}
-```
-
-### Mobile Features
-
-- **Full API Access**: Complete inventory management
-- **Real-Time Sync**: Automatic data synchronization
-- **Offline Support**: Basic caching for critical data
-- **Image Capture**: Item photo management
-- **Barcode Scanning**: Quick item identification (planned)
-
----
-
-### Production Considerations
-
-#### Security
-
-```bash
-# Strong passwords
-DB_ROOT_PASSWORD=$(openssl rand -base64 32)
-DB_PASSWORD=$(openssl rand -base64 32)
-JWT_SECRET=$(openssl rand -base64 64)
-```
-
-#### SSL/TLS with Reverse Proxy
-
-```nginx
-# nginx.conf
-server {
-    listen 443 ssl http2;
-    server_name shelfspot.yourdomain.com;
-
-    ssl_certificate /path/to/certificate.crt;
-    ssl_certificate_key /path/to/private.key;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location /api {
-        proxy_pass http://localhost:3001;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-#### Backup Strategy
-
-```bash
-# Database backup
-docker exec shelfspot-db mysqldump -u root -p$DB_ROOT_PASSWORD shelfspot > backup_$(date +%Y%m%d_%H%M%S).sql
-
-# Volume backup
-docker run --rm -v shelfspot_mysql_data:/data -v $(pwd):/backup alpine tar czf /backup/mysql_data_backup.tar.gz /data
-```
-
-#### Monitoring
-
-```bash
-# Health checks
-docker-compose ps
-curl -f http://localhost:3000/api/health || exit 1
-curl -f http://localhost:3001/api/health || exit 1
-
-# Logs
-docker-compose logs -f backend
-docker-compose logs -f frontend
-```
-
----
-
-## Development Setup
+## Deployment Guide
 
 ### Prerequisites
 
-- Node.js 20.x or higher
-- npm/yarn package manager
-- MySQL/MariaDB database
-- Git
+| Tool | Minimum | Notes |
+|------|---------|-------|
+| Docker | 24.x | with Compose v2 (`docker compose`) |
+| Node.js | 18.x | only needed for the CLI or local dev |
+| Git | any | — |
 
-### Local Development
+---
 
-#### Backend Setup
+### Option A — Setup Wizard (recommended)
+
+The setup wizard handles environment files, secrets, container builds, and optional CLI
+installation in a single interactive session.
+
+**Linux / macOS**
+
+```bash
+git clone https://github.com/your-org/shelfspot.git
+cd shelfspot
+chmod +x setup.sh
+./setup.sh
+```
+
+**Windows (PowerShell as administrator)**
+
+```powershell
+git clone https://github.com/your-org/shelfspot.git
+cd shelfspot
+.\setup.ps1
+```
+
+The wizard presents five installation profiles:
+
+| Choice | What it starts |
+|--------|---------------|
+| **1 — Full suite** | Database + Backend + Frontend + CLI |
+| **2 — Backend stack** | Database + Backend API only |
+| **3 — Frontend only** | Web app (backend hosted elsewhere) |
+| **4 — CLI only** | Terminal client against an existing instance |
+| **5 — Custom** | Pick individual components |
+
+After the wizard completes, ShelfSpot is accessible at the ports you configured
+(defaults: frontend → `http://localhost:8083`, backend → `http://localhost:8082`).
+
+---
+
+### Option B — Docker Compose manually
+
+#### 1. Clone and configure environment files
+
+```bash
+git clone https://github.com/your-org/shelfspot.git
+cd shelfspot
+```
+
+Create `.env` at the repository root:
+
+```bash
+# .env  (root)
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=change_me
+POSTGRES_DB=shelfspot
+DB_PORT=5432
+BACKEND_PORT=8082
+FRONTEND_PORT=8083
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8082
+```
+
+Create `backend/.env`:
+
+```bash
+# backend/.env
+DATABASE_URL="postgresql://postgres:change_me@db:5432/shelfspot"
+JWT_SECRET="$(openssl rand -hex 48)"   # replace with your generated value
+
+# Optional — email alerts via Resend
+RESEND_API_KEY=""
+RESEND_FROM_EMAIL="ShelfSpot <alerts@yourdomain.com>"
+ALERT_EMAIL_RECIPIENT="admin@yourdomain.com"
+```
+
+> **Security**: generate a real JWT secret before production:
+> ```bash
+> openssl rand -hex 48
+> ```
+
+#### 2. Start the services
+
+**Full stack** (database + backend + frontend):
+
+```bash
+docker compose --profile full up -d --build
+```
+
+**Backend only** (database + API):
+
+```bash
+docker compose --profile backend up -d --build
+```
+
+**Frontend only** (connect to an existing backend):
+
+```bash
+# Set NEXT_PUBLIC_BACKEND_URL in .env to your backend URL first
+docker compose --profile frontend up -d --build
+```
+
+#### 3. Verify
+
+```bash
+docker compose ps                         # all containers healthy?
+curl http://localhost:8082/auth/profile   # backend alive?
+```
+
+The backend automatically runs `prisma migrate deploy` on startup — no manual migration step
+is needed.
+
+#### Stopping / restarting
+
+```bash
+docker compose --profile full down        # stop (keeps volumes)
+docker compose --profile full down -v     # stop and delete database volume
+docker compose --profile full up -d       # restart without rebuilding
+docker compose --profile full up -d --build  # restart with rebuild
+```
+
+#### Logs
+
+```bash
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f db
+```
+
+#### Database backup and restore
+
+```bash
+# Backup
+docker exec shelfspot_db pg_dump -U postgres shelfspot > backup_$(date +%Y%m%d_%H%M%S).sql
+
+# Restore
+docker exec -i shelfspot_db psql -U postgres shelfspot < backup.sql
+```
+
+---
+
+### Option C — Local development (no Docker)
+
+#### Prerequisites
+
+- Node.js 20.x
+- PostgreSQL 15 running locally (or via `docker compose --profile backend up -d db`)
+
+#### Backend
 
 ```bash
 cd backend
@@ -471,19 +259,19 @@ yarn
 
 # Configure environment
 cp .env.example .env
-# Edit .env with your database credentials
+# Edit .env — set DATABASE_URL to your local Postgres instance
 
-# Generate Prisma client
+# Generate Prisma client and run migrations
 yarn prisma generate
-
-# Run migrations
 yarn prisma migrate dev
 
-# Start development server
+# Start in watch mode
 yarn start:dev
 ```
 
-#### Frontend Setup
+The backend listens on port **8082** by default (`PORT` env var to override).
+
+#### Frontend
 
 ```bash
 cd frontend
@@ -492,271 +280,640 @@ cd frontend
 yarn
 
 # Configure environment
-cp .env.example .env.local
-# Edit .env.local with backend URL
+echo "NEXT_PUBLIC_BACKEND_URL=http://localhost:8082" > .env.local
 
-# Start development server
+# Start dev server
 yarn dev
 ```
 
-### Development Commands
+The frontend listens on port **3000** in development (Next.js default).
 
-#### Backend
+#### Useful development commands
 
 ```bash
-# Development
-yarn start:dev          # Watch mode
-yarn start:debug        # Debug mode
-
-# Building
-yarn build              # Production build
-yarn start:prod         # Production mode
-
-# Database
-yarn prisma studio          # Database GUI
-yarn prisma migrate dev     # Create migration
-yarn prisma migrate deploy  # Apply migrations
-npx prisma db seed         # Seed database
-
-# Testing
-yarn test               # Unit tests
-yarn test:e2e           # End-to-end tests
-yarn test:cov           # Coverage report
-
-# Code Quality
+# Backend
+yarn start:dev          # watch mode
+yarn start:debug        # debug mode
+yarn build              # production build
+yarn test               # unit tests
+yarn test:e2e           # end-to-end tests
+yarn test:cov           # coverage
 yarn lint               # ESLint
-yarn format             # Prettier
+yarn prisma studio      # visual DB editor
+yarn prisma migrate dev --name "add_my_field"   # create a migration
+
+# Frontend
+yarn dev                # dev server
+yarn build              # production build
+yarn lint               # ESLint
+yarn type-check         # TypeScript check
 ```
 
-#### Frontend
+---
+
+### Nginx reverse proxy
+
+The repository ships a ready-to-use Nginx config at `nginx/shelfspot.conf`.  
+It exposes the frontend at `shelf.lan` and the API at `api.shelf.lan` on port 80.
+
+**Install on Linux (Debian/Ubuntu)**
 
 ```bash
-# Development
-yarn run dev               # Development server
-yarn run build             # Production build
-yarn run start             # Production server
-
-# Code Quality
-yarn run lint              # ESLint
-yarn run type-check        # TypeScript check
+sudo cp nginx/shelfspot.conf /etc/nginx/sites-available/shelfspot
+sudo ln -s /etc/nginx/sites-available/shelfspot /etc/nginx/sites-enabled/shelfspot
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-### Database Management
+**DNS / hosts**
 
-#### Prisma Commands
+Add your server IP to DNS, or for a single-machine setup edit `/etc/hosts`
+(Linux/macOS) or `C:\Windows\System32\drivers\etc\hosts` (Windows):
+
+```
+192.168.1.10  shelf.lan
+192.168.1.10  api.shelf.lan
+```
+
+Once Nginx is in place, set `SHELFSPOT_URL=http://api.shelf.lan` for the CLI and
+keep `NEXT_PUBLIC_BACKEND_URL=http://backend:8082` (internal Docker network address)
+for the frontend container.
+
+**HTTPS / SSL**
+
+The included config targets HTTP. To add TLS with Certbot:
 
 ```bash
-# Schema changes
-yarn prisma db push        # Push schema changes
-yarn prisma migrate dev --name "description"  # Create migration
-
-# Data management
-yarn prisma studio         # Visual database editor
-yarn prisma db seed        # Run seed scripts
-
-# Client generation
-yarn prisma generate       # Regenerate Prisma client
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d shelf.lan -d api.shelf.lan
+sudo systemctl reload nginx
 ```
 
-#### Migration Best Practices
+For a local homelab with a self-signed certificate, replace the `listen 80` blocks
+with `listen 443 ssl` and point `ssl_certificate` / `ssl_certificate_key` to your
+cert files.
+
+---
+
+### CLI installation
+
+The `shelfspot` CLI connects to any running ShelfSpot backend.
+
+**Via the setup wizard** — the easiest path; choose "CLI only" or include it
+with any other profile. The wizard builds, installs, and logs you in automatically.
+
+**Manual installation**
 
 ```bash
-# 1. Make schema changes in schema.prisma
-# 2. Create migration
-yarn prisma migrate dev --name "add_user_preferences"
-
-# 3. Review generated migration file
-# 4. Test migration in development
-# 5. Apply to production
-yarn prisma migrate deploy
+cd cli
+npm install
+npm run build
+npm pack
+npm install -g shelfspot-*.tgz   # or: npm link
 ```
 
-### Code Quality
+**Point the CLI at your instance**
 
-#### ESLint Configuration
+```bash
+# Linux / macOS — add to ~/.bashrc or ~/.zshrc for persistence
+export SHELFSPOT_URL=http://api.shelf.lan   # or http://localhost:8082
 
-```json
-{
-  "extends": ["@nestjs", "prettier"],
-  "rules": {
-    "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/explicit-function-return-type": "warn",
-    "no-console": "warn"
-  }
+# Windows PowerShell — persists across sessions
+[System.Environment]::SetEnvironmentVariable("SHELFSPOT_URL","http://api.shelf.lan","User")
+```
+
+**First login**
+
+```bash
+shelfspot auth login     # prompts for email + password
+shelfspot auth whoami    # verify session
+```
+
+Sessions are cached in `~/.shelfspot/session.json`. Access tokens are valid for
+55 minutes and refresh automatically — you only need to log in once per month.
+
+---
+
+## CLI Usage Guide
+
+The `shelfspot` CLI lets you manage your entire inventory from the terminal without opening a
+browser. All commands return JSON — pipe through `jq` for filtering.
+
+```bash
+shelfspot --help          # list all commands
+shelfspot <command> --help  # help for a specific command
+```
+
+### Authentication
+
+Sessions are cached in `~/.shelfspot/session.json` and last up to **30 days** via automatic
+token refresh. Log in once and the CLI stays connected.
+
+```bash
+shelfspot auth login      # prompt for email + password, cache session
+shelfspot auth logout     # delete cached session
+shelfspot auth whoami     # print the logged-in email (no network call)
+shelfspot auth profile    # full profile object from the API
+```
+
+> If your session expires, run `shelfspot auth login` again.
+
+---
+
+### Items
+
+Items are the core resource. Every item must belong to a room.
+
+#### Read
+
+```bash
+shelfspot items list                   # all items
+shelfspot items get <id>               # one item by ID
+shelfspot items search "query"         # case-insensitive search on name, status, room, place
+shelfspot items stats                  # distribution by status
+shelfspot items value                  # { totalValue, itemsWithValue, totalItems }
+```
+
+#### Create
+
+```bash
+shelfspot items create \
+  --name        "HDMI cable"   \   # required
+  --quantity    3              \   # required
+  --room-id     1              \   # required
+  --place-id    2              \   # optional
+  --container-id 1             \   # optional
+  --status      "Available"    \   # optional (see status normalization below)
+  --price       12.50          \   # optional — purchase price
+  --sellprice   15.00          \   # optional — estimated / resale value
+  --consumable  true           \   # optional — default: false
+  --item-link   "https://..."      # optional — URL to product page
+```
+
+#### Update
+
+All flags are optional; only supplied fields are changed.
+
+```bash
+shelfspot items update <id> \
+  --name        "new name"         \
+  --quantity    5                  \
+  --room-id     2                  \
+  --place-id    3                  \
+  --container-id 2                 \
+  --status      "Broken"           \
+  --price       10.00              \
+  --sellprice   8.00               \
+  --item-link   "https://..."      \
+  --tags        "electronics,fragile"   # replaces ALL existing tags; "" removes all
+```
+
+> `--tags` auto-creates any tag that does not yet exist.
+
+#### Delete
+
+```bash
+shelfspot items delete <id>
+```
+
+#### Status normalization
+
+The server normalizes status values for consistent statistics:
+
+| Raw input (any case) | Normalized |
+|---|---|
+| `good`, `bon`, `available`, `disponible`, `ok` | Good |
+| `damaged`, `endommagé`, `broken`, `cassé` | Damaged |
+| `missing`, `manquant`, `lost`, `perdu` | Missing |
+| `expired`, `expiré`, `old`, `ancien` | Expired |
+| anything else | Capitalized as-is |
+| empty / null | No Status |
+
+#### Examples
+
+```bash
+shelfspot items create --name "Coffee beans" --quantity 5 --room-id 2 --consumable true
+shelfspot items update 7 --quantity 3 --status "available"
+shelfspot items update 7 --tags "food,pantry"
+shelfspot items search "cable"
+shelfspot items stats
+shelfspot items value
+shelfspot items list | jq '.[] | {id, name, quantity, room: .room.name}'
+```
+
+---
+
+### Rooms
+
+```bash
+shelfspot rooms list
+shelfspot rooms get <id>
+shelfspot rooms create --name "Kitchen" [--description "Main kitchen"]
+shelfspot rooms bulk-create --names "Garage,Attic,Basement"   # trims spaces
+shelfspot rooms update <id> [--name "new name"] [--description "new desc"]
+shelfspot rooms delete <id>
+```
+
+`bulk-create` creates all rooms in a single request and returns an array of created objects.
+
+---
+
+### Places
+
+A place is a named spot inside a room (top shelf, left drawer, under the desk…).
+
+```bash
+shelfspot places list
+shelfspot places get <id>
+shelfspot places create --name "Top shelf" --room-id 1   # --room-id required
+shelfspot places update <id> --name "Middle shelf"
+shelfspot places delete <id>
+```
+
+---
+
+### Containers
+
+A container is a physical box, bin, or shelf unit that holds items.
+
+```bash
+shelfspot containers list
+shelfspot containers get <id>
+shelfspot containers create --name "Tool box" [--icon "box"] [--room-id 3] [--place-id 2]
+shelfspot containers update <id> [--name] [--icon] [--room-id] [--place-id]
+shelfspot containers delete <id>
+```
+
+`--icon` is a free-form string (`box`, `archive`, `bin`…). Stored as `null` when omitted.
+
+---
+
+### Tags
+
+Tags are free-form labels assigned to items.
+
+```bash
+shelfspot tags list
+shelfspot tags create --name "electronics"
+shelfspot tags update <id> --name "new-name"
+shelfspot tags delete <id>
+```
+
+Assign tags to items with `items update --tags`. This is the primary way to tag items —
+`tags create` only registers the label globally.
+
+```bash
+shelfspot items update 5 --tags "electronics,fragile"   # replaces all tags on item 5
+shelfspot items update 5 --tags ""                       # removes all tags from item 5
+```
+
+---
+
+### Alerts
+
+An alert fires (email + push notification) when an item's quantity falls **at or below** its
+threshold. The same alert will not fire again within 24 hours. When quantity rises back above
+the threshold, the alert auto-resets.
+
+```bash
+# List
+shelfspot alerts list                    # all alerts
+shelfspot alerts list --item-id 5        # alerts for a specific item
+
+# Create
+shelfspot alerts create \
+  --item-id   5          \   # required
+  --threshold 10         \   # required — fires when quantity <= this value
+  --name      "Reorder"      # optional label
+
+# Update
+shelfspot alerts update <id> \
+  --threshold 5          \
+  --name      "new name" \
+  --active    true           # true = enabled, false = paused
+
+# Delete
+shelfspot alerts delete <id>
+
+# Manual trigger — checks all active alerts immediately (respects 24 h cooldown)
+shelfspot alerts check
+
+# Monthly statistics (last 12 months)
+shelfspot alerts stats
+```
+
+---
+
+### Favourites
+
+```bash
+shelfspot favs list              # list favourite items
+shelfspot favs add <item-id>     # add item to favourites
+shelfspot favs remove <item-id>  # remove item from favourites
+```
+
+`favs` and `favourites` are interchangeable aliases.
+
+---
+
+### Typical workflows
+
+#### Setting up a new room from scratch
+
+```bash
+# 1. Create the room
+shelfspot rooms create --name "Workshop"
+# → { "id": 4, "name": "Workshop" }
+
+# 2. Add places inside it
+shelfspot places create --name "Pegboard"         --room-id 4
+shelfspot places create --name "Workbench drawer" --room-id 4
+
+# 3. Add a container
+shelfspot containers create --name "Small parts bin" --room-id 4 --place-id 5
+
+# 4. Add items
+shelfspot items create --name "M3 screws" --quantity 200 \
+  --room-id 4 --place-id 5 --container-id 1 --consumable true
+```
+
+#### Inventory audit
+
+```bash
+shelfspot items stats    # breakdown by status
+shelfspot items value    # total purchase and estimated value
+shelfspot items list | jq '.[] | {id, name, quantity, status, room: .room.name}'
+```
+
+#### Low-stock monitoring
+
+```bash
+# Set a reorder alert for item 12 when quantity drops to 5
+shelfspot alerts create --item-id 12 --threshold 5 --name "Reorder M3 screws"
+
+# Manually trigger all active alerts right now
+shelfspot alerts check
+
+# Check alert history
+shelfspot alerts stats
+```
+
+#### Updating quantity after use
+
+```bash
+# Find the item
+shelfspot items search "coffee beans"
+# → [{ "id": 7, "name": "Coffee beans", "quantity": 5, … }]
+
+# Update quantity
+shelfspot items update 7 --quantity 3
+# Alert fires automatically if the new quantity <= threshold
+```
+
+#### Moving an item to a different location
+
+```bash
+shelfspot items update 12 --room-id 2 --place-id 8 --container-id 3
+```
+
+#### Bulk room creation
+
+```bash
+shelfspot rooms bulk-create --names "Kitchen,Living room,Bedroom,Garage,Attic"
+```
+
+#### Output filtering with jq
+
+```bash
+# List items with only key fields
+shelfspot items list | jq '.[] | {id, name, quantity, room: .room.name}'
+
+# Get the ID of a specific item
+shelfspot items search "hdmi" | jq '.[0].id'
+
+# List items below quantity 5
+shelfspot items list | jq '[.[] | select(.quantity < 5)] | {id, name, quantity}'
+
+# Count items per room
+shelfspot items list | jq 'group_by(.room.name) | map({room: .[0].room.name, count: length})'
+```
+
+---
+
+## Configuration Reference
+
+### `backend/.env`
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | yes | PostgreSQL connection string |
+| `JWT_SECRET` | yes | Secret used to sign JWT tokens — generate with `openssl rand -hex 48` |
+| `RESEND_API_KEY` | no | [Resend](https://resend.com) key for email alerts |
+| `RESEND_FROM_EMAIL` | no | Sender address, e.g. `ShelfSpot <alerts@yourdomain.com>` |
+| `ALERT_EMAIL_RECIPIENT` | no | Address that receives low-stock emails |
+| `PORT` | no | Backend HTTP port (default `8082`) |
+| `NODE_ENV` | no | Set to `production` in containers |
+
+### Root `.env` (Docker Compose only)
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `POSTGRES_USER` | `postgres` | PostgreSQL user |
+| `POSTGRES_PASSWORD` | `password` | PostgreSQL password |
+| `POSTGRES_DB` | `shelfspot` | PostgreSQL database name |
+| `DB_PORT` | `5432` | Host port mapped to the database container |
+| `BACKEND_PORT` | `8082` | Host port mapped to the backend container |
+| `FRONTEND_PORT` | `8083` | Host port mapped to the frontend container |
+| `NEXT_PUBLIC_BACKEND_URL` | `http://localhost:8082` | Backend URL the **browser** uses to call the API |
+
+### `frontend/.env.local` (local dev or frontend-only Docker)
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_BACKEND_URL` | Backend URL visible from the client browser |
+
+---
+
+## API Documentation
+
+### Base URL
+
+```
+http://localhost:8082
+```
+
+### Swagger UI
+
+```
+http://localhost:8082/api/swagger
+```
+
+The Swagger UI is always available when the backend is running and lists every endpoint,
+request schema, and response model.
+
+### Quick test
+
+```bash
+# Health check
+curl http://localhost:8082/health
+
+# Login
+curl -X POST http://localhost:8082/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"yourpassword"}'
+
+# Use the returned access_token in subsequent calls
+curl -H "Authorization: Bearer <token>" http://localhost:8082/items
+```
+
+---
+
+## Authentication System
+
+### Token lifecycle
+
+| Token | Validity | Storage |
+|-------|----------|---------|
+| Access token | 55 minutes | `Authorization: Bearer` header |
+| Refresh token | 30 days | HTTP-only cookie or `~/.shelfspot/session.json` (CLI) |
+
+The refresh token auto-rotates on each use. An active session stays alive indefinitely
+as long as it is exercised at least once per month.
+
+### JWT payload
+
+```typescript
+interface JwtPayload {
+  sub: string;           // User ID
+  email?: string;
+  name?: string;
+  admin?: boolean;
+  notificationToken?: string;  // Expo push token
+  iat?: number;
+  exp?: number;
 }
 ```
 
-## Configuration
+### Authentication flow
 
-### Environment Variables
+1. `POST /auth/login` → returns `{ access_token, refresh_token }`
+2. Include `Authorization: Bearer <access_token>` on every authenticated request
+3. On 401, call `POST /auth/refresh` with the refresh token to obtain a new pair
+4. After 30 days of inactivity, log in again
 
-#### Backend Configuration
+---
 
-```bash
-# Database
-DATABASE_URL="mysql://user:pass@localhost:3306/shelfspot"
+## Frontend Architecture
 
-# Authentication
-JWT_SECRET="your-super-secret-jwt-key"
-
-# Email Service (Resend)
-RESEND_API_KEY="your-resend-api-key"
-RESEND_FROM_EMAIL="ShelfSpot <noreply@yourdomain.com>"
-
-# Alerts
-ALERT_EMAIL_RECIPIENT="admin@yourdomain.com"
-
-# Server
-PORT=3001
-NODE_ENV=production
-
-# CORS (optional)
-FRONTEND_URL="http://localhost:3000"
+```
+frontend/src/
+├── app/
+│   ├── (auth)/            # login / register routes
+│   └── (pages)/           # dashboard, inventory, manage, projects, settings
+├── components/
+│   ├── ui/                # base UI primitives
+│   ├── forms/
+│   ├── modals/
+│   └── charts/
+├── lib/
+│   ├── backend-api.ts     # typed API client
+│   ├── auth-context.tsx   # React auth context
+│   └── utils.ts
+└── hooks/                 # useApiData, useGetRooms, useGetProjects…
 ```
 
-#### Frontend Configuration
+The API client reads `NEXT_PUBLIC_BACKEND_URL` at build time. In Docker the value is
+baked in at image build — rebuild the frontend image whenever you change this variable.
 
-```bash
-# API Configuration
-NEXT_PUBLIC_API_URL="http://localhost:3001"
+---
 
-# Build Configuration
-NODE_ENV=production
-```
+## Mobile Integration
 
-### Service Configuration
+ShelfSpot integrates with Expo push notifications for real-time low-stock alerts on
+iPhone.
 
-#### Resend Email Setup
+1. The mobile app registers an Expo push token on login
+2. The token is stored in the user's profile (`notificationToken`)
+3. When an alert threshold is breached, the backend sends notifications via the
+   Expo Server SDK
+4. Notifications include the item name, current quantity, and threshold
 
-1. Create account at [resend.com](https://resend.com)
-2. Generate API key
-3. Add domain (optional)
-4. Configure environment variables
-
-#### Push Notifications Setup
-
-1. Create Expo account
-2. Install Expo CLI: `npm install -g @expo/cli`
-3. Configure push tokens in mobile app
-4. Backend automatically handles Expo integration
-
-### Database Configuration
-
-#### MySQL Optimization
-
-```sql
--- my.cnf optimizations
-[mysqld]
-innodb_buffer_pool_size = 1G
-innodb_log_file_size = 256M
-max_connections = 200
-query_cache_size = 64M
-```
-
-#### Prisma Configuration
-
-```javascript
-// prisma/schema.prisma
-generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
-}
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-```
+Push notifications are throttled: the same alert will not fire again within 24 hours.
+When quantity rises back above the threshold, the alert auto-resets.
 
 ---
 
 ## Troubleshooting
 
-### Common Issues
-
-#### Database Connection Problems
+### Container does not start
 
 ```bash
-# Check database connectivity
-mysql -h localhost -u shelfspot_user -p shelfspot
-
-# Verify Docker network
-docker network ls
-docker network inspect shelfspot_app_network
-
-# Check container logs
-docker-compose logs database
+docker compose logs backend   # look for migration or config errors
+docker compose logs db        # look for postgres startup errors
 ```
 
-#### JWT Token Issues
+### Database connection refused
 
 ```bash
-# Verify JWT secret is set
-echo $JWT_SECRET
+# Check that the db container is healthy
+docker inspect --format='{{.State.Health.Status}}' shelfspot_db
 
-# Check token validity
-curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:3001/auth/profile
-
-# Clear browser storage
-localStorage.clear();
+# Verify DATABASE_URL in backend/.env points to the correct host
+# Inside docker-compose: @db:5432
+# Outside (local dev): @localhost:5432
 ```
 
-#### Build Failures
+### Migrations failed
 
 ```bash
-# Clear dependency cache
-rm -rf node_modules package-lock.json
-npm install
-
-# Clear Next.js cache
-rm -rf .next
-npm run build
-
-# Docker build issues
-docker system prune -a
-docker-compose build --no-cache
+docker exec -it shelfspot_backend sh
+cd /app/backend
+npx prisma migrate deploy
 ```
 
-#### API Connection Issues
+### JWT / authentication errors
 
 ```bash
-# Check backend status
-curl http://localhost:3001/api/health
+# Ensure JWT_SECRET is identical across restarts
+# Check the token is valid
+curl -H "Authorization: Bearer <token>" http://localhost:8082/auth/profile
 
-# Verify CORS configuration
-# Check browser network tab for OPTIONS requests
-
-# Test direct API calls
-curl -X POST http://localhost:3001/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@example.com","password":"password"}'
+# CLI: clear and re-authenticate
+shelfspot auth logout
+shelfspot auth login
 ```
 
-### Health Checks
+### Frontend cannot reach the backend
 
-#### System Health Endpoint
+- Check `NEXT_PUBLIC_BACKEND_URL` is set to the URL **the browser** can reach
+  (not the internal Docker network address `http://backend:8082`).
+- If using Nginx, make sure `api.shelf.lan` resolves and Nginx is running.
+- Inspect the browser Network tab for failed OPTIONS (CORS) or 404 requests.
 
-```typescript
-@Controller("health")
-export class HealthController {
-  @Get()
-  async getHealth() {
-    return {
-      status: "ok",
-      timestamp: new Date().toISOString(),
-      database: await this.checkDatabase(),
-      redis: await this.checkRedis(),
-      version: process.env.npm_package_version,
-    };
-  }
-}
+### Build failures
+
+```bash
+# Clear Docker build cache
+docker compose --profile full build --no-cache
+
+# Clear Next.js cache (local dev)
+rm -rf frontend/.next
+
+# Clear node_modules and reinstall
+rm -rf backend/node_modules frontend/node_modules
+yarn --cwd backend install
+yarn --cwd frontend install
+```
+
+### Health endpoints
+
+```bash
+curl http://localhost:8082/health    # backend
+curl http://localhost:8083           # frontend (HTTP 200 = ok)
 ```
 
 ---
 
 ## Support
 
-- **Documentation**: This file and inline code comments
-- **Installation**: Follow the [installation guide](./install/readme.md)
-- **API Documentation**: Available at `/api/swagger` when running
+- **API docs**: `http://localhost:8082/api/swagger` when the backend is running
 - **Issues**: GitHub Issues for bug reports and feature requests

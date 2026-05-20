@@ -124,7 +124,9 @@ install_cli() {
   success "CLI built"
 
   step "Installing shelfspot command globally…"
-  (cd "$cli_dir" && npm link 2>/dev/null) || (cd "$cli_dir" && npm link)
+  tgz=$(cd "$cli_dir" && npm pack --silent 2>/dev/null | tail -1)
+  npm install -g "$cli_dir/$tgz"
+  rm -f "$cli_dir/$tgz"
   success "shelfspot command installed"
 
   # Persist SHELFSPOT_URL
