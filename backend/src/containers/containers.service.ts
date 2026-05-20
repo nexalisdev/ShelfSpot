@@ -36,7 +36,7 @@ export class ContainersService {
     return this.prisma.container.create({
       data: {
         name: createContainerDto.name,
-        icon: createContainerDto.icon || "box",
+        icon: createContainerDto.icon ?? null,
         placeId: createContainerDto.placeId,
         roomId: createContainerDto.roomId,
       },

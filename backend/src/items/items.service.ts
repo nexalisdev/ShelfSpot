@@ -349,17 +349,20 @@ export class ItemsService {
           {
             name: {
               contains: searchTerm,
+              mode: "insensitive",
             },
           },
           {
             status: {
               contains: searchTerm,
+              mode: "insensitive",
             },
           },
           {
             room: {
               name: {
                 contains: searchTerm,
+                mode: "insensitive",
               },
             },
           },
@@ -367,6 +370,7 @@ export class ItemsService {
             place: {
               name: {
                 contains: searchTerm,
+                mode: "insensitive",
               },
             },
           },
