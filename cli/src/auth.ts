@@ -3,7 +3,7 @@ import path from "path";
 import os from "os";
 import readline from "readline";
 
-export const BASE_URL = process.env.SHELFSPOT_URL ?? "http://localhost:3001/api";
+export const BASE_URL = process.env.SHELFSPOT_URL ?? "http://localhost:3001";
 
 const TOKEN_DIR = path.join(os.homedir(), ".shelfspot");
 const TOKEN_FILE = path.join(TOKEN_DIR, "session.json");

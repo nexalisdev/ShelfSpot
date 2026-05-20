@@ -93,7 +93,7 @@ items
   .option("--status <status>", "Status (e.g. Available, In use, Broken)")
   .option("--price <n>", "Purchase price", parseFloat)
   .option("--sellprice <n>", "Selling price", parseFloat)
-  .option("--consumable", "Mark as consumable", false)
+  .option("--consumable <bool>", "Mark as consumable: true or false (default: false)")
   .option("--item-link <url>", "URL link to item")
   .action(async (opts) => {
     try {
@@ -102,7 +102,7 @@ items
         name: opts.name,
         quantity: opts.quantity,
         roomId: opts.roomId,
-        consumable: opts.consumable ?? false,
+        consumable: opts.consumable === "true",
       };
       if (opts.placeId !== undefined) body.placeId = opts.placeId;
       if (opts.containerId !== undefined) body.containerId = opts.containerId;
