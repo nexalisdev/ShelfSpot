@@ -826,22 +826,6 @@ baked in at image build — rebuild the frontend image whenever you change this 
 
 ---
 
-## Mobile Integration
-
-ShelfSpot integrates with Expo push notifications for real-time low-stock alerts on
-iPhone.
-
-1. The mobile app registers an Expo push token on login
-2. The token is stored in the user's profile (`notificationToken`)
-3. When an alert threshold is breached, the backend sends notifications via the
-   Expo Server SDK
-4. Notifications include the item name, current quantity, and threshold
-
-Push notifications are throttled: the same alert will not fire again within 24 hours.
-When quantity rises back above the threshold, the alert auto-resets.
-
----
-
 ## Troubleshooting
 
 ### Container does not start
