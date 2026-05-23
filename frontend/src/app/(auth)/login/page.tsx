@@ -47,8 +47,8 @@ export default function LoginPage() {
       </section>
 
       <section className="relative hidden overflow-hidden border-l border-border lg:block">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-cyan-400/10 to-emerald-400/15" />
-        <div className="absolute -top-28 -right-24 h-80 w-80 rounded-full bg-primary/25 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/15" />
+        <div className="absolute -top-28 -right-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
 
         <div className="relative flex h-full flex-col justify-between p-10 xl:p-14">
           <div>

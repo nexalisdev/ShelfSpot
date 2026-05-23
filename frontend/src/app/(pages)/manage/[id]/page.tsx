@@ -29,46 +29,46 @@ export default function ManageObjectPage() {
             {/* Page Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{item.name}</h1>
-                    <p className="text-gray-600 dark:text-gray-400 mt-1">
+                    <h1 className="text-3xl font-bold text-foreground">{item.name}</h1>
+                    <p className="text-muted-foreground mt-1">
                         Item details and management
                     </p>
                 </div>
             </div>
 
             {/* Item Details Card */}
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Item Information</h2>
+            <div className="bg-card border border-border rounded-lg p-6">
+                <h2 className="text-xl font-semibold text-foreground mb-4">Item Information</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex justify-between">
-                        <span className="font-medium text-gray-700 dark:text-gray-300">Quantity:</span>
-                        <span className="text-gray-900 dark:text-white">{item.quantity}</span>
+                        <span className="font-medium text-muted-foreground">Quantity:</span>
+                        <span className="text-foreground">{item.quantity}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="font-medium text-gray-700 dark:text-gray-300">Status:</span>
-                        <span className="text-gray-900 dark:text-white">{item.status || "-"}</span>
+                        <span className="font-medium text-muted-foreground">Status:</span>
+                        <span className="text-foreground">{item.status || "-"}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="font-medium text-gray-700 dark:text-gray-300">Room:</span>
-                        <span className="text-gray-900 dark:text-white">{item.room?.name || "-"}</span>
+                        <span className="font-medium text-muted-foreground">Room:</span>
+                        <span className="text-foreground">{item.room?.name || "-"}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="font-medium text-gray-700 dark:text-gray-300">Place:</span>
-                        <span className="text-gray-900 dark:text-white">{item.place?.name || "-"}</span>
+                        <span className="font-medium text-muted-foreground">Place:</span>
+                        <span className="text-foreground">{item.place?.name || "-"}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="font-medium text-gray-700 dark:text-gray-300">Container:</span>
-                        <span className="text-gray-900 dark:text-white">{item.container?.name || "-"}</span>
+                        <span className="font-medium text-muted-foreground">Container:</span>
+                        <span className="text-foreground">{item.container?.name || "-"}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="font-medium text-gray-700 dark:text-gray-300">Tags:</span>
-                        <span className="text-gray-900 dark:text-white">{item.tags && item.tags.length > 0 ? item.tags.join(", ") : "-"}</span>
+                        <span className="font-medium text-muted-foreground">Tags:</span>
+                        <span className="text-foreground">{item.tags && item.tags.length > 0 ? item.tags.join(", ") : "-"}</span>
                     </div>
                 </div>
             </div>
 
             {/* Actions Card */}
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <div className="bg-card border border-border rounded-lg p-6">
                 <ManageObjectClient item={item} />
             </div>
 

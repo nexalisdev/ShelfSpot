@@ -13,10 +13,10 @@ interface Place { id: number; name: string; roomId: number; }
 interface Container { id: number; name: string; roomId: number; placeId: number; }
 
 const objectTypes = [
-    { key: "room", label: "Room", icon: <DoorOpen className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
-    { key: "place", label: "Place", icon: <SquareLibrary className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
-    { key: "container", label: "Container", icon: <Archive className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
-    { key: "item", label: "Item", icon: <Lamp className="w-7 h-7 mb-2 text-blue-600 dark:text-blue-400" /> },
+    { key: "room", label: "Room", icon: <DoorOpen className="w-7 h-7 mb-2 text-primary" /> },
+    { key: "place", label: "Place", icon: <SquareLibrary className="w-7 h-7 mb-2 text-primary" /> },
+    { key: "container", label: "Container", icon: <Archive className="w-7 h-7 mb-2 text-primary" /> },
+    { key: "item", label: "Item", icon: <Lamp className="w-7 h-7 mb-2 text-primary" /> },
 ];
 
 export default function CreateObjectModal({ open, onClose }: Readonly<CreateObjectModalProps>) {
@@ -166,10 +166,10 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="create-object-modal-title"
-                className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-sm shadow-md border border-gray-200/50 dark:border-gray-700/50 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content"
+                className="bg-card border border-border rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative modal-content"
             >
                 <button
-                    className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 h-11 w-11 flex items-center justify-center rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                    className="absolute top-6 right-6 text-muted-foreground hover:text-foreground z-10 h-11 w-11 flex items-center justify-center rounded-lg hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                     onClick={() => {
                         resetModal();
                         onClose();
@@ -184,10 +184,10 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                 {step === "select" && (
                     <div className="p-10">
                         <div className="text-center mb-10">
-                            <h2 id="create-object-modal-title" className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 mb-4">
+                            <h2 id="create-object-modal-title" className="app-heading text-3xl font-bold text-foreground mb-4">
                                 What would you like to add to your home?
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-300 text-lg">
+                            <p className="text-muted-foreground text-lg">
                                 Choose the type of item you want to create
                             </p>
                         </div>
@@ -196,13 +196,13 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                 <button
                                     key={type.key}
                                     type="button"
-                                    className="group dark:border-gray-600/50 rounded-sm p-8 flex flex-col items-center hover:border-blue-400 shadow-sm hover:-translate-y-2 transition-all duration-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                                    className="group app-panel rounded-lg p-8 flex flex-col items-center hover:border-accent hover:-translate-y-1 transition-all duration-200 relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                                     onClick={() => handleTypeSelect(type.key)}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                                     <div className="relative z-10 flex flex-col items-center">
-                                        <div className="text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">{type.icon}</div>
-                                        <span className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-center">{type.label}</span>
+                                        <div className="text-primary mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">{type.icon}</div>
+                                        <span className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors text-center">{type.label}</span>
                                     </div>
                                 </button>
                             ))}
@@ -216,21 +216,21 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                             <button
                                 type="button"
                                 onClick={() => setStep("select")}
-                                className="mr-6 p-3 rounded-xl hover:bg-gray-100/50 dark:hover:bg-gray-700/50 backdrop-blur-sm transition-all duration-200 group"
+                                className="mr-6 p-3 rounded-lg hover:bg-muted/40 transition-colors group"
                                 aria-label="Back"
                             >
-                                <svg className="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
                             <div className="flex-1 text-center">
-                                <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 mb-2">
+                                <h2 className="app-heading text-3xl font-bold text-foreground mb-2">
                                     {selectedType === "room" && "How should this room be called?"}
                                     {selectedType === "place" && "How should this place be called?"}
                                     {selectedType === "container" && "How should this container be called?"}
                                     {selectedType === "item" && "How should this item be called?"}
                                 </h2>
-                                <p className="text-gray-600 dark:text-gray-300">
+                                <p className="text-muted-foreground">
                                     Fill in the details below to create your {selectedType}
                                 </p>
                             </div>
@@ -238,8 +238,8 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                         </div>
                         <div className="mb-8 flex flex-col items-center">
                             {objectTypes.find(t => t.key === selectedType)?.icon && (
-                                <div className="rounded-sm p-8 mb-6 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200/50 dark:border-blue-700/50 shadow-lg">
-                                    <div className="text-blue-600 dark:text-blue-400 scale-150">{objectTypes.find(t => t.key === selectedType)?.icon}</div>
+                                <div className="app-panel rounded-lg p-8 mb-6 flex items-center justify-center">
+                                    <div className="text-primary scale-150">{objectTypes.find(t => t.key === selectedType)?.icon}</div>
                                 </div>
                             )}
                         </div>
@@ -249,10 +249,10 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                 {selectedType === "room" && (
                                     <div className="col-span-full">
                                         <label className="block">
-                                            <span className="block mb-3 text-lg font-semibold text-gray-900 dark:text-white">Enter the name of the room</span>
+                                            <span className="block mb-3 text-lg font-semibold text-foreground">Enter the name of the room</span>
                                             <input
                                                 name="name"
-                                                className="w-full px-4 py-4 border border-gray-200 dark:border-gray-600 rounded-sm bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white text-lg placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 shadow-md"
+                                                className="w-full px-4 py-4 border border-border rounded-lg bg-card text-foreground text-lg placeholder-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-ring transition-colors"
                                                 onChange={handleChange}
                                                 required
                                                 placeholder="e.g., Living Room, Kitchen, Bedroom..."
@@ -265,12 +265,12 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                 {selectedType === "place" && (
                                     <>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Room</span>
                                                 <select
                                                     value={selectedRoomForPlace ?? ""}
                                                     onChange={e => setSelectedRoomForPlace(Number(e.target.value) || null)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     required
                                                 >
                                                     <option value="">Select a room</option>
@@ -281,11 +281,11 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                             </label>
                                         </div>
                                         <div className="col-span-2">
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Place name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Place name"
@@ -299,7 +299,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                 {selectedType === "container" && (
                                     <>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Room</span>
                                                 <select
                                                     value={selectedRoomForContainer ?? ""}
@@ -308,7 +308,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                                         setSelectedRoomForContainer(val);
                                                         setSelectedPlaceForContainer(null);
                                                     }}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     required
                                                 >
                                                     <option value="">Select a room</option>
@@ -319,12 +319,12 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                             </label>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Place</span>
                                                 <select
                                                     value={selectedPlaceForContainer ?? ""}
                                                     onChange={e => setSelectedPlaceForContainer(Number(e.target.value) || null)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     required
                                                     disabled={!selectedRoomForContainer}
                                                 >
@@ -336,11 +336,11 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                             </label>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Container name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Container name"
@@ -355,11 +355,11 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                     <>
                                         {/* Item name - Full width */}
                                         <div className="col-span-full">
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Item name</span>
                                                 <input
                                                     name="name"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     required
                                                     placeholder="Item name"
@@ -369,11 +369,11 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
 
                                         {/* Status - Full width */}
                                         <div className="col-span-full">
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Status (optional)</span>
                                                 <input
                                                     name="status"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     placeholder="Status"
                                                 />
@@ -382,7 +382,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
 
                                         {/* Location row - 3 columns */}
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Room</span>
                                                 <select
                                                     value={selectedRoomForItem ?? ""}
@@ -392,7 +392,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                                         setSelectedPlaceForItem(null);
                                                         setSelectedContainerForItem(null);
                                                     }}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                 >
                                                     <option value="">Select a room</option>
                                                     {rooms.map(room => (
@@ -402,7 +402,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                             </label>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Place (optional)</span>
                                                 <select
                                                     value={selectedPlaceForItem ?? ""}
@@ -411,7 +411,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                                         setSelectedPlaceForItem(val);
                                                         setSelectedContainerForItem(null);
                                                     }}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     disabled={!selectedRoomForItem}
                                                 >
                                                     <option value="">Select a place</option>
@@ -422,12 +422,12 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                             </label>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Container (optional)</span>
                                                 <select
                                                     value={selectedContainerForItem ?? ""}
                                                     onChange={e => setSelectedContainerForItem(Number(e.target.value) || null)}
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     disabled={!selectedPlaceForItem}
                                                 >
                                                     <option value="">Select a container</option>
@@ -440,13 +440,13 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
 
                                         {/* Quantity, Price, Sell Price row - 3 columns */}
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Quantity</span>
                                                 <input
                                                     name="quantity"
                                                     type="number"
                                                     min="1"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     value={String(form.quantity || 1)}
                                                     placeholder="1"
@@ -454,26 +454,26 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                                             </label>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Price MSRP</span>
                                                 <input
                                                     name="price"
                                                     type="number"
                                                     step="0.01"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     placeholder="0.00"
                                                 />
                                             </label>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-900 dark:text-white">
+                                            <label className="block text-foreground">
                                                 <span className="block mb-2 font-medium">Sell Price (optional)</span>
                                                 <input
                                                     name="sellprice"
                                                     type="number"
                                                     step="0.01"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                                                     onChange={handleChange}
                                                     placeholder="0.00"
                                                 />
@@ -482,11 +482,11 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
 
                                         {/* Consumable checkbox - Full width */}
                                         <div className="col-span-full">
-                                            <label className="flex items-center text-gray-900 dark:text-white">
+                                            <label className="flex items-center text-foreground">
                                                 <input
                                                     name="consumable"
                                                     type="checkbox"
-                                                    className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                                    className="mr-2 h-4 w-4 accent-accent border-border rounded"
                                                     checked={Boolean(form.consumable)}
                                                     onChange={e => setForm({ ...form, consumable: e.target.checked })}
                                                 />
@@ -500,7 +500,7 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                             <div className="flex justify-center pt-8">
                                 <button
                                     type="submit"
-                                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-sm px-12 py-4 text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl hover:-translate-y-1 transform focus:ring-4 focus:ring-blue-300/50 dark:focus:ring-blue-800/50 backdrop-blur-sm"
+                                    className="rounded-full bg-primary text-primary-foreground font-bold px-12 py-4 text-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-ring/80"
                                     disabled={loading}
                                 >
                                     {loading ? (
@@ -515,17 +515,17 @@ export default function CreateObjectModal({ open, onClose }: Readonly<CreateObje
                             </div>
 
                             {error && (
-                                <div className="text-red-600 dark:text-red-400 text-sm text-center bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm p-6 rounded-sm border border-red-200/50 dark:border-red-800/50 shadow-lg">
+                                <div className="text-destructive text-sm text-center bg-destructive/10 p-6 rounded-lg border border-destructive/30">
                                     <div className="flex items-center justify-center gap-3">
-                                        <span className="text-red-500 text-lg">⚠️</span>
+                                        <span className="text-lg">⚠️</span>
                                         <span className="font-medium">{error}</span>
                                     </div>
                                 </div>
                             )}
                             {success && (
-                                <div className="text-green-600 dark:text-green-400 text-sm text-center bg-green-50/80 dark:bg-green-900/20 backdrop-blur-sm p-6 rounded-sm border border-green-200/50 dark:border-green-800/50 shadow-lg">
+                                <div className="text-accent text-sm text-center bg-accent/10 p-6 rounded-lg border border-accent/30">
                                     <div className="flex items-center justify-center gap-3">
-                                        <span className="text-green-500 text-lg">✅</span>
+                                        <span className="text-lg">✅</span>
                                         <span className="font-medium">Successfully created!</span>
                                     </div>
                                 </div>

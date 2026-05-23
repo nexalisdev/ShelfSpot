@@ -3,12 +3,15 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 RUN apk add --no-cache libc6-compat && \
-    yarn install --frozen-lockfile --production=false
+    yarn install --no-frozen-lockfile --production=false
 
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ARG NEXT_PUBLIC_BACKEND_URL=http://localhost:8082
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
 
 RUN yarn prisma generate && \
     yarn build

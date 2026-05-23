@@ -208,13 +208,13 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
                 ))}
             </div>
 
-            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
-            {success && <p className="text-sm text-green-600 dark:text-green-400">Items prepared, backend call pending.</p>}
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            {success && <p className="text-sm text-accent">Items prepared, backend call pending.</p>}
 
             <div className="flex flex-wrap gap-2.5">
                 <button
                     type="button"
-                    className="rounded-md border border-dashed border-blue-500/60 px-3 py-1.5 text-sm font-semibold text-blue-600 transition hover:border-blue-500 hover:bg-blue-50 dark:border-blue-400/60 dark:text-blue-300 dark:hover:bg-blue-500/10"
+                    className="rounded-full border border-dashed border-border px-3 py-1.5 text-sm font-semibold hover:bg-muted/40 transition-colors"
                     onClick={addRow}
                 >
                     Add another line
@@ -224,7 +224,7 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
             <div className="flex flex-wrap justify-end gap-3">
                 <button
                     type="button"
-                    className="rounded-md border border-gray-200/60 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-100 dark:border-gray-700/60 dark:text-gray-200 dark:hover:bg-gray-800"
+                    className="rounded-full border border-border text-muted-foreground px-4 py-2 text-sm font-semibold hover:bg-muted/60 transition-colors"
                     onClick={() => {
                         resetState();
                         onClose();
@@ -234,7 +234,7 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
                 </button>
                 <button
                     type="submit"
-                    className="rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:from-blue-700 hover:to-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
+                    className="rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
                     disabled={loading || !canSubmit}
                 >
                     {loading ? "Preparing…" : "Bulk creation"}
@@ -249,15 +249,15 @@ export default function CreateMultipleItemsModal({ open, onClose, embedded = fal
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60 p-4">
-            <div className="modal-content w-full max-w-5xl rounded-sm border border-gray-200/50 bg-white/95 p-6 shadow-2xl shadow-blue-500/10 dark:border-gray-700/50 dark:bg-gray-900/95">
+            <div className="modal-content w-full max-w-5xl rounded-lg border border-border bg-card p-6 shadow-2xl">
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Add several items at once</h2>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Enter each item name, its quantity, and optional reference.</p>
+                        <h2 className="text-2xl font-bold text-foreground">Add several items at once</h2>
+                        <p className="text-sm text-muted-foreground">Enter each item name, its quantity, and optional reference.</p>
                     </div>
                     <button
                         type="button"
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                        className="text-muted-foreground hover:text-foreground"
                         onClick={() => {
                             resetState();
                             onClose();

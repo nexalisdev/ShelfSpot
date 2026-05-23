@@ -105,7 +105,7 @@ export default function Dashboard() {
   if (authLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -118,7 +118,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -145,7 +145,7 @@ export default function Dashboard() {
       {/*  Header with gradient background */}
       {preferences?.showWelcomeHeader !== false && (
         <div className="app-panel-elevated relative overflow-hidden px-6 py-8 md:px-8">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-cyan-400/10" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/8 via-transparent to-accent/8" />
           <div className="relative text-center space-y-6">
             <div>
               <span className="app-kicker">Workspace overview</span>
@@ -193,22 +193,20 @@ export default function Dashboard() {
         <div className="space-y-8">
           {searchLoading ? (
             <div className="text-center py-16">
-              <div className="relative w-20 h-20 mx-auto mb-6">
-                <div className="absolute inset-0 bg-blue-600 rounded-full animate-spin opacity-20"></div>
-                <div className="absolute inset-2 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center">
-                  <Search className="w-8 h-8 text-blue-500 animate-pulse" />
-                </div>
+              <div className="relative w-16 h-16 mx-auto mb-5">
+                <div className="absolute inset-0 rounded-full border-4 border-muted"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 text-xl font-medium">Searching your inventory...</p>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">This won&apos;t take long</p>
+              <p className="text-foreground text-lg font-medium">Searching your inventory...</p>
+              <p className="text-muted-foreground text-sm mt-1.5">This won&apos;t take long</p>
             </div>
           ) : searchResults.length === 0 ? (
             <div className="text-center py-16">
-              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                <Search className="w-12 h-12 text-gray-400" />
+              <div className="w-20 h-20 mx-auto mb-5 bg-muted rounded-full flex items-center justify-center">
+                <Search className="w-10 h-10 text-muted-foreground" />
               </div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white mb-3">No items found</div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg">Try a different search term or check your spelling</p>
+              <div className="text-xl font-semibold text-foreground mb-2">No items found</div>
+              <p className="text-muted-foreground">Try a different search term or check your spelling</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -301,8 +299,8 @@ export default function Dashboard() {
                     >
                       <div className="space-y-2">
                         <div><strong className="text-primary">Created:</strong> {new Date(item.createdAt).toLocaleDateString()}</div>
-                        {item.status && <div><strong className="text-emerald-500">Status:</strong> {item.status}</div>}
-                        {item.quantity && <div><strong className="text-amber-500">Quantity:</strong> {item.quantity}</div>}
+                        {item.status && <div><strong className="text-accent">Status:</strong> {item.status}</div>}
+                        {item.quantity && <div><strong className="text-muted-foreground">Quantity:</strong> {item.quantity}</div>}
                       </div>
                     </div>
                   </button>
@@ -310,7 +308,7 @@ export default function Dashboard() {
               ) : (
                 <div className="app-panel-muted w-full border border-dashed border-border py-12 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                    <Package className="w-8 h-8 text-gray-400" />
+                    <Package className="w-8 h-8 text-muted-foreground" />
                   </div>
                   <p className="font-medium text-muted-foreground">
                     No items found

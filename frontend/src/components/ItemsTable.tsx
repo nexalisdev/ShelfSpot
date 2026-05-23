@@ -318,20 +318,20 @@ function ItemsTable({ search, items: itemsProp, columns = [
             <Menu as="div" className="inline-block text-left relative z-[60]">
                 {({ open }: { open: boolean }) => (
                     <>
-                        <Menu.Button ref={refs.setReference} as="button" aria-label="Item actions" className="flex h-11 w-11 items-center justify-center rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80">
-                            <MoreVertical className="w-5 h-5" />
+                        <Menu.Button ref={refs.setReference} as="button" aria-label="Item actions" className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80">
+                            <MoreVertical className="w-4 h-4" />
                         </Menu.Button>
                         {open && (
                             <FloatingPortal>
                                 <Menu.Items
                                     ref={refs.setFloating}
                                     style={{ ...floatingStyles, zIndex: 60 }}
-                                    className="bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal focus:outline-none flex flex-col p-1"
+                                    className="bg-popover border border-border rounded-lg shadow-[var(--elevation-2)] focus:outline-none flex flex-col p-1 min-w-[160px]"
                                 >
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
-                                                className={`w-full text-left px-4 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                className={`w-full text-left px-3 py-2 text-sm rounded-md text-foreground ${active ? 'bg-muted' : ''}`}
                                                 onClick={() => handleEdit(item)}
                                             >
                                                 Modifier
@@ -341,7 +341,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
-                                                className={`w-full text-left px-4 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                className={`w-full text-left px-3 py-2 text-sm rounded-md text-foreground ${active ? 'bg-muted' : ''}`}
                                                 onClick={() => {
                                                     if (typeof window !== 'undefined') {
                                                         window.location.href = `/manage/${item.id}`;
@@ -357,7 +357,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                             const isFav = favourites.includes(item.id);
                                             return (
                                                 <button
-                                                    className={`w-full text-left px-4 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                    className={`w-full text-left px-3 py-2 text-sm rounded-md text-foreground ${active ? 'bg-muted' : ''}`}
                                                     onClick={async () => {
                                                         if (isFav) {
                                                             await backendApi.deleteFavourite(item.id);
@@ -376,7 +376,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
-                                                className={`w-full text-left px-4 py-2 text-sm rounded text-red-600 ${active ? 'bg-red-100 dark:bg-red-900' : ''}`}
+                                                className={`w-full text-left px-3 py-2 text-sm rounded-md text-destructive ${active ? 'bg-destructive/10' : ''}`}
                                                 onClick={() => handleDelete(item.id)}
                                             >
                                                 Supprimer l&apos;objet
@@ -398,9 +398,9 @@ function ItemsTable({ search, items: itemsProp, columns = [
                 {selectedIds.length > 0 && (
                     <>
                         {/* Selection Counter Badge */}
-                        <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-muted border border-border rounded-full">
                             <CheckSquare className="w-4 h-4 text-foreground" />
-                            <span className="text-sm font-bold text-foreground">
+                            <span className="text-sm font-medium text-foreground">
                                 {selectedIds.length} selected
                             </span>
                         </div>
@@ -411,7 +411,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                             <Button
                                 size="sm"
                                 variant="ghost"
-                                className="h-11 w-11 p-0 text-red-600 hover:bg-red-100 dark:hover:bg-red-900"
+                                className="h-9 w-9 p-0 text-destructive hover:bg-destructive/10"
                                 onClick={handleDeleteSelected}
                                 aria-label="Delete selected items"
                             >
@@ -424,16 +424,16 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     as={Button}
                                     size="sm"
                                     variant="ghost"
-                                    className="h-11 w-11 p-0 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                    className="h-9 w-9 p-0"
                                     aria-label="Export selected items"
                                 >
                                     <Download className="w-4 h-4" />
                                 </Menu.Button>
-                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal focus:outline-none p-1 min-w-[140px]">
+                                <Menu.Items className="absolute left-0 mt-1 z-50 bg-popover border border-border rounded-lg shadow-[var(--elevation-2)] focus:outline-none p-1 min-w-[140px]">
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
-                                                className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                className={`w-full text-left px-3 py-2 text-sm rounded-md text-foreground ${active ? 'bg-muted' : ''}`}
                                                 onClick={handleExportCSV}
                                             >
                                                 Export as CSV
@@ -443,7 +443,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                     <Menu.Item>
                                         {({ active }: { active: boolean }) => (
                                             <button
-                                                className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                className={`w-full text-left px-3 py-2 text-sm rounded-md text-foreground ${active ? 'bg-muted' : ''}`}
                                                 onClick={handleExportJSON}
                                             >
                                                 Export as JSON
@@ -460,20 +460,20 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                         as={Button}
                                         size="sm"
                                         variant="ghost"
-                                        className="h-11 w-11 p-0 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                        className="h-9 w-9 p-0"
                                         aria-label="Manage tags for selected items"
                                     >
                                         <Tags className="w-4 h-4" />
                                     </Menu.Button>
-                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 rounded-global shadow-brutal focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
-                                        <div className="text-xs font-bold text-foreground px-2 py-1 mb-1">
+                                    <Menu.Items className="absolute left-0 mt-1 z-50 bg-popover border border-border rounded-lg shadow-[var(--elevation-2)] focus:outline-none p-2 max-h-[300px] overflow-y-auto min-w-[180px]">
+                                        <div className="text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground px-2 py-1 mb-1">
                                             Add Tag
                                         </div>
                                         {allTags.map((tag: Tag) => (
                                             <Menu.Item key={`add-${tag.id}`}>
                                                 {({ active }: { active: boolean }) => (
                                                     <button
-                                                        className={`w-full text-left px-3 py-2 text-sm rounded ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                                                        className={`w-full text-left px-3 py-2 text-sm rounded-md text-foreground ${active ? 'bg-muted' : ''}`}
                                                         onClick={() => handleBulkTags(tag.name, 'add')}
                                                     >
                                                         {tag.icon && <span className="mr-2">{tag.icon}</span>}
@@ -482,15 +482,15 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                 )}
                                             </Menu.Item>
                                         ))}
-                                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
-                                        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-1">
+                                        <div className="border-t border-border my-1"></div>
+                                        <div className="text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground px-2 py-1 mb-1">
                                             Remove Tag
                                         </div>
                                         {allTags.map((tag: Tag) => (
                                             <Menu.Item key={`remove-${tag.id}`}>
                                                 {({ active }: { active: boolean }) => (
                                                     <button
-                                                        className={`w-full text-left px-3 py-2 text-sm rounded text-red-600 dark:text-red-400 ${active ? 'bg-red-50 dark:bg-red-900/20' : ''}`}
+                                                        className={`w-full text-left px-3 py-2 text-sm rounded-md text-destructive ${active ? 'bg-destructive/10' : ''}`}
                                                         onClick={() => handleBulkTags(tag.name, 'remove')}
                                                     >
                                                         {tag.icon && <span className="mr-2">{tag.icon}</span>}
@@ -507,7 +507,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                             <Button
                                 size="sm"
                                 variant="ghost"
-                                className="h-11 w-11 p-0 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                className="h-9 w-9 p-0"
                                 onClick={handleClearSelection}
                                 aria-label="Clear selection"
                             >
@@ -522,7 +522,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     type="text"
                     aria-label="Search items"
                     placeholder="Search an item..."
-                    className="theme-input rounded-global border-2 border-foreground dark:border-gray-800 bg-white dark:bg-gray-900 px-2 py-1 ml-auto w-56 shadow-brutal transition-transform hover:-translate-y-[1px] hover:-translate-x-[1px] active:translate-y-[1px] active:translate-x-[1px] active:shadow-none focus:outline-none"
+                    className="app-input ml-auto w-56"
                     value={searchInput}
                     onChange={e => {
                         setSearchInput(e.target.value);
@@ -530,7 +530,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     }}
                 />
             </div>
-            <div className="bg-white dark:bg-gray-900 border-2 border-foreground dark:border-gray-800 p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-global shadow-brutal"
+            <div className="bg-card border border-border p-1 max-h-[60vh] h-[55vh] overflow-y-auto overflow-x-auto text-sm rounded-lg shadow-[var(--elevation-2)]"
             >
                 <Table>
                     <TableHeader>
@@ -568,7 +568,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                     </TableHeader>
                     <TableBody>
                         {paginatedItems.map((item: Item, idx: number) => (
-                            <TableRow key={item.id} className={(idx % 2 === 0 ? "bg-white dark:bg-gray-800 h-11" : "bg-gray-50 dark:bg-gray-700/50 h-11") + " hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"}>
+                            <TableRow key={item.id} className={(idx % 2 === 0 ? "bg-card h-11" : "bg-muted/30 h-11") + " hover:bg-muted/60 transition-colors"}>
                                 <TableCell className="w-8 px-2 py-1">
                                     <input
                                         type="checkbox"
@@ -613,21 +613,21 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                         )}
                                         {columns.includes("room") && (
                                             <TableCell>
-                                                <span className="text-gray-600 dark:text-gray-400">
+                                                <span className="text-muted-foreground">
                                                     {item.room?.name || "N/A"}
                                                 </span>
                                             </TableCell>
                                         )}
                                         {columns.includes("place") && (
                                             <TableCell>
-                                                <span className="text-gray-600 dark:text-gray-400">
+                                                <span className="text-muted-foreground">
                                                     {item.place?.name || "N/A"}
                                                 </span>
                                             </TableCell>
                                         )}
                                         {columns.includes("container") && (
                                             <TableCell>
-                                                <span className="text-gray-600 dark:text-gray-400">
+                                                <span className="text-muted-foreground">
                                                     {item.container?.name || "N/A"}
                                                 </span>
                                             </TableCell>
@@ -644,7 +644,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                                 <button
                                                                     key={tag.id}
                                                                     type="button"
-                                                                    className={`px-2 py-1 rounded text-xs border ${selected ? "theme-tag border-blue-500" : "theme-muted border-muted"}`}
+                                                                    className={`px-2 py-1 rounded-full text-xs border ${selected ? "bg-accent/15 text-foreground border-accent/30" : "bg-muted/40 text-muted-foreground border-border"}`}
                                                                     onClick={() => {
                                                                         setEditValues((prev: Partial<Item>) => {
                                                                             const prevTags = prev.tags || [];
@@ -694,7 +694,7 @@ function ItemsTable({ search, items: itemsProp, columns = [
                                                         return (
                                                             <span
                                                                 key={tagName}
-                                                                className="px-2 py-1 rounded text-xs border theme-tag border-blue-500 flex items-center gap-1"
+                                                                className="px-2 py-1 rounded-full text-xs border bg-accent/15 text-foreground border-border flex items-center gap-1"
                                                             >
                                                                 {tagObj?.icon ? <span>{tagObj.icon}</span> : null}{tagName}
                                                             </span>

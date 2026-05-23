@@ -1,5 +1,4 @@
 import React from "react";
-// @ts-expect-error Types are incorrectly typed in this specific version, but works at runtime
 import { Pie, Bar, Line } from "react-chartjs-2";
 import {
     Chart,
@@ -46,10 +45,12 @@ Chart.register(
 );
 
 const backgroundColors = [
-    "#3b82f6",
-    "#1d4ed8",
-    "#1e40af",
-    "#1e3a8a"
+    "#00D4A4",
+    "#3772CF",
+    "#D97706",
+    "#DC2626",
+    "#6B7280",
+    "#00B88F",
 ]
 
 export default function DashboardCharts({ preferences }: DashboardChartsProps) {
@@ -81,8 +82,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
             {
                 label: "Alerts",
                 data: alertsData.data.map(item => item.count),
-                backgroundColor: "#3b82f6",
-                borderColor: "#1e3a8a",
+                backgroundColor: "#00D4A4",
+                borderColor: "#00B88F",
             },
         ],
     } : {
@@ -91,8 +92,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
             {
                 label: "Alerts",
                 data: [],
-                backgroundColor: "#3b82f6",
-                borderColor: "#1e3a8a",
+                backgroundColor: "#00D4A4",
+                borderColor: "#00B88F",
             },
         ],
     };
@@ -128,8 +129,8 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                 label: "Value (€)",
                 data: [currentValue, currentValue, currentValue, currentValue, currentValue],
                 fill: true,
-                backgroundColor: "#3b82f6",
-                borderColor: "#1e3a8a",
+                backgroundColor: "#00D4A4",
+                borderColor: "#00B88F",
             },
         ],
     };
@@ -192,17 +193,17 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                     {loading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="h-16 w-16 rounded-full border-4 border-blue-100 dark:border-blue-900"></div>
-                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+                                <div className="h-16 w-16 rounded-full border-4 border-muted"></div>
+                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                             </div>
                             <p className="font-medium text-muted-foreground">Loading room data...</p>
                         </div>
                     ) : error ? (
                         <div className="text-center py-16">
-                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900">
-                                <span className="text-red-500 text-2xl">⚠️</span>
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/15">
+                                <span className="text-destructive text-2xl">⚠️</span>
                             </div>
-                            <div className="mb-2 text-lg font-semibold text-red-600 dark:text-red-400">Error loading rooms</div>
+                            <div className="mb-2 text-lg font-semibold text-destructive">Error loading rooms</div>
                             <div className="text-sm text-muted-foreground">{error}</div>
                         </div>
                     ) : !rooms || rooms.length === 0 ? (
@@ -216,7 +217,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                     ) : roomsWithItems.length === 0 ? (
                         <div className="text-center py-16">
                             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                                <span className="text-blue-500 text-2xl">📦</span>
+                                <span className="text-muted-foreground text-2xl">📦</span>
                             </div>
                             <div className="mb-2 text-lg font-semibold text-foreground">No items found</div>
                             <div className="text-sm text-muted-foreground">Add items to see room distribution</div>
@@ -260,23 +261,23 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                     {alertsLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="h-16 w-16 rounded-full border-4 border-orange-100 dark:border-orange-900"></div>
-                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
+                                <div className="h-16 w-16 rounded-full border-4 border-muted"></div>
+                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                             </div>
                             <p className="font-medium text-muted-foreground">Loading alerts data...</p>
                         </div>
                     ) : alertsError ? (
                         <div className="text-center py-16">
-                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900">
-                                <span className="text-red-500 text-2xl">⚠️</span>
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/15">
+                                <span className="text-destructive text-2xl">⚠️</span>
                             </div>
-                            <div className="mb-2 text-lg font-semibold text-red-600 dark:text-red-400">Error loading alerts</div>
+                            <div className="mb-2 text-lg font-semibold text-destructive">Error loading alerts</div>
                             <div className="text-sm text-muted-foreground">{alertsError}</div>
                         </div>
                     ) : !alertsData || alertsData.data.length === 0 ? (
                         <div className="text-center py-16">
-                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900">
-                                <span className="text-orange-500 text-2xl">🚨</span>
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+                                <span className="text-muted-foreground text-2xl">🚨</span>
                             </div>
                             <div className="mb-2 text-lg font-semibold text-foreground">No alerts data</div>
                             <div className="text-sm text-muted-foreground">No alerts have been created yet</div>
@@ -284,7 +285,7 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
                     ) : (
                         <>
                             <div className="mb-4 text-center">
-                                <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+                                <div className="text-3xl font-bold text-foreground">
                                     {alertsData.total}
                                 </div>
                                 <div className="text-sm text-muted-foreground">
@@ -303,21 +304,21 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
             {chartPrefs.showInventoryValue && (
                 <div className="app-panel p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="h-6 w-1 rounded-full bg-emerald-500"></div>
+                        <div className="h-6 w-1 rounded-full bg-accent"></div>
                         <h2 className="app-heading text-xl font-bold text-foreground">Inventory value</h2>
                     </div>
                     {inventoryLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="h-16 w-16 rounded-full border-4 border-green-100 dark:border-green-900"></div>
-                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-green-500 border-t-transparent"></div>
+                                <div className="h-16 w-16 rounded-full border-4 border-muted"></div>
+                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                             </div>
                             <p className="font-medium text-muted-foreground">Calculating inventory value...</p>
                         </div>
                     ) : inventoryValueData ? (
                         <>
                             <div className="mb-4 text-center">
-                                <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                                <div className="text-3xl font-bold text-accent">
                                     €{inventoryValueData.totalValue.toLocaleString()}
                                 </div>
                                 <div className="text-sm text-muted-foreground">
@@ -344,23 +345,23 @@ export default function DashboardCharts({ preferences }: DashboardChartsProps) {
             {chartPrefs.showStatusDistribution && (
                 <div className="app-panel p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="h-6 w-1 rounded-full bg-slate-500"></div>
+                        <div className="h-6 w-1 rounded-full bg-accent"></div>
                         <h2 className="app-heading text-xl font-bold text-foreground">Status distribution</h2>
                     </div>
                     {statusLoading ? (
                         <div className="flex flex-col items-center justify-center h-64">
                             <div className="relative mb-6">
-                                <div className="h-16 w-16 rounded-full border-4 border-slate-100 dark:border-slate-700"></div>
-                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-slate-500 border-t-transparent"></div>
+                                <div className="h-16 w-16 rounded-full border-4 border-muted"></div>
+                                <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                             </div>
                             <p className="font-medium text-muted-foreground">Loading status data...</p>
                         </div>
                     ) : statusError ? (
                         <div className="text-center py-16">
-                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900">
-                                <span className="text-red-500 text-2xl">⚠️</span>
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/15">
+                                <span className="text-destructive text-2xl">⚠️</span>
                             </div>
-                            <div className="mb-2 text-lg font-semibold text-red-600 dark:text-red-400">Error loading status data</div>
+                            <div className="mb-2 text-lg font-semibold text-destructive">Error loading status data</div>
                             <div className="text-sm text-muted-foreground">{statusError}</div>
                         </div>
                     ) : statusData && statusData.data.length > 0 ? (

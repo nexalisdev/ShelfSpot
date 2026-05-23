@@ -14,7 +14,7 @@ export function ObjectIcon({ type, className = "w-7 h-7" }: ObjectIconProps) {
     };
 
     const Icon = iconMap[type];
-    return <Icon className={`${className} text-blue-600 dark:text-blue-400`} />;
+    return <Icon className={`${className} text-accent`} />;
 }
 
 export const OBJECT_ICONS = {

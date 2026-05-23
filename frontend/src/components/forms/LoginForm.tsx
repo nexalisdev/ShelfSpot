@@ -44,7 +44,7 @@ export default function LoginForm() {
         <div className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">
                         Email address
                     </label>
                     <input
@@ -61,7 +61,7 @@ export default function LoginForm() {
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1.5">
                         Password
                     </label>
                     <div className="relative">
@@ -115,17 +115,9 @@ export default function LoginForm() {
                 </div>
 
                 {error && (
-                    <div className="rounded-md border border-red-300 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
-                        <div className="flex">
-                            <div className="ml-3">
-                                <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
-                                    Sign in failed
-                                </h3>
-                                <div className="mt-1 text-sm text-red-700 dark:text-red-300">
-                                    {error}
-                                </div>
-                            </div>
-                        </div>
+                    <div className="rounded-lg border border-destructive/30 bg-destructive/8 p-3.5">
+                        <p className="text-sm font-medium text-destructive">Sign in failed</p>
+                        <p className="mt-0.5 text-sm text-destructive/80">{error}</p>
                     </div>
                 )}
 

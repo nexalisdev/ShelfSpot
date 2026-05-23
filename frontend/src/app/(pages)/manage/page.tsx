@@ -203,59 +203,52 @@ const ManagePage = () => {
 
   return (
     <div className="space-y-8">
-      {/* Modern Page Header */}
-      <div className="relative overflow-hidden rounded-sm bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-purple-900/20 border border-gray-200/50 dark:border-gray-700/50 p-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5" />
-        <div className="relative flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-purple-400">
-                Manage
-              </h1>
-            </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              Manage your existing items and create tags. Use the &quot;Create&quot; button in the navigation to add new rooms, places, and containers.
-            </p>
-          </div>
+      {/* Page Header */}
+      <div className="app-panel-elevated relative overflow-hidden px-6 py-8 md:px-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="h-8 w-1 rounded-full bg-accent" />
+          <h1 className="app-heading text-3xl font-bold text-foreground">Manage</h1>
         </div>
+        <p className="app-muted mt-2 text-lg leading-relaxed">
+          Manage your existing items and create tags. Use the &quot;Create&quot; button in the navigation to add new rooms, places, and containers.
+        </p>
       </div>
 
       {/* Modern Management Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Modern Rooms Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
-          <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
+        {/* Rooms Section */}
+        <div className="app-panel">
+          <div className="p-8 border-b border-border">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Rooms</h2>
+              <div className="w-1 h-6 rounded-full bg-accent"></div>
+              <h2 className="text-xl font-bold text-foreground">Rooms</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing rooms</p>
+            <p className="text-sm text-muted-foreground">Manage existing rooms</p>
           </div>
           <div className="p-8">
             <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {rooms.length > 0 ? (
                 rooms.map((room) => (
-                  <div key={room.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                  <div key={room.id} className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:bg-muted/40 transition-colors">
                     {editingRoom === room.id ? (
                       <>
                         <input
                           type="text"
                           value={editValues.name || ''}
                           onChange={(e) => handleEditValueChange(e.target.value)}
-                          className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white mr-3"
+                          className="flex-1 px-3 py-2 text-sm border border-border rounded-lg bg-card text-foreground mr-3"
                           autoFocus
                         />
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleSaveRoom(room.id)}
-                            className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-accent hover:text-accent/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-1 rounded-sm hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Cancel
                           </button>
@@ -263,17 +256,17 @@ const ManagePage = () => {
                       </>
                     ) : (
                       <>
-                        <span className="font-semibold text-gray-900 dark:text-white">{room.name}</span>
+                        <span className="font-semibold text-foreground">{room.name}</span>
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditRoom(room)}
-                            className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-1 rounded-lg hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteRoom(room.id)}
-                            className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-destructive hover:text-destructive/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-destructive/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Delete
                           </button>
@@ -283,26 +276,26 @@ const ManagePage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">No rooms found. Create one using the &quot;Create&quot; button in the navigation.</p>
+                <p className="text-muted-foreground text-sm">No rooms found. Create one using the &quot;Create&quot; button in the navigation.</p>
               )}
             </div>
           </div>
         </div>
 
-        {/* Modern Places Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
-          <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
+        {/* Places Section */}
+        <div className="app-panel">
+          <div className="p-8 border-b border-border">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Places</h2>
+              <div className="w-1 h-6 rounded-full bg-accent"></div>
+              <h2 className="text-xl font-bold text-foreground">Places</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing places within rooms</p>
+            <p className="text-sm text-muted-foreground">Manage existing places within rooms</p>
           </div>
           <div className="p-8">
             <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {places.length > 0 ? (
                 places.map((place) => (
-                  <div key={place.id} className="flex items-center justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                  <div key={place.id} className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:bg-muted/40 transition-colors">
                     {editingPlace === place.id ? (
                       <>
                         <div className="flex-1 mr-3">
@@ -310,23 +303,23 @@ const ManagePage = () => {
                             type="text"
                             value={editValues.name || ''}
                             onChange={(e) => handleEditValueChange(e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white mb-1"
+                            className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-card text-foreground mb-1"
                             autoFocus
                           />
-                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                          <div className="text-xs text-muted-foreground">
                             {rooms.find(r => r.id === place.roomId)?.name || "Unknown room"}
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleSavePlace(place.id)}
-                            className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-accent hover:text-accent/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-1 rounded-sm hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Cancel
                           </button>
@@ -335,21 +328,21 @@ const ManagePage = () => {
                     ) : (
                       <>
                         <div>
-                          <span className="font-semibold text-gray-900 dark:text-white">{place.name}</span>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                          <span className="font-semibold text-foreground">{place.name}</span>
+                          <div className="text-xs text-muted-foreground">
                             {rooms.find(r => r.id === place.roomId)?.name || "Unknown room"}
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditPlace(place)}
-                            className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-1 rounded-lg hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeletePlace(place.id)}
-                            className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-destructive hover:text-destructive/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-destructive/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Delete
                           </button>
@@ -359,26 +352,26 @@ const ManagePage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">No places found. Create one using the &quot;Create&quot; button in the navigation.</p>
+                <p className="text-muted-foreground text-sm">No places found. Create one using the &quot;Create&quot; button in the navigation.</p>
               )}
             </div>
           </div>
         </div>
 
-        {/* Modern Containers Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
-          <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
+        {/* Containers Section */}
+        <div className="app-panel">
+          <div className="p-8 border-b border-border">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Containers</h2>
+              <div className="w-1 h-6 rounded-full bg-accent"></div>
+              <h2 className="text-xl font-bold text-foreground">Containers</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage existing containers within places</p>
+            <p className="text-sm text-muted-foreground">Manage existing containers within places</p>
           </div>
           <div className="p-8">
             <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide">
               {containers.length > 0 ? (
                 containers.map((container) => (
-                  <div key={container.id} className="flex items-start justify-between p-4 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                  <div key={container.id} className="flex items-start justify-between p-4 rounded-lg border border-border bg-card hover:bg-muted/40 transition-colors">
                     {editingContainer === container.id ? (
                       <>
                         <div className="flex-1 mr-3 space-y-2">
@@ -386,14 +379,14 @@ const ManagePage = () => {
                             type="text"
                             value={editValues.name || ''}
                             onChange={(e) => handleEditValueChange(e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-card text-foreground"
                             placeholder="Container name"
                             autoFocus
                           />
                           <select
                             value={editValues.roomId || ''}
                             onChange={(e) => handleContainerRoomChange(Number(e.target.value))}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-card text-foreground"
                           >
                             <option value="">Select a room</option>
                             {rooms.map(room => (
@@ -403,7 +396,7 @@ const ManagePage = () => {
                           <select
                             value={editValues.placeId || ''}
                             onChange={(e) => handleContainerPlaceChange(Number(e.target.value))}
-                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-card text-foreground"
                             disabled={!editValues.roomId}
                           >
                             <option value="">Select a place</option>
@@ -417,13 +410,13 @@ const ManagePage = () => {
                         <div className="flex gap-2 mt-1">
                           <button
                             onClick={() => handleSaveContainer(container.id)}
-                            className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-accent hover:text-accent/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Save
                           </button>
                           <button
                             onClick={handleCancelEdit}
-                            className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-1 rounded-sm hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Cancel
                           </button>
@@ -432,21 +425,21 @@ const ManagePage = () => {
                     ) : (
                       <>
                         <div>
-                          <span className="font-semibold text-gray-900 dark:text-white">{container.name}</span>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                          <span className="font-semibold text-foreground">{container.name}</span>
+                          <div className="text-xs text-muted-foreground">
                             {places.find(p => p.id === container.placeId)?.name} • {rooms.find(r => r.id === container.roomId)?.name}
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditContainer(container)}
-                            className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-1 rounded-lg hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteContainer(container.id)}
-                            className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                            className="min-h-[44px] text-destructive hover:text-destructive/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-destructive/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                           >
                             Delete
                           </button>
@@ -456,20 +449,20 @@ const ManagePage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">No containers found. Create one using the &quot;Create&quot; button in the navigation.</p>
+                <p className="text-muted-foreground text-sm">No containers found. Create one using the &quot;Create&quot; button in the navigation.</p>
               )}
             </div>
           </div>
         </div>
 
-        {/* Modern Tags Section */}
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-sm border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
-          <div className="p-8 border-b border-gray-200/50 dark:border-gray-700/50">
+        {/* Tags Section */}
+        <div className="app-panel">
+          <div className="p-8 border-b border-border">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Tags</h2>
+              <div className="w-1 h-6 rounded-full bg-accent"></div>
+              <h2 className="text-xl font-bold text-foreground">Tags</h2>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Create and manage tags for items</p>
+            <p className="text-sm text-muted-foreground">Create and manage tags for items</p>
           </div>
           <div className="p-8">
             <form onSubmit={handleAddTag} className="mb-6">
@@ -479,12 +472,12 @@ const ManagePage = () => {
                   value={tagName}
                   onChange={e => setTagName(e.target.value)}
                   placeholder="Tag name"
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className="flex-1 px-3 py-2 border border-border rounded-lg bg-card text-foreground placeholder-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                   required
                 />
                 <button
                   type="submit"
-                  className="min-h-[44px] px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-medium rounded-sm transition-all duration-200 shadow-md hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                  className="min-h-[44px] px-6 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                 >
                   Add
                 </button>
@@ -492,45 +485,45 @@ const ManagePage = () => {
             </form>
             <div className="flex flex-wrap gap-3 max-h-48 overflow-y-auto scrollbar-hide">
               {tags.map((tag) => (
-                <div key={tag.id} className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 rounded-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md">
+                <div key={tag.id} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-card hover:bg-muted/40 transition-colors">
                   {editingTag === tag.id ? (
                     <>
                       <input
                         type="text"
                         value={editValues.name || ''}
                         onChange={(e) => handleEditValueChange(e.target.value)}
-                        className="text-sm border-none bg-transparent text-gray-900 dark:text-white outline-none w-20"
+                        className="text-sm border-none bg-transparent text-foreground outline-none w-20"
                         autoFocus
                       />
                       <button
                         onClick={() => handleSaveTag(tag.id)}
                         aria-label="Save tag"
-                        className="min-h-[44px] text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                        className="min-h-[44px] text-accent hover:text-accent/80 text-sm font-medium px-2 py-1 rounded-lg hover:bg-accent/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ✓
                       </button>
                       <button
                         onClick={handleCancelEdit}
                         aria-label="Cancel edit"
-                        className="min-h-[44px] text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                        className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-2 py-1 rounded-sm hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ×
                       </button>
                     </>
                   ) : (
                     <>
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">{tag.name}</span>
+                      <span className="text-sm font-semibold text-foreground">{tag.name}</span>
                       <button
                         onClick={() => handleEditTag(tag)}
                         aria-label={`Edit tag ${tag.name}`}
-                        className="min-h-[44px] text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                        className="min-h-[44px] text-muted-foreground hover:text-foreground text-sm font-medium px-2 py-1 rounded-lg hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ✎
                       </button>
                       <button
                         onClick={() => handleDeleteTag(tag.id)}
                         aria-label={`Delete tag ${tag.name}`}
-                        className="min-h-[44px] text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium px-2 py-1 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
+                        className="min-h-[44px] text-destructive hover:text-destructive/80 text-sm font-medium px-2 py-1 rounded-lg hover:bg-destructive/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80"
                       >
                         ×
                       </button>

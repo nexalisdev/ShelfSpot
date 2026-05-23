@@ -31,28 +31,28 @@ export default function ManageObjectClient({ item }: { item: Item }) {
 
     return (
         <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Actions</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-4">Actions</h2>
             <div className="flex gap-4">
                 <button
                     onClick={() => setShowModal(true)}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
+                    className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                 >
                     Edit
                 </button>
                 <button
                     onClick={handleDelete}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-sm transition-colors"
+                    className="px-4 py-2 rounded-full bg-destructive text-white font-medium hover:opacity-90 transition-opacity"
                 >
                     Delete
                 </button>
             </div>
             {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-                        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Edit item</h2>
+                    <div className="bg-card border border-border rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+                        <div className="flex items-center justify-between p-4 border-b border-border">
+                            <h2 className="text-xl font-bold text-foreground">Edit item</h2>
                             <button
-                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                                className="text-muted-foreground hover:text-foreground text-2xl rounded-lg px-2"
                                 onClick={() => setShowModal(false)}
                             >
                                 ×
@@ -64,7 +64,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 try {
                                     await backendApi.updateItem(item.id, form);
                                     setShowModal(false);
-                                    window.location.reload(); // Refresh to show updated data
+                                    window.location.reload();
                                 } catch (error) {
                                     console.error("Error updating item:", error);
                                     alert("Error updating item");
@@ -73,18 +73,18 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 {/* Basic Information */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Name</label>
                                         <input
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.name}
                                             onChange={e => setForm({ ...form, name: e.target.value })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quantity</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Quantity</label>
                                         <input
                                             type="number"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.quantity}
                                             onChange={e => setForm({ ...form, quantity: Number(e.target.value) })}
                                         />
@@ -93,18 +93,18 @@ export default function ManageObjectClient({ item }: { item: Item }) {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Status</label>
                                         <input
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.status || ""}
                                             onChange={e => setForm({ ...form, status: e.target.value })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Item Link</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Item Link</label>
                                         <input
                                             type="url"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.itemLink || ""}
                                             onChange={e => setForm({ ...form, itemLink: e.target.value })}
                                             placeholder="https://example.com/item"
@@ -115,24 +115,24 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 {/* Pricing */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Purchase Price</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Purchase Price</label>
                                         <input
                                             type="number"
                                             min="0"
                                             step="0.01"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.price || ""}
                                             onChange={e => setForm({ ...form, price: e.target.value ? Number(e.target.value) : undefined })}
                                             placeholder="0.00"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Selling Price</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Selling Price</label>
                                         <input
                                             type="number"
                                             min="0"
                                             step="0.01"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm   bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.sellprice || ""}
                                             onChange={e => setForm({ ...form, sellprice: e.target.value ? Number(e.target.value) : undefined })}
                                             placeholder="0.00"
@@ -143,9 +143,9 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 {/* Location */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Room</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Room</label>
                                         <select
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                             value={form.roomId ?? ""}
                                             onChange={e => {
                                                 const roomId = Number(e.target.value) || undefined;
@@ -159,9 +159,9 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Place</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Place</label>
                                         <select
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 disabled:opacity-50"
                                             value={form.placeId ?? ""}
                                             onChange={e => {
                                                 const placeId = Number(e.target.value) || undefined;
@@ -176,9 +176,9 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Container</label>
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Container</label>
                                         <select
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                                            className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 disabled:opacity-50"
                                             value={form.containerId ?? ""}
                                             onChange={e => setForm(f => ({ ...f, containerId: Number(e.target.value) || undefined }))}
                                             disabled={!form.roomId && !form.placeId}
@@ -194,34 +194,34 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 {/* Options and Tags */}
                                 <div className="grid grid-cols-1 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tags (Read-only)</label>
-                                        <div className="max-h-24 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-sm p-2 bg-gray-50 dark:bg-gray-600">
+                                        <label className="block text-sm font-medium text-muted-foreground mb-1">Tags (Read-only)</label>
+                                        <div className="max-h-24 overflow-y-auto border border-border rounded-lg p-2 bg-muted/40">
                                             {item.tags && item.tags.length > 0 ? (
                                                 <div className="flex flex-wrap gap-1">
                                                     {item.tags.map((tagName: string, index: number) => (
                                                         <span
                                                             key={index}
-                                                            className="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-600"
+                                                            className="px-2 py-1 text-xs rounded-full bg-accent/15 text-foreground border border-border"
                                                         >
                                                             {tagName}
                                                         </span>
                                                     ))}
                                                 </div>
                                             ) : (
-                                                <span className="text-gray-500 text-sm">No tags assigned</span>
+                                                <span className="text-muted-foreground text-sm">No tags assigned</span>
                                             )}
                                         </div>
-                                        <p className="text-xs text-gray-500 mt-1">Tags cannot be modified in this form</p>
+                                        <p className="text-xs text-muted-foreground mt-1">Tags cannot be modified in this form</p>
                                     </div>
                                 </div>
                             </form>
                         </div>
 
                         {/* Footer with buttons */}
-                        <div className="flex justify-end gap-3 p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                        <div className="flex justify-end gap-3 p-4 border-t border-border bg-muted/40">
                             <button
                                 type="button"
-                                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-sm transition-colors"
+                                className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:bg-muted/60 transition-colors"
                                 onClick={() => setShowModal(false)}
                             >
                                 Cancel
@@ -231,7 +231,6 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                 onClick={async (e) => {
                                     e.preventDefault();
                                     try {
-                                        // Filter out properties that shouldn't be sent to backend
                                         const updateData = {
                                             name: form.name,
                                             quantity: form.quantity,
@@ -242,10 +241,8 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                             roomId: form.roomId,
                                             placeId: form.placeId,
                                             containerId: form.containerId
-                                            // Note: tags and consumable are excluded as they seem to be read-only or handled separately
                                         };
 
-                                        // Remove undefined values
                                         Object.keys(updateData).forEach(key => {
                                             if (updateData[key as keyof typeof updateData] === undefined) {
                                                 delete updateData[key as keyof typeof updateData];
@@ -260,7 +257,7 @@ export default function ManageObjectClient({ item }: { item: Item }) {
                                         alert("Error updating item");
                                     }
                                 }}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
+                                className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                             >
                                 Save
                             </button>

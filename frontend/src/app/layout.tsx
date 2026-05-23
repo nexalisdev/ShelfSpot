@@ -1,21 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Sora } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import { Providers } from "./utils/providers";
 import ServiceWorkerRegistrar from "@/components/ServiceWorkerRegistrar";
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
 });
 
-const sora = Sora({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-code",
   display: "swap",
-
 });
 
 export const metadata: Metadata = {
@@ -32,7 +31,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a5adf",
+  themeColor: "#0A0A0A",
 };
 
 export default function RootLayout({
@@ -52,8 +51,8 @@ export default function RootLayout({
 (function(){
   try {
     var theme = localStorage.theme;
-    if (!theme) {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (theme !== 'dark' && theme !== 'light') {
+      theme = 'light';
     }
     var isDark = theme === 'dark';
     document.documentElement.classList.toggle('dark', isDark);
@@ -64,7 +63,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${manrope.variable} ${sora.variable} app-shell antialiased`}>
+      <body className={`${inter.variable} ${geistMono.variable} app-shell antialiased`}>
         <ServiceWorkerRegistrar />
         <Providers>
           <div className="flex min-h-screen flex-col">

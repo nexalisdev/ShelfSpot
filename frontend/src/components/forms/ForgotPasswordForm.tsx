@@ -65,13 +65,13 @@ export default function ForgotPasswordForm() {
                     </button>
 
                     {message && (
-                        <div className="text-sm text-green-600 dark:text-green-400 mt-2 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded">
+                        <div className="text-sm text-accent mt-2 p-3 bg-accent/10 border border-accent/30 rounded-lg">
                             {message}
                         </div>
                     )}
 
                     {error && (
-                        <div className="text-sm text-red-600 dark:text-red-400 mt-2 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded">
+                        <div className="text-sm text-destructive mt-2 p-3 bg-destructive/10 border border-destructive/30 rounded-lg">
                             {error}
                         </div>
                     )}

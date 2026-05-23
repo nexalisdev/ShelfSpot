@@ -95,7 +95,7 @@ export default function SignUpForm() {
         <div className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-muted-foreground mb-2">
                         Username
                     </label>
                     <input
@@ -110,12 +110,12 @@ export default function SignUpForm() {
                         placeholder="Choose a username"
                     />
                     {errors.name && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.name}</p>
+                        <p className="mt-1 text-sm text-destructive">{errors.name}</p>
                     )}
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-2">
                         Email address
                     </label>
                     <input
@@ -130,12 +130,12 @@ export default function SignUpForm() {
                         placeholder="Enter your email"
                     />
                     {errors.email && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                        <p className="mt-1 text-sm text-destructive">{errors.email}</p>
                     )}
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="password" className="block text-sm font-medium text-muted-foreground mb-2">
                         Password
                     </label>
                     <div className="relative">
@@ -164,12 +164,12 @@ export default function SignUpForm() {
                         </button>
                     </div>
                     {errors.password && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.password}</p>
+                        <p className="mt-1 text-sm text-destructive">{errors.password}</p>
                     )}
                 </div>
 
                 <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-muted-foreground mb-2">
                         Confirm password
                     </label>
                     <div className="relative">
@@ -198,21 +198,20 @@ export default function SignUpForm() {
                         </button>
                     </div>
                     {errors.confirmPassword && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.confirmPassword}</p>
+                        <p className="mt-1 text-sm text-destructive">{errors.confirmPassword}</p>
                     )}
                 </div>
 
                 {password && (
                     <div className="app-panel-muted p-4">
-                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password requirements:</h4>
+                        <h4 className="text-sm font-medium text-muted-foreground mb-2">Password requirements:</h4>
                         <ul className="space-y-1">
                             {passwordRequirements.map((req, index) => (
                                 <li key={index} className="flex items-center text-sm">
                                     <CheckCircleIcon
-                                        className={`h-4 w-4 mr-2 ${req.met ? "text-green-500" : "text-gray-300 dark:text-gray-600"
-                                            }`}
+                                        className={`h-4 w-4 mr-2 ${req.met ? "text-accent" : "text-muted-foreground/40"}`}
                                     />
-                                    <span className={req.met ? "text-green-700 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}>
+                                    <span className={req.met ? "text-accent" : "text-muted-foreground"}>
                                         {req.text}
                                     </span>
                                 </li>
@@ -229,7 +228,7 @@ export default function SignUpForm() {
                         required
                         className="h-4 w-4 rounded border border-border bg-input text-primary"
                     />
-                    <label htmlFor="terms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                    <label htmlFor="terms" className="ml-2 block text-sm text-muted-foreground">
                         I agree to the{" "}
                         <Link href="/terms" className="text-primary hover:text-primary/80 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 rounded">
                             Terms of Service
@@ -242,21 +241,15 @@ export default function SignUpForm() {
                 </div>
 
                 {message && (
-                    <div className={`rounded-md p-4 ${isSuccess
-                        ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
-                        : "bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+                    <div className={`rounded-lg p-4 border ${isSuccess
+                        ? "bg-accent/10 border-accent/30"
+                        : "bg-destructive/10 border-destructive/30"
                         }`}>
-                        <div className="flex">
-                            <div className="ml-3">
-                                <h3 className={`text-sm font-medium ${isSuccess ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"
-                                    }`}>
-                                    {isSuccess ? "Success!" : "Registration failed"}
-                                </h3>
-                                <div className={`mt-1 text-sm ${isSuccess ? "text-green-700 dark:text-green-300" : "text-red-700 dark:text-red-300"
-                                    }`}>
-                                    {message}
-                                </div>
-                            </div>
+                        <h3 className={`text-sm font-medium ${isSuccess ? "text-accent" : "text-destructive"}`}>
+                            {isSuccess ? "Success!" : "Registration failed"}
+                        </h3>
+                        <div className={`mt-1 text-sm ${isSuccess ? "text-accent" : "text-destructive"}`}>
+                            {message}
                         </div>
                     </div>
                 )}

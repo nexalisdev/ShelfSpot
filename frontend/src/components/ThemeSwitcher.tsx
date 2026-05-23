@@ -14,13 +14,13 @@ export default function ThemeSwitcher({ className }: Readonly<ThemeSwitcherProps
     useEffect(() => {
         setMounted(true);
         let t = localStorage.theme;
-        if (!t) {
-            t = globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        if (t !== "dark" && t !== "light") {
+            t = "light";
         }
 
         document.documentElement.classList.toggle("dark", t === "dark");
         document.documentElement.style.colorScheme = t;
-        setTheme(t);
+        setTheme(t as "light" | "dark");
     }, []);
 
     if (!mounted) {

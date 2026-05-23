@@ -108,16 +108,16 @@ export default function CreateMultipleContainersModal({ open, onClose, embedded 
                 ))}
             </div>
 
-            {error && <p className="text-sm text-red-600">{error}</p>}
-            {success && <p className="text-sm text-green-600">Containers created successfully.</p>}
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            {success && <p className="text-sm text-accent">Containers created successfully.</p>}
 
             <div className="flex flex-wrap gap-2.5">
-                <button type="button" className="rounded-md border border-dashed px-3 py-1.5 text-sm font-semibold" onClick={addRow}>Add another line</button>
+                <button type="button" className="rounded-full border border-dashed border-border px-3 py-1.5 text-sm font-semibold hover:bg-muted/40 transition-colors" onClick={addRow}>Add another line</button>
             </div>
 
             <div className="flex flex-wrap justify-end gap-3">
-                <button type="button" className="rounded-md border px-4 py-2 text-sm" onClick={() => { resetState(); onClose(); }}>Cancel</button>
-                <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white" disabled={loading || !canSubmit}>{loading ? "Preparing…" : "Bulk create containers"}</button>
+                <button type="button" className="rounded-full border border-border text-muted-foreground px-4 py-2 text-sm hover:bg-muted/60 transition-colors" onClick={() => { resetState(); onClose(); }}>Cancel</button>
+                <button type="submit" className="rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50" disabled={loading || !canSubmit}>{loading ? "Preparing…" : "Bulk create containers"}</button>
             </div>
         </form>
     );
@@ -128,13 +128,13 @@ export default function CreateMultipleContainersModal({ open, onClose, embedded 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60 p-4">
-            <div className="modal-content w-full max-w-5xl rounded-sm border border-gray-200/50 bg-white/95 p-6 shadow-2xl dark:border-gray-700/50 dark:bg-gray-900/95">
+            <div className="modal-content w-full max-w-5xl rounded-lg border border-border bg-card p-6 shadow-2xl">
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create multiple containers</h2>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Add several containers at once (name required). Optionally link to a room/place.</p>
+                        <h2 className="text-2xl font-bold text-foreground">Create multiple containers</h2>
+                        <p className="text-sm text-muted-foreground">Add several containers at once (name required). Optionally link to a room/place.</p>
                     </div>
-                    <button type="button" className="text-gray-400 hover:text-gray-600" onClick={() => { resetState(); onClose(); }}>✕</button>
+                    <button type="button" className="text-muted-foreground hover:text-foreground" onClick={() => { resetState(); onClose(); }}>✕</button>
                 </div>
                 {formContent}
             </div>

@@ -30,8 +30,8 @@ export default function RegisterPage() {
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-2">
       <section className="relative hidden overflow-hidden border-r border-border lg:block">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/18 via-primary/10 to-cyan-400/15" />
-        <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-emerald-400/25 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/15 via-transparent to-primary/8" />
+        <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
 
         <div className="relative flex h-full flex-col justify-between p-10 xl:p-14">
           <div>

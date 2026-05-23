@@ -77,38 +77,38 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
 
     if (loading) {
         return (
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Quantity Alerts</h2>
-                <p className="text-gray-600 dark:text-gray-400">Loading alerts...</p>
+            <div className="bg-card border border-border rounded-lg p-6">
+                <h2 className="text-xl font-semibold text-foreground mb-2">Quantity Alerts</h2>
+                <p className="text-muted-foreground">Loading alerts...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm p-6">
+        <div className="bg-card border border-border rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Quantity Alerts</h2>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <h2 className="text-xl font-semibold text-foreground">Quantity Alerts</h2>
+                <span className="text-sm text-muted-foreground">
                     Current: {currentQuantity}
                 </span>
             </div>
 
             {alerts.length === 0 ? (
                 <div className="space-y-4">
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-muted-foreground">
                         No quantity alerts configured for this object.
                     </p>
                     {!showCreateForm ? (
                         <button
                             onClick={() => setShowCreateForm(true)}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
+                            className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                         >
                             Create Alert
                         </button>
                     ) : (
-                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-muted/40 rounded-lg">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label className="block text-sm font-medium text-muted-foreground mb-1">
                                     Alert Threshold
                                 </label>
                                 <input
@@ -116,27 +116,27 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     min="1"
                                     value={newAlert.threshold}
                                     onChange={(e) => setNewAlert({ ...newAlert, threshold: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                     placeholder="e.g., 10"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label className="block text-sm font-medium text-muted-foreground mb-1">
                                     Alert Name (optional)
                                 </label>
                                 <input
                                     type="text"
                                     value={newAlert.name}
                                     onChange={(e) => setNewAlert({ ...newAlert, name: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                     placeholder="e.g., Low stock, Critical level"
                                 />
                             </div>
                             <div className="flex gap-2">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-sm transition-colors"
+                                    className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                                 >
                                     Create
                                 </button>
@@ -146,7 +146,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                         setShowCreateForm(false);
                                         setNewAlert({ threshold: '', name: '' });
                                     }}
-                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-sm transition-colors"
+                                    className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:bg-muted/60 transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -162,31 +162,31 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                             <div
                                 key={alert.id}
                                 className={`p-4 rounded-lg border ${alert.isActive
-                                    ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700'
-                                    : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600'
+                                    ? 'bg-accent/10 border-accent/30'
+                                    : 'bg-muted/40 border-border'
                                     } ${currentQuantity <= alert.threshold && alert.isActive
-                                        ? 'ring-2 ring-red-500 ring-opacity-50'
+                                        ? 'ring-2 ring-destructive/50'
                                         : ''
                                     }`}
                             >
                                 <div className="flex items-center justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">
-                                            <span className="font-medium text-gray-900 dark:text-white">
+                                            <span className="font-medium text-foreground">
                                                 Threshold: {alert.threshold}
                                             </span>
                                             {alert.name && (
-                                                <span className="text-sm text-gray-600 dark:text-gray-400">
+                                                <span className="text-sm text-muted-foreground">
                                                     ({alert.name})
                                                 </span>
                                             )}
                                             {currentQuantity <= alert.threshold && alert.isActive && (
-                                                <span className="px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-full">
+                                                <span className="px-2 py-1 text-xs font-medium bg-destructive/15 text-destructive rounded-full">
                                                     TRIGGERED
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                        <div className="text-sm text-muted-foreground mt-1">
                                             Status: {alert.isActive ? 'Active' : 'Inactive'}
                                             {alert.lastSent && (
                                                 <span className="ml-2">
@@ -198,16 +198,16 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => toggleAlert(alert.id, alert.isActive)}
-                                            className={`px-3 py-1 text-sm font-medium rounded transition-colors ${alert.isActive
-                                                ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-900/50'
-                                                : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50'
+                                            className={`px-3 py-1 text-sm font-medium rounded-full transition-colors ${alert.isActive
+                                                ? 'bg-muted text-muted-foreground hover:bg-muted/60'
+                                                : 'bg-accent/15 text-accent hover:bg-accent/25'
                                                 }`}
                                         >
                                             {alert.isActive ? 'Disable' : 'Enable'}
                                         </button>
                                         <button
                                             onClick={() => handleDeleteAlert(alert.id)}
-                                            className="px-3 py-1 text-sm font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/50 rounded transition-colors"
+                                            className="px-3 py-1 text-sm font-medium bg-destructive/15 text-destructive hover:bg-destructive/25 rounded-full transition-colors"
                                         >
                                             Delete
                                         </button>
@@ -221,14 +221,14 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                     {!showCreateForm ? (
                         <button
                             onClick={() => setShowCreateForm(true)}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-sm transition-colors"
+                            className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                         >
                             Add Another Alert
                         </button>
                     ) : (
-                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                        <form onSubmit={handleCreateAlert} className="space-y-4 p-4 bg-muted/40 rounded-lg">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label className="block text-sm font-medium text-muted-foreground mb-1">
                                     Alert Threshold
                                 </label>
                                 <input
@@ -236,27 +236,27 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                     min="1"
                                     value={newAlert.threshold}
                                     onChange={(e) => setNewAlert({ ...newAlert, threshold: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                     placeholder="e.g., 10"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label className="block text-sm font-medium text-muted-foreground mb-1">
                                     Alert Name (optional)
                                 </label>
                                 <input
                                     type="text"
                                     value={newAlert.name}
                                     onChange={(e) => setNewAlert({ ...newAlert, name: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80"
                                     placeholder="e.g., Low stock, Critical level"
                                 />
                             </div>
                             <div className="flex gap-2">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-sm transition-colors"
+                                    className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                                 >
                                     Create
                                 </button>
@@ -266,7 +266,7 @@ export default function AlertsManager({ itemId, itemName, currentQuantity }: Ale
                                         setShowCreateForm(false);
                                         setNewAlert({ threshold: '', name: '' });
                                     }}
-                                    className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-sm transition-colors"
+                                    className="px-4 py-2 rounded-full border border-border text-muted-foreground hover:bg-muted/60 transition-colors"
                                 >
                                     Cancel
                                 </button>

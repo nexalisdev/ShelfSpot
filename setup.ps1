@@ -2,7 +2,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-# ?? Helpers ???????????????????????????????????????????????????????????????????
+# == Helpers ==================================================================
 function Write-Banner ($msg) { Write-Host "`n$msg" -ForegroundColor Cyan }
 function Write-Step   ($msg) { Write-Host "`n  > $msg" -ForegroundColor Blue }
 function Write-OK     ($msg) { Write-Host "    v $msg" -ForegroundColor Green }
@@ -48,16 +48,87 @@ function New-Secret {
     return ($bytes | ForEach-Object { $_.ToString("x2") }) -join ""
 }
 
+function New-Password {
+    $bytes = New-Object byte[] 12
+    [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+    return ($bytes | ForEach-Object { $_.ToString("x2") }) -join ""
+}
+
 function Wait-Healthy ($service, $maxSeconds = 60) {
     Write-Step "Waiting for $service to be healthy..."
     $elapsed = 0
     while ($elapsed -lt $maxSeconds) {
-        $status = docker inspect --format='{{.State.Health.Status}}' "shelfspot_$service" 2>$null
-        if ($status -eq "healthy") { Write-OK "$service is healthy"; return }
+        try {
+            $status = docker inspect --format='{{.State.Health.Status}}' "shelfspot_$service" 2>$null
+            if ($LASTEXITCODE -eq 0 -and $status -eq "healthy") { Write-OK "$service is healthy"; return }
+        } catch {
+            # Container not yet available
+        }
         Start-Sleep -Seconds 3
         $elapsed += 3
     }
     Write-Warn "$service did not report healthy within ${maxSeconds}s."
+}
+
+function Wait-Backend ($url, $maxSeconds = 90) {
+    Write-Step "Waiting for backend API to be ready..."
+    $elapsed = 0
+    while ($elapsed -lt $maxSeconds) {
+        try {
+            Invoke-WebRequest -Uri "$url/auth/profile" -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop | Out-Null
+            Write-OK "Backend is ready"; return
+        } catch {
+            try {
+                $code = [int]$_.Exception.Response.StatusCode
+                if ($code -eq 401 -or $code -eq 200) { Write-OK "Backend is ready"; return }
+            } catch {
+                # Connection refused or no HTTP response — keep waiting
+            }
+        }
+        Start-Sleep -Seconds 3
+        $elapsed += 3
+    }
+    Write-Warn "Backend did not become ready within ${maxSeconds}s. Admin account creation may fail."
+}
+
+function New-AdminUser ($backendUrl, $pgUser, $pgDb) {
+    Write-Banner "Admin Account Setup"
+    Write-Host "  Create your administrator account for ShelfSpot."
+    Write-Host ""
+
+    $adminName = Read-Required "Admin display name (min 5 chars)"
+    while ($adminName.Length -lt 5) {
+        Write-Warn "Name must be at least 5 characters."
+        $adminName = Read-Required "Admin display name"
+    }
+
+    $adminEmail = Read-Required "Admin email"
+
+    while ($true) {
+        $adminPass = Read-Required "Admin password (8-32 chars)"
+        if ($adminPass.Length -lt 8 -or $adminPass.Length -gt 32) {
+            Write-Warn "Password must be between 8 and 32 characters."; continue
+        }
+        $confirm = Read-Required "Confirm password"
+        if ($adminPass -eq $confirm) { break }
+        Write-Warn "Passwords do not match. Try again."
+    }
+
+    $body = @{ email = $adminEmail; password = $adminPass; name = $adminName } | ConvertTo-Json -Compress
+    try {
+        Invoke-RestMethod -Uri "$backendUrl/auth/register" -Method Post -Body $body -ContentType "application/json" | Out-Null
+    } catch {
+        $code = 0
+        try { $code = [int]$_.Exception.Response.StatusCode } catch {}
+        if ($code -eq 409) { Write-Fail "Email $adminEmail is already registered." }
+        Write-Fail "Registration failed (HTTP $code). Check logs: docker logs shelfspot_backend"
+    }
+    Write-OK "Account registered"
+
+    $escapedEmail = $adminEmail.Replace("'", "''")
+    $sql = "UPDATE `"User`" SET admin=true WHERE email='$escapedEmail';"
+    $sql | docker exec -i shelfspot_db psql -U $pgUser -d $pgDb 2>&1 | Out-Null
+    Write-OK "$adminEmail is now an administrator"
 }
 
 function Write-BackendEnv ($params) {
@@ -113,14 +184,14 @@ function Install-Cli ($url) {
     shelfspot auth login
 }
 
-# ??????????????????????????????????????????????????????????????????????????????
+# =============================================================================
 Clear-Host
 Write-Host ""
 Write-Host "  +======================================+" -ForegroundColor Cyan
 Write-Host "  |      ShelfSpot Setup Wizard          |" -ForegroundColor Cyan
 Write-Host "  +======================================+" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  Inventory management ? setup assistant"
+Write-Host "  Inventory management - setup assistant"
 Write-Host ""
 
 Write-Host "  What would you like to install?" -ForegroundColor White
@@ -133,9 +204,7 @@ Write-Host "    5)  Custom           pick individual components"
 Write-Host ""
 $choice = Read-Host "  Choice [1-5]"
 
-# ??????????????????????????????????????????????????????????????????????????????
-# OPTION 1 ? FULL SUITE
-# ??????????????????????????????????????????????????????????????????????????????
+# == OPTION 1 - FULL SUITE ====================================================
 if ($choice -eq "1") {
     Write-Banner "Full Suite Setup"
     Require-Docker; Require-Node
@@ -146,20 +215,26 @@ if ($choice -eq "1") {
     $dbPort       = Read-Default "Database port" "5432"
 
     Write-Step "Configuring database"
-    $pgUser = Read-Default "Postgres user"     "postgres"
-    $pgPass = Read-Default "Postgres password" "password"
-    $pgDb   = Read-Default "Postgres database" "shelfspot"
+    $pgUser  = Read-Default "Postgres user"     "postgres"
+    $genPass = New-Password
+    Write-Host ""
+    Write-Host "    Generated Postgres password: $genPass" -ForegroundColor Yellow
+    Write-Host "    Saved to .env -- note it if you need direct DB access." -ForegroundColor DarkGray
+    Write-Host ""
+    $pgPass  = Read-Default "Postgres password" $genPass
+    $pgDb    = Read-Default "Postgres database" "shelfspot"
 
     $jwtSecret   = New-Secret
     $databaseUrl = "postgresql://${pgUser}:${pgPass}@db:5432/${pgDb}"
     Write-OK "JWT secret generated"
 
-    Write-Step "Email alerts (optional ? leave blank to skip)"
+    Write-Step "Email alerts (optional - leave blank to skip)"
     $resendKey = Read-Host "  Resend API key"
     $resendFrom = ""; $alertEmail = ""
     if (-not [string]::IsNullOrWhiteSpace($resendKey)) {
-        $resendFrom  = "ShelfSpot <$(Read-Required 'From email')>"
-        $alertEmail  = Read-Required "Alert recipient email"
+        $fromEmail  = Read-Required "From email"
+        $resendFrom = "ShelfSpot <$fromEmail>"
+        $alertEmail = Read-Required "Alert recipient email"
     }
 
     Write-BackendEnv @{ DatabaseUrl=$databaseUrl; JwtSecret=$jwtSecret; ResendKey=$resendKey; ResendFrom=$resendFrom; AlertEmail=$alertEmail }
@@ -167,9 +242,12 @@ if ($choice -eq "1") {
 
     Write-Step "Building and starting containers (this may take a few minutes)..."
     Set-Location $PSScriptRoot
+    try { docker compose --profile full down -v --remove-orphans 2>&1 | Out-Null } catch {}
     docker compose --profile full up -d --build
 
     Wait-Healthy "db"
+    Wait-Backend "http://localhost:$backendPort"
+    New-AdminUser "http://localhost:$backendPort" $pgUser $pgDb
 
     Write-Host ""
     Write-OK "ShelfSpot is running!"
@@ -183,18 +261,23 @@ if ($choice -eq "1") {
     }
     Write-OK "Setup complete."
 
-# ??????????????????????????????????????????????????????????????????????????????
-# OPTION 2 ? BACKEND STACK
-# ??????????????????????????????????????????????????????????????????????????????
+# == OPTION 2 - BACKEND STACK =================================================
 } elseif ($choice -eq "2") {
     Write-Banner "Backend Stack Setup"
     Require-Docker
 
     $backendPort = Read-Default "Backend port"  "8082"
     $dbPort      = Read-Default "Database port" "5432"
-    $pgUser = Read-Default "Postgres user"     "postgres"
-    $pgPass = Read-Default "Postgres password" "password"
-    $pgDb   = Read-Default "Postgres database" "shelfspot"
+
+    Write-Step "Configuring database"
+    $pgUser  = Read-Default "Postgres user"     "postgres"
+    $genPass = New-Password
+    Write-Host ""
+    Write-Host "    Generated Postgres password: $genPass" -ForegroundColor Yellow
+    Write-Host "    Saved to .env -- note it if you need direct DB access." -ForegroundColor DarkGray
+    Write-Host ""
+    $pgPass  = Read-Default "Postgres password" $genPass
+    $pgDb    = Read-Default "Postgres database" "shelfspot"
 
     $jwtSecret   = New-Secret
     $databaseUrl = "postgresql://${pgUser}:${pgPass}@db:5432/${pgDb}"
@@ -202,7 +285,8 @@ if ($choice -eq "1") {
     $resendKey = Read-Host "  Resend API key (leave blank to skip)"
     $resendFrom = ""; $alertEmail = ""
     if (-not [string]::IsNullOrWhiteSpace($resendKey)) {
-        $resendFrom = "ShelfSpot <$(Read-Required 'From email')>"
+        $fromEmail  = Read-Required "From email"
+        $resendFrom = "ShelfSpot <$fromEmail>"
         $alertEmail = Read-Required "Alert recipient email"
     }
 
@@ -210,8 +294,12 @@ if ($choice -eq "1") {
     Write-RootEnv   @{ PgUser=$pgUser; PgPass=$pgPass; PgDb=$pgDb; DbPort=$dbPort; BackendPort=$backendPort; FrontendPort="8083"; BackendUrl="" }
 
     Set-Location $PSScriptRoot
+    try { docker compose --profile backend down -v --remove-orphans 2>&1 | Out-Null } catch {}
     docker compose --profile backend up -d --build
+
     Wait-Healthy "db"
+    Wait-Backend "http://localhost:$backendPort"
+    New-AdminUser "http://localhost:$backendPort" $pgUser $pgDb
 
     Write-OK "Backend running at http://localhost:$backendPort"
 
@@ -219,9 +307,7 @@ if ($choice -eq "1") {
     if ($installCli -notmatch "^[Nn]") { Require-Node; Install-Cli "http://localhost:$backendPort" }
     Write-OK "Setup complete."
 
-# ??????????????????????????????????????????????????????????????????????????????
-# OPTION 3 ? FRONTEND ONLY
-# ??????????????????????????????????????????????????????????????????????????????
+# == OPTION 3 - FRONTEND ONLY =================================================
 } elseif ($choice -eq "3") {
     Write-Banner "Frontend Setup"
     Require-Docker
@@ -229,7 +315,7 @@ if ($choice -eq "1") {
     $backendUrl   = (Read-Required "Backend URL (e.g. http://192.168.1.10:8082)").TrimEnd('/')
     $frontendPort = Read-Default "Frontend port" "8083"
 
-    Write-RootEnv @{ PgUser="postgres"; PgPass="password"; PgDb="shelfspot"; DbPort="5432"; BackendPort="8082"; FrontendPort=$frontendPort; BackendUrl=$backendUrl }
+    Write-RootEnv @{ PgUser="postgres"; PgPass=""; PgDb="shelfspot"; DbPort="5432"; BackendPort="8082"; FrontendPort=$frontendPort; BackendUrl=$backendUrl }
     "NEXT_PUBLIC_BACKEND_URL=$backendUrl" | Set-Content (Join-Path $PSScriptRoot "frontend\.env.local") -Encoding utf8
     Write-OK "frontend\.env.local written"
 
@@ -239,9 +325,7 @@ if ($choice -eq "1") {
     Write-OK "Frontend running at http://localhost:$frontendPort"
     Write-OK "Setup complete."
 
-# ??????????????????????????????????????????????????????????????????????????????
-# OPTION 4 ? CLI ONLY
-# ??????????????????????????????????????????????????????????????????????????????
+# == OPTION 4 - CLI ONLY ======================================================
 } elseif ($choice -eq "4") {
     Write-Banner "CLI Setup"
     Require-Node
@@ -263,9 +347,7 @@ if ($choice -eq "1") {
     Install-Cli $url
     Write-OK "CLI ready. Run 'shelfspot --help' to get started."
 
-# ??????????????????????????????????????????????????????????????????????????????
-# OPTION 5 ? CUSTOM
-# ??????????????????????????????????????????????????????????????????????????????
+# == OPTION 5 - CUSTOM ========================================================
 } elseif ($choice -eq "5") {
     Write-Banner "Custom Setup"
 
@@ -278,24 +360,32 @@ if ($choice -eq "1") {
     if ($needsDocker) { Require-Docker }
     if ($wantsCli)    { Require-Node }
 
-    $pgUser="postgres"; $pgPass="password"; $pgDb="shelfspot"; $dbPort="5432"
+    $pgUser="postgres"; $pgPass=""; $pgDb="shelfspot"; $dbPort="5432"
     $backendPort="8082"; $frontendPort="8083"; $backendUrl=""
     $jwtSecret=""; $resendKey=""; $resendFrom=""; $alertEmail=""
-    $databaseUrl="postgresql://postgres:password@db:5432/shelfspot"
+    $databaseUrl="postgresql://postgres:@db:5432/shelfspot"
 
     if ($wantsDb -or $wantsBackend) {
-        $pgUser = Read-Default "Postgres user"     "postgres"
-        $pgPass = Read-Default "Postgres password" "password"
-        $pgDb   = Read-Default "Postgres database" "shelfspot"
-        $dbPort = Read-Default "Database port"     "5432"
+        Write-Step "Configuring database"
+        $pgUser  = Read-Default "Postgres user"     "postgres"
+        $genPass = New-Password
+        Write-Host ""
+        Write-Host "    Generated Postgres password: $genPass" -ForegroundColor Yellow
+        Write-Host "    Saved to .env -- note it if you need direct DB access." -ForegroundColor DarkGray
+        Write-Host ""
+        $pgPass  = Read-Default "Postgres password" $genPass
+        $pgDb    = Read-Default "Postgres database" "shelfspot"
+        $dbPort  = Read-Default "Database port"     "5432"
         $databaseUrl = "postgresql://${pgUser}:${pgPass}@db:5432/${pgDb}"
     }
     if ($wantsBackend) {
         $backendPort = Read-Default "Backend port" "8082"
         $jwtSecret   = New-Secret
+        Write-OK "JWT secret generated"
         $resendKey   = Read-Host "  Resend API key (leave blank to skip)"
         if (-not [string]::IsNullOrWhiteSpace($resendKey)) {
-            $resendFrom = "ShelfSpot <$(Read-Required 'From email')>"
+            $fromEmail  = Read-Required "From email"
+            $resendFrom = "ShelfSpot <$fromEmail>"
             $alertEmail = Read-Required "Alert recipient email"
         }
         Write-BackendEnv @{ DatabaseUrl=$databaseUrl; JwtSecret=$jwtSecret; ResendKey=$resendKey; ResendFrom=$resendFrom; AlertEmail=$alertEmail }
@@ -321,6 +411,11 @@ if ($choice -eq "1") {
         Set-Location $PSScriptRoot
         & docker compose @profileArgs up -d --build
         if ($wantsDb -or $wantsBackend) { Wait-Healthy "db" }
+    }
+
+    if ($wantsBackend) {
+        Wait-Backend "http://localhost:$backendPort"
+        New-AdminUser "http://localhost:$backendPort" $pgUser $pgDb
     }
 
     if ($wantsCli) {

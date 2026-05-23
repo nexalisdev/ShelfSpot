@@ -21,7 +21,7 @@ WORKDIR /app/frontend
 # Copy frontend package files
 COPY frontend/package.json frontend/yarn.lock ./
 RUN apk add --no-cache libc6-compat && \
-    yarn install --frozen-lockfile --production=false
+    yarn install --no-frozen-lockfile --production=false
 
 # Copy frontend source and build
 COPY frontend/ .

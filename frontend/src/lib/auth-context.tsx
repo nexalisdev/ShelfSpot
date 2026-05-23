@@ -85,6 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await backendApi.register(email, password, name);
       localStorage.setItem('access_token', response.access_token);
+      document.cookie = `access_token=${response.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`;
       setUser(response.user);
     } catch (error) {
       throw error;

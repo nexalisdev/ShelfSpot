@@ -24,14 +24,14 @@ export default function CreateMultipleModal({ open, onClose }: Readonly<CreateMu
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="create-multiple-modal-title"
-                className="w-full max-w-5xl rounded-xl bg-white/95 dark:bg-gray-900/95 shadow-2xl border border-gray-200/50 dark:border-gray-700/50 max-h-[92vh] flex flex-col"
+                className="w-full max-w-5xl rounded-xl bg-card shadow-2xl border border-border max-h-[92vh] flex flex-col"
             >
                 {/* Header with Type Selection */}
-                <div className="p-4 md:p-5 border-b border-gray-200 dark:border-gray-700">
+                <div className="p-4 md:p-5 border-b border-border">
                     <div className="flex items-center justify-between mb-3">
                         <div>
-                            <h2 id="create-multiple-modal-title" className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Create Multiple</h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">Choose type and add multiple entries at once</p>
+                            <h2 id="create-multiple-modal-title" className="text-xl md:text-2xl font-bold text-foreground">Create Multiple</h2>
+                            <p className="text-sm text-muted-foreground">Choose type and add multiple entries at once</p>
                         </div>
                         <button
                             type="button"
@@ -46,7 +46,7 @@ export default function CreateMultipleModal({ open, onClose }: Readonly<CreateMu
                         <button
                             role="tab"
                             aria-selected={type === 'items'}
-                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'items' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'items' ? 'bg-primary text-primary-foreground' : 'bg-muted/60 text-foreground hover:bg-muted/80'}`}
                             onClick={() => setType('items')}
                         >
                             Items
@@ -54,7 +54,7 @@ export default function CreateMultipleModal({ open, onClose }: Readonly<CreateMu
                         <button
                             role="tab"
                             aria-selected={type === 'containers'}
-                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'containers' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'containers' ? 'bg-primary text-primary-foreground' : 'bg-muted/60 text-foreground hover:bg-muted/80'}`}
                             onClick={() => setType('containers')}
                         >
                             Containers
@@ -62,7 +62,7 @@ export default function CreateMultipleModal({ open, onClose }: Readonly<CreateMu
                         <button
                             role="tab"
                             aria-selected={type === 'rooms'}
-                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'rooms' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'rooms' ? 'bg-primary text-primary-foreground' : 'bg-muted/60 text-foreground hover:bg-muted/80'}`}
                             onClick={() => setType('rooms')}
                         >
                             Rooms
@@ -70,7 +70,7 @@ export default function CreateMultipleModal({ open, onClose }: Readonly<CreateMu
                         <button
                             role="tab"
                             aria-selected={type === 'places'}
-                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'places' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                            className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 ${type === 'places' ? 'bg-primary text-primary-foreground' : 'bg-muted/60 text-foreground hover:bg-muted/80'}`}
                             onClick={() => setType('places')}
                         >
                             Places

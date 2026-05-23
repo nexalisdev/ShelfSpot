@@ -5,12 +5,12 @@
 
 @theme inline {
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-mono: var(--font-code);
 
   --radius-sm: calc(var(--radius) - 6px);
-  --radius-md: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 6px);
+  --radius-xl: calc(var(--radius) + 4px);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -43,110 +43,142 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brand-green: var(--brand-green);
 }
 
+/* ─── DS tokens: light mode ─── */
 :root {
-  --radius: 14px;
+  /* Border radius scale (rounded.lg = 12px is the card standard) */
+  --radius: 12px;
 
+  /* Safe area / mobile nav */
   --app-safe-area-right: env(safe-area-inset-right, 0px);
   --app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --app-safe-area-left: env(safe-area-inset-left, 0px);
   --app-mobile-nav-base-height: 88px;
   --app-mobile-nav-clearance: calc(var(--app-mobile-nav-base-height) + var(--app-safe-area-bottom));
 
-  --background: #f4f7fb;
-  --foreground: #0f172a;
+  /* ── Brand ── */
+  --brand-green: #00D4A4;          /* Mintlify mint — accent CTAs & active states only */
+  --brand-green-deep: #00B88F;
+  --brand-green-soft: #E6FAF6;
 
-  --card: #ffffff;
-  --card-foreground: #0f172a;
+  /* ── Surface ── */
+  --background: #F6F7F9;           /* surface — subtle page bg */
+  --foreground: #0A0A0A;           /* ink */
 
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --card: #FFFFFF;                 /* canvas */
+  --card-foreground: #0A0A0A;
 
-  --primary: #0a5adf;
-  --primary-foreground: #f8fbff;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A0A0A;
 
-  --secondary: #e8eef9;
-  --secondary-foreground: #1e293b;
+  /* ── Primary — black pill buttons ── */
+  --primary: #0A0A0A;              /* ink */
+  --primary-foreground: #FFFFFF;
 
-  --muted: #edf2fb;
-  --muted-foreground: #475569;
+  /* ── Secondary — surface level ── */
+  --secondary: #F6F7F9;
+  --secondary-foreground: #475569;  /* slate */
 
-  --accent: #dbeafe;
-  --accent-foreground: #0b315f;
+  /* ── Muted ── */
+  --muted: #F0F1F3;                 /* surface-soft */
+  --muted-foreground: #6B7280;      /* steel */
 
-  --destructive: #c62828;
-  --border: #d6deeb;
-  --input: #ffffff;
-  --ring: #2563eb;
+  /* ── Accent — mint green ── */
+  --accent: #00D4A4;
+  --accent-foreground: #0A0A0A;
 
-  --chart-1: #3b82f6;
-  --chart-2: #0f766e;
-  --chart-3: #f59e0b;
-  --chart-4: #ef4444;
-  --chart-5: #64748b;
+  /* ── Semantic ── */
+  --destructive: #DC2626;           /* brand-error */
 
-  --sidebar: #0f1a2e;
-  --sidebar-foreground: #d4e1ff;
-  --sidebar-primary: #2f7cff;
-  --sidebar-primary-foreground: #f7fbff;
-  --sidebar-accent: #1b2a45;
-  --sidebar-accent-foreground: #e2ecff;
-  --sidebar-border: #243651;
-  --sidebar-ring: #6ea8ff;
+  /* ── Borders & inputs ── */
+  --border: #E3E6EB;                /* hairline */
+  --input: #FFFFFF;                 /* canvas */
+  --ring: #00D4A4;                  /* brand-green focus */
 
-  --surface-elevated: 0 14px 34px rgba(15, 23, 42, 0.08);
-  --surface-soft: 0 1px 3px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23, 42, 0.06);
-  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.28);
-  --shadow-brutal: var(--surface-soft);
+  /* ── Charts ── */
+  --chart-1: #00D4A4;
+  --chart-2: #3772CF;
+  --chart-3: #D97706;
+  --chart-4: #DC2626;
+  --chart-5: #6B7280;
+
+  /* ── Sidebar — flat light (DS sidebar-nav style) ── */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0A0A0A;
+  --sidebar-primary: #F6F7F9;          /* active item bg */
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #F0F1F3;            /* hover bg */
+  --sidebar-accent-foreground: #0A0A0A;
+  --sidebar-border: #E3E6EB;
+  --sidebar-ring: #00D4A4;
+
+  /* ── Elevation scale (DS levels 0–4) ── */
+  --elevation-1: rgba(0, 0, 0, 0.04) 0px 1px 2px 0px;
+  --elevation-2: rgba(0, 0, 0, 0.08) 0px 4px 12px 0px;
+  --elevation-3: rgba(0, 0, 0, 0.12) 0px 24px 48px -8px;
+  --elevation-accent: rgba(0, 212, 164, 0.08) 0px 8px 24px;
+
+  --surface-soft: var(--elevation-2);
+  --surface-elevated: var(--elevation-3);
+  --focus-ring: 0 0 0 2px rgba(0, 212, 164, 0.45);
+  --shadow-brutal: var(--elevation-2);
 }
 
+/* ─── DS tokens: dark mode ─── */
 .dark {
-  --background: #070c16;
-  --foreground: #e8efff;
+  --background: #0F1117;
+  --foreground: #F9FAFB;
 
-  --card: #11192a;
-  --card-foreground: #eef4ff;
+  --card: #1B1F2B;
+  --card-foreground: #F9FAFB;
 
-  --popover: #11192a;
-  --popover-foreground: #eef4ff;
+  --popover: #1B1F2B;
+  --popover-foreground: #F9FAFB;
 
-  --primary: #6ea8ff;
-  --primary-foreground: #071225;
+  --primary: #F9FAFB;
+  --primary-foreground: #0A0A0A;
 
-  --secondary: #17243b;
-  --secondary-foreground: #d8e7ff;
+  --secondary: #252A36;
+  --secondary-foreground: #E5E7EB;
 
-  --muted: #1b2740;
-  --muted-foreground: #98abc8;
+  --muted: #252A36;
+  --muted-foreground: #9CA3AF;
 
-  --accent: #22375a;
-  --accent-foreground: #dce9ff;
+  --accent: #00D4A4;
+  --accent-foreground: #0A0A0A;
 
-  --destructive: #ff6b6b;
-  --border: #2a3957;
-  --input: #16243c;
-  --ring: #93c5fd;
+  --destructive: #EF4444;
 
-  --chart-1: #60a5fa;
-  --chart-2: #2dd4bf;
-  --chart-3: #fbbf24;
-  --chart-4: #f87171;
-  --chart-5: #94a3b8;
+  --border: #2A2E3A;
+  --input: #1B1F2B;
+  --ring: #00D4A4;
 
-  --sidebar: #060f1f;
-  --sidebar-foreground: #d8e6ff;
-  --sidebar-primary: #6ea8ff;
-  --sidebar-primary-foreground: #0f213f;
-  --sidebar-accent: #13233d;
-  --sidebar-accent-foreground: #d8e6ff;
-  --sidebar-border: #223353;
-  --sidebar-ring: #93c5fd;
+  --chart-1: #00D4A4;
+  --chart-2: #60A5FA;
+  --chart-3: #FBBF24;
+  --chart-4: #F87171;
+  --chart-5: #94A3B8;
 
-  --surface-elevated: 0 16px 42px rgba(2, 8, 23, 0.52);
-  --surface-soft: 0 2px 6px rgba(2, 8, 23, 0.55), 0 10px 30px rgba(2, 8, 23, 0.45);
-  --focus-ring: 0 0 0 3px rgba(147, 197, 253, 0.35);
-  --shadow-brutal: var(--surface-soft);
+  --sidebar: #0A0D14;
+  --sidebar-foreground: #E5E7EB;
+  --sidebar-primary: #1B1F2B;
+  --sidebar-primary-foreground: #F9FAFB;
+  --sidebar-accent: #252A36;
+  --sidebar-accent-foreground: #F9FAFB;
+  --sidebar-border: #2A2E3A;
+  --sidebar-ring: #00D4A4;
+
+  --elevation-1: rgba(0, 0, 0, 0.25) 0px 1px 2px 0px;
+  --elevation-2: rgba(0, 0, 0, 0.4) 0px 4px 12px 0px;
+  --elevation-3: rgba(0, 0, 0, 0.55) 0px 24px 48px -8px;
+  --elevation-accent: rgba(0, 212, 164, 0.12) 0px 8px 24px;
+
+  --surface-soft: var(--elevation-2);
+  --surface-elevated: var(--elevation-3);
+  --focus-ring: 0 0 0 2px rgba(0, 212, 164, 0.55);
+  --shadow-brutal: var(--elevation-2);
 }
 
 @layer base {
@@ -161,29 +193,20 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body), "Manrope", "Segoe UI", sans-serif;
+    font-family: var(--font-body), "Inter", "Segoe UI", sans-serif;
+    font-size: 16px;
     line-height: 1.5;
-    background-image:
-      radial-gradient(circle at 20% -10%, rgba(37, 99, 235, 0.12), transparent 45%),
-      radial-gradient(circle at 90% -30%, rgba(16, 185, 129, 0.08), transparent 35%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0));
   }
 
-  .dark body {
-    background-image:
-      radial-gradient(circle at 20% -10%, rgba(59, 130, 246, 0.18), transparent 45%),
-      radial-gradient(circle at 90% -30%, rgba(45, 212, 191, 0.12), transparent 35%),
-      linear-gradient(180deg, rgba(5, 9, 17, 0.65), rgba(5, 9, 17, 0));
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-body), "Inter", "Segoe UI", sans-serif;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-display), "Sora", "Segoe UI", sans-serif;
-    letter-spacing: -0.015em;
+  code, kbd, pre, samp {
+    font-family: var(--font-code), "Geist Mono", "SF Mono", Menlo, Consolas, monospace;
   }
 
   a {
@@ -203,6 +226,7 @@
 }
 
 @layer utilities {
+  /* ─── Layout shells ─── */
   .app-shell {
     @apply min-h-screen text-foreground;
   }
@@ -242,6 +266,7 @@
     }
   }
 
+  /* ─── Card / panel surfaces (DS elevation-2) ─── */
   .app-panel {
     @apply border border-border bg-card text-card-foreground;
     border-radius: var(--radius);
@@ -259,49 +284,65 @@
     border-radius: var(--radius);
   }
 
+  /* ─── Typography helpers ─── */
   .app-heading {
     @apply text-foreground;
-    font-family: var(--font-display), "Sora", "Segoe UI", sans-serif;
-    letter-spacing: -0.02em;
+    font-family: var(--font-body), "Inter", "Segoe UI", sans-serif;
+    letter-spacing: -0.025em;
   }
 
   .app-muted {
     @apply text-muted-foreground;
   }
 
+  /* DS micro-uppercase label (sidebar section headers, badges) */
   .app-kicker {
-    @apply inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground;
+    @apply inline-flex items-center rounded-full border border-border px-3 py-1;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    @apply text-muted-foreground;
   }
 
+  /* ─── Inputs (DS text-input: rounded-md 8px, 40px height) ─── */
   .app-input {
-    @apply w-full rounded-md border border-border bg-input px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground;
-    transition-property: border-color, box-shadow, background-color;
+    @apply w-full border border-border bg-input text-foreground placeholder:text-muted-foreground;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 40px;
+    font-size: 14px;
+    transition-property: border-color, box-shadow;
     transition-duration: 150ms;
     transition-timing-function: ease;
-  }
-
-  .app-input:hover {
-    border-color: color-mix(in srgb, var(--ring) 24%, var(--border));
   }
 
   .app-input:focus-visible {
     border-color: var(--ring);
     box-shadow: var(--focus-ring);
+    outline: none;
   }
 
+  /* ─── Button helpers ─── */
   .app-button-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-md border border-border bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground;
+    @apply inline-flex items-center justify-center gap-2 border border-border bg-transparent text-foreground;
+    border-radius: 9999px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
     @apply transition-colors;
   }
 
   .app-button-secondary:hover {
-    @apply bg-accent text-accent-foreground;
+    @apply bg-muted;
   }
 
+  /* ─── Sidebar surface ─── */
   .app-sidebar-surface {
     @apply border-r border-sidebar-border bg-sidebar text-sidebar-foreground;
   }
 
+  /* ─── Mobile nav ─── */
   .app-mobile-nav-scroll {
     touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
@@ -334,22 +375,8 @@
     }
   }
 
-  .border-2.border-foreground {
-    border-color: var(--border);
-    border-width: 1px;
-  }
-
-  .dark .dark\:border-gray-800,
-  .dark .dark\:border-gray-700,
-  .dark .dark\:border-gray-600 {
-    border-color: var(--border);
-  }
-
+  /* ─── Theme aliases (backward-compat) ─── */
   .shadow-brutal {
-    box-shadow: var(--surface-soft);
-  }
-
-  .shadow-brutal-dark {
     box-shadow: var(--surface-soft);
   }
 
@@ -378,10 +405,13 @@
   }
 
   .theme-input {
-    @apply w-full rounded-md border border-border bg-input px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground;
-    transition-property: border-color, box-shadow, background-color;
+    @apply w-full border border-border bg-input text-foreground placeholder:text-muted-foreground;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 40px;
+    font-size: 14px;
+    transition-property: border-color, box-shadow;
     transition-duration: 150ms;
-    transition-timing-function: ease;
   }
 
   .theme-popover {
@@ -401,13 +431,18 @@
   }
 
   .theme-tag {
-    @apply border border-blue-300 bg-blue-100 text-blue-900;
+    background: rgba(55, 114, 207, 0.12);
+    color: #3772CF;
+    border-color: rgba(55, 114, 207, 0.3);
   }
 
   .dark .theme-tag {
-    @apply border-blue-700 bg-blue-900/35 text-blue-100;
+    background: rgba(96, 165, 250, 0.15);
+    color: #93c5fd;
+    border-color: rgba(96, 165, 250, 0.3);
   }
 
+  /* ─── Scrollbar ─── */
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -417,35 +452,24 @@
     display: none;
   }
 
+  /* ─── Modal animations ─── */
   .modal-backdrop {
     backdrop-filter: blur(4px);
-    animation: modalBackdropIn 0.2s ease-out;
+    animation: modalBackdropIn 0.15s ease-out;
   }
 
   .modal-content {
-    animation: modalContentIn 0.2s ease-out;
+    animation: modalContentIn 0.15s ease-out;
     transform-origin: center;
   }
 
   @keyframes modalBackdropIn {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 
   @keyframes modalContentIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95) translateY(-10px);
-    }
-
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
+    from { opacity: 0; transform: scale(0.97) translateY(-8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
   }
 }

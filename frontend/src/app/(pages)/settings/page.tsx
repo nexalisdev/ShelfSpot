@@ -118,7 +118,7 @@ export default function Settings() {
 
   if (!user) return (
     <div className="flex items-center justify-center h-64">
-      <div className="text-gray-600 dark:text-gray-400">Loading...</div>
+      <div className="text-muted-foreground">Loading...</div>
     </div>
   );
 
@@ -127,8 +127,8 @@ export default function Settings() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+          <p className="text-muted-foreground mt-1">
             Manage your account settings and preferences
           </p>
         </div>
@@ -136,56 +136,56 @@ export default function Settings() {
 
       {/* Admin Section - Site Users */}
       {user.admin && (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
+        <div className="bg-card border border-border rounded-lg">
           <button
             onClick={() => toggleSection('users')}
             aria-expanded={expandedSections.users}
             aria-controls="section-users"
-            className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
+            className="w-full p-6 flex items-center justify-between hover:bg-muted/40 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
           >
             <div className="text-left">
               <div className="flex items-center gap-3">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Site users</h2>
-                <span className="ml-2 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs rounded-full">
+                <h2 className="text-xl font-semibold text-foreground">Site users</h2>
+                <span className="ml-2 px-2 py-1 bg-accent/15 text-accent-foreground text-xs rounded-full">
                   admin
                 </span>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+              <p className="text-muted-foreground text-sm mt-1">
                 Manage and view all registered users
               </p>
             </div>
             {expandedSections.users ? (
-              <ChevronUpIcon className="w-5 h-5 text-gray-500" aria-hidden="true" />
+              <ChevronUpIcon className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
             ) : (
-              <ChevronDownIcon className="w-5 h-5 text-gray-500" aria-hidden="true" />
+              <ChevronDownIcon className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
             )}
           </button>
 
           {expandedSections.users && (
-            <div id="section-users" className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
+            <div id="section-users" className="px-6 pb-6 border-t border-border">
               <div className="pt-4">
                 {loadingUsers ? (
-                  <div className="text-gray-500 dark:text-gray-400">Loading users...</div>
+                  <div className="text-muted-foreground">Loading users...</div>
                 ) : (
                   <div className="space-y-3">
                     {users.map((u) => (
-                      <div key={u.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                      <div key={u.id} className="flex items-center justify-between p-3 bg-muted/40 rounded-lg">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                            <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                          <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                            <span className="text-accent-foreground text-sm font-medium">
                               {(u.name || u.email).charAt(0).toUpperCase()}
                             </span>
                           </div>
                           <div>
-                            <div className="font-medium text-gray-900 dark:text-white">
+                            <div className="font-medium text-foreground">
                               {u.name || u.email}
                               {u.admin && (
-                                <span className="ml-2 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs rounded-full">
+                                <span className="ml-2 px-2 py-1 bg-accent/15 text-accent-foreground text-xs rounded-full">
                                   admin
                                 </span>
                               )}
                             </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">{u.email}</div>
+                            <div className="text-sm text-muted-foreground">{u.email}</div>
                           </div>
                         </div>
                       </div>
@@ -199,31 +199,31 @@ export default function Settings() {
       )}
 
       {/* User Information Section */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
+      <div className="bg-card border border-border rounded-lg">
         <button
           onClick={() => toggleSection('personalInfo')}
           aria-expanded={expandedSections.personalInfo}
           aria-controls="section-personalInfo"
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
+          className="w-full p-6 flex items-center justify-between hover:bg-muted/40 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
         >
           <div className="text-left">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Personal Information</h2>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+            <h2 className="text-xl font-semibold text-foreground">Personal Information</h2>
+            <p className="text-muted-foreground text-sm mt-1">
               Update your username and email address
             </p>
           </div>
           {expandedSections.personalInfo ? (
-            <ChevronUpIcon className="w-5 h-5 text-gray-500" />
+            <ChevronUpIcon className="w-5 h-5 text-muted-foreground" />
           ) : (
-            <ChevronDownIcon className="w-5 h-5 text-gray-500" />
+            <ChevronDownIcon className="w-5 h-5 text-muted-foreground" />
           )}
         </button>
 
         {expandedSections.personalInfo && (
-          <div id="section-personalInfo" className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
+          <div id="section-personalInfo" className="px-6 pb-6 border-t border-border">
             <div className="pt-4">
               {message && (
-                <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-sm">
+                <div className="mb-4 p-3 bg-accent/10 border border-accent/30 text-foreground rounded-lg">
                   {message}
                 </div>
               )}
@@ -231,7 +231,7 @@ export default function Settings() {
               <div className="space-y-6">
                 {/* Username */}
                 <form onSubmit={handleNameChange} className="space-y-3">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-muted-foreground">
                     Username
                   </label>
                   <div className="flex gap-3">
@@ -239,12 +239,12 @@ export default function Settings() {
                       name="name"
                       value={userForm.name}
                       onChange={handleChange}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                       placeholder="Enter your username"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-sm transition-colors"
+                      className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                     >
                       Update
                     </button>
@@ -253,7 +253,7 @@ export default function Settings() {
 
                 {/* Email */}
                 <form onSubmit={handleEmailChange} className="space-y-3">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-muted-foreground">
                     Email
                   </label>
                   <div className="flex gap-3">
@@ -262,12 +262,12 @@ export default function Settings() {
                       type="email"
                       value={userForm.email}
                       onChange={handleChange}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                       placeholder="Enter your email"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-sm transition-colors"
+                      className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                     >
                       Update
                     </button>
@@ -280,40 +280,40 @@ export default function Settings() {
       </div>
 
       {/* Sign Out Section */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
+      <div className="bg-card border border-border rounded-lg">
         <button
           onClick={() => toggleSection('signOut')}
           aria-expanded={expandedSections.signOut}
           aria-controls="section-signOut"
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
+          className="w-full p-6 flex items-center justify-between hover:bg-muted/40 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
         >
           <div className="text-left">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Account & Security</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+            <h3 className="text-lg font-semibold text-foreground">Account & Security</h3>
+            <p className="text-muted-foreground text-sm mt-1">
               Manage your session and account security settings
             </p>
           </div>
           {expandedSections.signOut ? (
-            <ChevronUpIcon className="w-5 h-5 text-gray-500" />
+            <ChevronUpIcon className="w-5 h-5 text-muted-foreground" />
           ) : (
-            <ChevronDownIcon className="w-5 h-5 text-gray-500" />
+            <ChevronDownIcon className="w-5 h-5 text-muted-foreground" />
           )}
         </button>
 
         {expandedSections.signOut && (
-          <div id="section-signOut" className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
+          <div id="section-signOut" className="px-6 pb-6 border-t border-border">
             <div className="pt-4 space-y-6">
               {message && (
-                <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-sm">
+                <div className="p-3 bg-accent/10 border border-accent/30 text-foreground rounded-lg">
                   {message}
                 </div>
               )}
 
               {/* Change Password */}
               <div>
-                <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">Change Password</h4>
+                <h4 className="text-md font-medium text-foreground mb-3">Change Password</h4>
                 <form onSubmit={handlePasswordChange} className="space-y-3">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-muted-foreground">
                     New password
                   </label>
                   <div className="space-y-3">
@@ -322,7 +322,7 @@ export default function Settings() {
                       type="password"
                       value={userForm.password}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                       placeholder="Enter new password"
                     />
                     {userForm.password && (
@@ -331,13 +331,13 @@ export default function Settings() {
                         type="password"
                         value={userForm.confirmPassword}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-border rounded-lg bg-card text-foreground focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:border-transparent"
                         placeholder="Confirm new password"
                       />
                     )}
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-sm transition-colors"
+                      className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
                     >
                       Update Password
                     </button>
@@ -347,25 +347,25 @@ export default function Settings() {
 
               {/* Session Information */}
               <div>
-                <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">Current Session</h4>
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-sm p-4">
+                <h4 className="text-md font-medium text-foreground mb-3">Current Session</h4>
+                <div className="bg-muted/40 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <div className="w-10 h-10 bg-accent/15 rounded-full flex items-center justify-center">
+                        <div className="w-3 h-3 bg-accent rounded-full"></div>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">
+                        <p className="font-medium text-foreground">
                           {user?.name || user?.email}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-muted-foreground">
                           Logged in • Active session
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-500 dark:text-gray-400">This device</p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500">
+                      <p className="text-sm text-muted-foreground">This device</p>
+                      <p className="text-xs text-muted-foreground">
                         {new Date().toLocaleDateString()}
                       </p>
                     </div>
@@ -375,15 +375,15 @@ export default function Settings() {
 
               {/* Sign Out Options */}
               <div>
-                <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">Sign Out</h4>
+                <h4 className="text-md font-medium text-foreground mb-3">Sign Out</h4>
                 <div className="space-y-3">
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     Signing out will end your current session. You&apos;ll need to sign in again to access your account.
                   </p>
                   <div className="flex gap-3">
                     <button
                       onClick={(e) => { e.preventDefault(); logout(); }}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-sm transition-colors flex items-center gap-2"
+                      className="px-4 py-2 rounded-full bg-destructive text-white font-medium hover:bg-destructive/90 transition-colors flex items-center gap-2"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -392,7 +392,7 @@ export default function Settings() {
                     </button>
                     <button
                       onClick={() => toggleSection('signOut')}
-                      className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-sm transition-colors"
+                      className="px-4 py-2 border border-border text-muted-foreground hover:bg-muted/60 rounded-full transition-colors"
                     >
                       Cancel
                     </button>
@@ -405,42 +405,42 @@ export default function Settings() {
       </div>
 
       {/* Features Section */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm">
+      <div className="bg-card border border-border rounded-lg">
         <button
           onClick={() => toggleSection('features')}
           aria-expanded={expandedSections.features}
           aria-controls="section-features"
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
+          className="w-full p-6 flex items-center justify-between hover:bg-muted/40 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/80 focus-visible:ring-inset"
         >
           <div className="text-left">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Dashboard Features</h2>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+            <h2 className="text-xl font-semibold text-foreground">Dashboard Features</h2>
+            <p className="text-muted-foreground text-sm mt-1">
               Customize which elements appear on your home screen
             </p>
           </div>
           {expandedSections.features ? (
-            <ChevronUpIcon className="w-5 h-5 text-gray-500" />
+            <ChevronUpIcon className="w-5 h-5 text-muted-foreground" />
           ) : (
-            <ChevronDownIcon className="w-5 h-5 text-gray-500" />
+            <ChevronDownIcon className="w-5 h-5 text-muted-foreground" />
           )}
         </button>
 
         {expandedSections.features && (
-          <div id="section-features" className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
+          <div id="section-features" className="px-6 pb-6 border-t border-border">
             <div className="pt-4">
               {preferencesLoading ? (
-                <div className="text-gray-500 dark:text-gray-400">Loading preferences...</div>
+                <div className="text-muted-foreground">Loading preferences...</div>
               ) : (
                 <div className="space-y-4">
                   {/* Welcome Header Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                  <div className="flex items-center justify-between p-4 bg-muted/40 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                        <span className="text-blue-600 dark:text-blue-400 text-sm">👋</span>
+                      <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                        <span className="text-accent-foreground text-sm">👋</span>
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900 dark:text-white">Welcome Header</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Show the welcome banner with search bar</div>
+                        <div className="font-medium text-foreground">Welcome Header</div>
+                        <div className="text-sm text-muted-foreground">Show the welcome banner with search bar</div>
                       </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -457,19 +457,19 @@ export default function Settings() {
                         }}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"></div>
+                      <div className="w-11 h-6 rounded-full bg-muted peer-focus:ring-4 peer-focus:ring-ring/30 peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-muted after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                     </label>
                   </div>
 
                   {/* Stats Cards Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                  <div className="flex items-center justify-between p-4 bg-muted/40 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                        <span className="text-green-600 dark:text-green-400 text-sm">📊</span>
+                      <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                        <span className="text-foreground text-sm">📊</span>
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900 dark:text-white">Statistics Cards</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Show quick stats (items, rooms, etc.)</div>
+                        <div className="font-medium text-foreground">Statistics Cards</div>
+                        <div className="text-sm text-muted-foreground">Show quick stats (items, rooms, etc.)</div>
                       </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -486,25 +486,25 @@ export default function Settings() {
                         }}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"></div>
+                      <div className="w-11 h-6 rounded-full bg-muted peer-focus:ring-4 peer-focus:ring-ring/30 peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-muted after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                     </label>
                   </div>
 
                   {/* Chart Preferences Header */}
                   <div className="pt-4 pb-2">
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Analytics Charts</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Choose which charts to display</p>
+                    <h3 className="text-lg font-medium text-foreground">Analytics Charts</h3>
+                    <p className="text-sm text-muted-foreground">Choose which charts to display</p>
                   </div>
 
                   {/* Room Distribution Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                  <div className="flex items-center justify-between p-4 bg-muted/40 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                        <span className="text-blue-600 dark:text-blue-400 text-sm">🏠</span>
+                      <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                        <span className="text-accent-foreground text-sm">🏠</span>
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900 dark:text-white">Room Distribution</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Pie chart showing items per room</div>
+                        <div className="font-medium text-foreground">Room Distribution</div>
+                        <div className="text-sm text-muted-foreground">Pie chart showing items per room</div>
                       </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -521,19 +521,19 @@ export default function Settings() {
                         }}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"></div>
+                      <div className="w-11 h-6 rounded-full bg-muted peer-focus:ring-4 peer-focus:ring-ring/30 peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-muted after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                     </label>
                   </div>
 
                   {/* Alerts Per Month Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                  <div className="flex items-center justify-between p-4 bg-muted/40 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center">
-                        <span className="text-orange-600 dark:text-orange-400 text-sm">🚨</span>
+                      <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                        <span className="text-foreground text-sm">🚨</span>
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900 dark:text-white">Alerts Per Month</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Bar chart showing monthly alerts</div>
+                        <div className="font-medium text-foreground">Alerts Per Month</div>
+                        <div className="text-sm text-muted-foreground">Bar chart showing monthly alerts</div>
                       </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -550,19 +550,19 @@ export default function Settings() {
                         }}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"></div>
+                      <div className="w-11 h-6 rounded-full bg-muted peer-focus:ring-4 peer-focus:ring-ring/30 peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-muted after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                     </label>
                   </div>
 
                   {/* Inventory Value Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                  <div className="flex items-center justify-between p-4 bg-muted/40 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                        <span className="text-green-600 dark:text-green-400 text-sm">💰</span>
+                      <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                        <span className="text-foreground text-sm">💰</span>
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900 dark:text-white">Inventory Value</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Line chart showing inventory value over time</div>
+                        <div className="font-medium text-foreground">Inventory Value</div>
+                        <div className="text-sm text-muted-foreground">Line chart showing inventory value over time</div>
                       </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -579,19 +579,19 @@ export default function Settings() {
                         }}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"></div>
+                      <div className="w-11 h-6 rounded-full bg-muted peer-focus:ring-4 peer-focus:ring-ring/30 peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-muted after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                     </label>
                   </div>
 
                   {/* Status Distribution Chart Toggle */}
-                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-sm">
+                  <div className="flex items-center justify-between p-4 bg-muted/40 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                        <span className="text-purple-600 dark:text-purple-400 text-sm">📋</span>
+                      <div className="w-8 h-8 bg-accent/15 rounded-full flex items-center justify-center">
+                        <span className="text-foreground text-sm">📋</span>
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900 dark:text-white">Status Distribution</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Bar chart showing item status distribution</div>
+                        <div className="font-medium text-foreground">Status Distribution</div>
+                        <div className="text-sm text-muted-foreground">Bar chart showing item status distribution</div>
                       </div>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -608,7 +608,7 @@ export default function Settings() {
                         }}
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"></div>
+                      <div className="w-11 h-6 rounded-full bg-muted peer-focus:ring-4 peer-focus:ring-ring/30 peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-muted after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                     </label>
                   </div>
                 </div>

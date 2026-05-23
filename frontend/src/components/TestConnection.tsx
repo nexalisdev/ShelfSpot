@@ -12,8 +12,7 @@ export default function TestConnection() {
         setResult('Testing connection...');
 
         try {
-            // Test de connexion simple au backend
-            await backendApi.getProfile(); // Use any existing endpoint to test connection
+            await backendApi.getProfile();
             setResult('✅ Backend connection successful');
         } catch (error) {
             setResult(`❌ Connection failed: ${error}`);
@@ -63,26 +62,26 @@ export default function TestConnection() {
                 <button
                     onClick={testConnection}
                     disabled={loading}
-                    className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                    className="w-full p-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 transition-opacity"
                 >
                     Test Connection
                 </button>
                 <button
                     onClick={testRegister}
                     disabled={loading}
-                    className="w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                    className="w-full p-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 transition-opacity"
                 >
                     Test Register
                 </button>
                 <button
                     onClick={testLogin}
                     disabled={loading}
-                    className="w-full p-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50"
+                    className="w-full p-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 transition-opacity"
                 >
                     Test Login
                 </button>
             </div>
-            <div className="p-4 bg-gray-100 rounded min-h-[100px]">
+            <div className="p-4 bg-muted rounded-lg min-h-[100px]">
                 <pre className="text-sm">{result}</pre>
             </div>
         </div>

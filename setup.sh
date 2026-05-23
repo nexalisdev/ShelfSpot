@@ -40,13 +40,11 @@ require_node() {
 require_docker() {
   require_cmd docker "Install Docker from https://docs.docker.com/get-docker/"
   docker info &>/dev/null || error "Docker daemon is not running. Please start Docker and re-run."
-  require_cmd "docker" ""
   docker compose version &>/dev/null || error "Docker Compose v2 is required. Update Docker Desktop or install the plugin."
   success "Docker $(docker --version | grep -oP '\d+\.\d+\.\d+')"
 }
 
 gen_secret() {
-  # 48 random hex bytes
   if command -v openssl &>/dev/null; then
     openssl rand -hex 48
   else
@@ -54,8 +52,15 @@ gen_secret() {
   fi
 }
 
+gen_password() {
+  if command -v openssl &>/dev/null; then
+    openssl rand -hex 12
+  else
+    tr -dc 'a-f0-9' < /dev/urandom | head -c 24
+  fi
+}
+
 prompt_default() {
-  # prompt_default "Question" "default"  → reads into $REPLY, falls back to default
   local question="$1" default="$2"
   ask "${question} [${default}]:"
   read -r REPLY
@@ -88,30 +93,70 @@ wait_healthy() {
   warn "$service did not report healthy within ${max}s. It may still be starting."
 }
 
-write_backend_env() {
-  local file="$SCRIPT_DIR/backend/.env"
-  cat > "$file" <<EOF
-DATABASE_URL="${DATABASE_URL}"
-JWT_SECRET="${JWT_SECRET}"
-RESEND_API_KEY="${RESEND_API_KEY:-}"
-RESEND_FROM_EMAIL="${RESEND_FROM_EMAIL:-ShelfSpot <noreply@shelfspot.local>}"
-ALERT_EMAIL_RECIPIENT="${ALERT_EMAIL_RECIPIENT:-}"
-EOF
-  success "backend/.env written"
+wait_backend() {
+  local url="$1" max="${2:-90}" i=0
+  step "Waiting for backend API to be ready…"
+  while [ $i -lt $max ]; do
+    local code
+    code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 3 "$url/auth/profile" 2>/dev/null || echo "000")
+    case "$code" in
+      200|401) success "Backend is ready"; return 0 ;;
+    esac
+    sleep 3; (( i+=3 ))
+  done
+  warn "Backend did not become ready within ${max}s. Admin account creation may fail."
 }
 
-write_root_env() {
-  local file="$SCRIPT_DIR/.env"
-  cat > "$file" <<EOF
-POSTGRES_USER=${POSTGRES_USER:-postgres}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
-POSTGRES_DB=${POSTGRES_DB:-shelfspot}
-DB_PORT=${DB_PORT:-5432}
-BACKEND_PORT=${BACKEND_PORT:-8082}
-FRONTEND_PORT=${FRONTEND_PORT:-8083}
-NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-}
-EOF
-  success ".env written"
+create_admin_user() {
+  local backend_url="$1"
+
+  banner "Admin Account Setup"
+  echo "  Create your administrator account for ShelfSpot."
+  echo ""
+
+  local admin_name admin_email admin_pass admin_confirm
+
+  while true; do
+    prompt_required "Admin display name (min 5 chars)"; admin_name="$REPLY"
+    [ ${#admin_name} -ge 5 ] && break
+    warn "Name must be at least 5 characters."
+  done
+
+  prompt_required "Admin email"; admin_email="$REPLY"
+
+  while true; do
+    prompt_required "Admin password (8–32 chars)"; admin_pass="$REPLY"
+    [ ${#admin_pass} -lt 8 ] && { warn "Password must be at least 8 characters."; continue; }
+    [ ${#admin_pass} -gt 32 ] && { warn "Password must be at most 32 characters."; continue; }
+    prompt_required "Confirm password"; admin_confirm="$REPLY"
+    [ "$admin_pass" = "$admin_confirm" ] && break
+    warn "Passwords do not match. Try again."
+  done
+
+  # Escape for JSON embedding (backslash then double-quote)
+  local j_name j_email j_pass
+  j_name=$(printf '%s' "$admin_name" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  j_email=$(printf '%s' "$admin_email" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  j_pass=$(printf '%s' "$admin_pass" | sed 's/\\/\\\\/g; s/"/\\"/g')
+
+  local resp http_code
+  resp=$(curl -s -w "\n%{http_code}" -X POST "$backend_url/auth/register" \
+    -H "Content-Type: application/json" \
+    -d "{\"email\":\"${j_email}\",\"password\":\"${j_pass}\",\"name\":\"${j_name}\"}" 2>/dev/null)
+  http_code=$(printf '%s' "$resp" | tail -1)
+
+  case "$http_code" in
+    201) success "Account registered" ;;
+    409) error "Email $admin_email is already registered." ;;
+    *)   error "Registration failed (HTTP $http_code). Check the backend logs: docker logs shelfspot_backend" ;;
+  esac
+
+  # Promote to admin — escape single quotes for SQL
+  local email_sql
+  email_sql=$(printf '%s' "$admin_email" | sed "s/'/''/g")
+  docker exec shelfspot_db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+    -c "UPDATE \"User\" SET admin=true WHERE email='${email_sql}';" > /dev/null
+  success "$admin_email is now an administrator"
 }
 
 install_cli() {
@@ -129,7 +174,6 @@ install_cli() {
   rm -f "$cli_dir/$tgz"
   success "shelfspot command installed"
 
-  # Persist SHELFSPOT_URL
   local export_line="export SHELFSPOT_URL=\"${url}\""
   local profiles=("$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile")
   for p in "${profiles[@]}"; do
@@ -143,6 +187,32 @@ install_cli() {
 
   step "Logging in to ShelfSpot…"
   shelfspot auth login
+}
+
+write_backend_env() {
+  local file="$SCRIPT_DIR/backend/.env"
+  cat > "$file" <<EOF
+DATABASE_URL="${DATABASE_URL}"
+JWT_SECRET="${JWT_SECRET}"
+RESEND_API_KEY="${RESEND_API_KEY:-}"
+RESEND_FROM_EMAIL="${RESEND_FROM_EMAIL:-ShelfSpot <noreply@shelfspot.local>}"
+ALERT_EMAIL_RECIPIENT="${ALERT_EMAIL_RECIPIENT:-}"
+EOF
+  success "backend/.env written"
+}
+
+write_root_env() {
+  local file="$SCRIPT_DIR/.env"
+  cat > "$file" <<EOF
+POSTGRES_USER=${POSTGRES_USER:-postgres}
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-}
+POSTGRES_DB=${POSTGRES_DB:-shelfspot}
+DB_PORT=${DB_PORT:-5432}
+BACKEND_PORT=${BACKEND_PORT:-8082}
+FRONTEND_PORT=${FRONTEND_PORT:-8083}
+NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-}
+EOF
+  success ".env written"
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -185,8 +255,13 @@ if [ "$CHOICE" = "1" ]; then
   prompt_default "Database port" "5432"; DB_PORT="$REPLY"
 
   step "Configuring database"
-  prompt_default "Postgres user"     "postgres"; POSTGRES_USER="$REPLY"
-  prompt_default "Postgres password" "password"; POSTGRES_PASSWORD="$REPLY"
+  prompt_default "Postgres user" "postgres"; POSTGRES_USER="$REPLY"
+  GENERATED_PASS=$(gen_password)
+  echo ""
+  echo -e "  ${YELLOW}${BOLD}Generated Postgres password: ${GENERATED_PASS}${RESET}"
+  echo -e "  ${DIM}Saved to .env — note it if you need direct DB access.${RESET}"
+  echo ""
+  prompt_default "Postgres password" "$GENERATED_PASS"; POSTGRES_PASSWORD="$REPLY"
   prompt_default "Postgres database" "shelfspot"; POSTGRES_DB="$REPLY"
 
   DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
@@ -208,9 +283,12 @@ if [ "$CHOICE" = "1" ]; then
 
   step "Building and starting containers (this may take a few minutes)…"
   cd "$SCRIPT_DIR"
+  docker compose --profile full down -v --remove-orphans 2>/dev/null || true
   docker compose --profile full up -d --build
 
   wait_healthy "db"
+  wait_backend "http://localhost:${BACKEND_PORT}"
+  create_admin_user "http://localhost:${BACKEND_PORT}"
 
   echo ""
   success "ShelfSpot is running!"
@@ -242,8 +320,13 @@ elif [ "$CHOICE" = "2" ]; then
   prompt_default "Database port" "5432"; DB_PORT="$REPLY"
 
   step "Configuring database"
-  prompt_default "Postgres user"     "postgres"; POSTGRES_USER="$REPLY"
-  prompt_default "Postgres password" "password"; POSTGRES_PASSWORD="$REPLY"
+  prompt_default "Postgres user" "postgres"; POSTGRES_USER="$REPLY"
+  GENERATED_PASS=$(gen_password)
+  echo ""
+  echo -e "  ${YELLOW}${BOLD}Generated Postgres password: ${GENERATED_PASS}${RESET}"
+  echo -e "  ${DIM}Saved to .env — note it if you need direct DB access.${RESET}"
+  echo ""
+  prompt_default "Postgres password" "$GENERATED_PASS"; POSTGRES_PASSWORD="$REPLY"
   prompt_default "Postgres database" "shelfspot"; POSTGRES_DB="$REPLY"
 
   DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
@@ -265,9 +348,12 @@ elif [ "$CHOICE" = "2" ]; then
 
   step "Building and starting containers…"
   cd "$SCRIPT_DIR"
+  docker compose --profile backend down -v --remove-orphans 2>/dev/null || true
   docker compose --profile backend up -d --build
 
   wait_healthy "db"
+  wait_backend "http://localhost:${BACKEND_PORT}"
+  create_admin_user "http://localhost:${BACKEND_PORT}"
 
   echo ""
   success "Backend is running!"
@@ -299,14 +385,13 @@ elif [ "$CHOICE" = "3" ]; then
   step "Configuring port"
   prompt_default "Frontend port" "8083"; FRONTEND_PORT="$REPLY"
 
-  POSTGRES_USER="postgres"; POSTGRES_PASSWORD="password"
+  POSTGRES_USER="postgres"; POSTGRES_PASSWORD=""
   POSTGRES_DB="shelfspot"; DB_PORT="5432"; BACKEND_PORT="8082"
   DATABASE_URL=""; JWT_SECRET=""; RESEND_API_KEY=""
   NEXT_PUBLIC_BACKEND_URL="$BACKEND_URL"
 
   write_root_env
 
-  # Write a minimal frontend .env for the build
   echo "NEXT_PUBLIC_BACKEND_URL=${BACKEND_URL}" > "$SCRIPT_DIR/frontend/.env.local"
   success "frontend/.env.local written"
 
@@ -366,13 +451,11 @@ elif [ "$CHOICE" = "5" ]; then
   ask "Frontend web app (Docker)?        [Y/n]:"; read -r DO_FRONTEND
   ask "CLI tool?                         [Y/n]:"; read -r DO_CLI
 
-  DO_DB=[[ ! "$DO_DB" =~ ^[Nn]$ ]]
-  WANTS_DB=$([[ ! "$DO_DB" =~ ^[Nn]$ ]] && echo true || echo false)
-  WANTS_BACKEND=$([[ ! "$DO_BACKEND" =~ ^[Nn]$ ]] && echo true || echo false)
-  WANTS_FRONTEND=$([[ ! "$DO_FRONTEND" =~ ^[Nn]$ ]] && echo true || echo false)
-  WANTS_CLI=$([[ ! "$DO_CLI" =~ ^[Nn]$ ]] && echo true || echo false)
+  [[ ! "$DO_DB"       =~ ^[Nn]$ ]] && WANTS_DB=true       || WANTS_DB=false
+  [[ ! "$DO_BACKEND"  =~ ^[Nn]$ ]] && WANTS_BACKEND=true  || WANTS_BACKEND=false
+  [[ ! "$DO_FRONTEND" =~ ^[Nn]$ ]] && WANTS_FRONTEND=true || WANTS_FRONTEND=false
+  [[ ! "$DO_CLI"      =~ ^[Nn]$ ]] && WANTS_CLI=true      || WANTS_CLI=false
 
-  # Collect config only for what's needed
   NEEDS_DOCKER=false
   $WANTS_DB      && NEEDS_DOCKER=true
   $WANTS_BACKEND && NEEDS_DOCKER=true
@@ -381,17 +464,22 @@ elif [ "$CHOICE" = "5" ]; then
   $NEEDS_DOCKER && require_docker
   $WANTS_CLI    && require_node
 
-  POSTGRES_USER="postgres"; POSTGRES_PASSWORD="password"
+  POSTGRES_USER="postgres"; POSTGRES_PASSWORD=""
   POSTGRES_DB="shelfspot";  DB_PORT="5432"
   BACKEND_PORT="8082"; FRONTEND_PORT="8083"
-  DATABASE_URL="postgresql://postgres:password@db:5432/shelfspot"
+  DATABASE_URL="postgresql://postgres:@db:5432/shelfspot"
   JWT_SECRET=""; RESEND_API_KEY=""; RESEND_FROM_EMAIL=""; ALERT_EMAIL_RECIPIENT=""
   NEXT_PUBLIC_BACKEND_URL=""
 
   if $WANTS_DB || $WANTS_BACKEND; then
     step "Configuring database"
-    prompt_default "Postgres user"     "postgres"; POSTGRES_USER="$REPLY"
-    prompt_default "Postgres password" "password"; POSTGRES_PASSWORD="$REPLY"
+    prompt_default "Postgres user" "postgres"; POSTGRES_USER="$REPLY"
+    GENERATED_PASS=$(gen_password)
+    echo ""
+    echo -e "  ${YELLOW}${BOLD}Generated Postgres password: ${GENERATED_PASS}${RESET}"
+    echo -e "  ${DIM}Saved to .env — note it if you need direct DB access.${RESET}"
+    echo ""
+    prompt_default "Postgres password" "$GENERATED_PASS"; POSTGRES_PASSWORD="$REPLY"
     prompt_default "Postgres database" "shelfspot"; POSTGRES_DB="$REPLY"
     prompt_default "Database port"     "5432"; DB_PORT="$REPLY"
     DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
@@ -423,7 +511,6 @@ elif [ "$CHOICE" = "5" ]; then
 
   write_root_env
 
-  # Determine which Docker profiles to activate
   if $NEEDS_DOCKER; then
     PROFILES=()
     ($WANTS_DB || $WANTS_BACKEND) && PROFILES+=("backend")
@@ -438,6 +525,11 @@ elif [ "$CHOICE" = "5" ]; then
     docker compose $PROFILE_ARGS up -d --build
 
     ($WANTS_DB || $WANTS_BACKEND) && wait_healthy "db"
+  fi
+
+  if $WANTS_BACKEND; then
+    wait_backend "http://localhost:${BACKEND_PORT}"
+    create_admin_user "http://localhost:${BACKEND_PORT}"
   fi
 
   if $WANTS_CLI; then
