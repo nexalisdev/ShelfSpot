@@ -4,6 +4,9 @@ export class AuthResponseDto {
   @ApiProperty({ example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." })
   access_token: string;
 
+  @ApiProperty({ example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", description: "Opaque refresh token valid for 30 days; rotates on each use" })
+  refresh_token: string;
+
   @ApiProperty({ example: "bearer" })
   token_type: string;
 

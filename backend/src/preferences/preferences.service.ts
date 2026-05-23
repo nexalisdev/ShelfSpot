@@ -2,15 +2,8 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { UserPreferences } from "@prisma/client";
-
-export interface UpdatePreferencesDto {
-  showWelcomeHeader?: boolean;
-  showStatsCards?: boolean;
-  showRoomDistribution?: boolean;
-  showAlertsPerMonth?: boolean;
-  showInventoryValue?: boolean;
-  showStatusDistribution?: boolean;
-}
+export { UpdatePreferencesDto } from "./dto/update-preferences.dto";
+import { UpdatePreferencesDto } from "./dto/update-preferences.dto";
 
 @Injectable()
 export class PreferencesService {
