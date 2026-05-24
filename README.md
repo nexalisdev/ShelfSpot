@@ -826,6 +826,68 @@ baked in at image build — rebuild the frontend image whenever you change this 
 
 ---
 
+## Mobile Integration
+
+ShelfSpot sends real-time push notifications to mobile clients via the **Expo Push Notification** service.
+
+### How it works
+
+1. The mobile app (Expo / React Native) calls `PUT /auth/profile/notification-token` after the user logs in, registering its Expo push token with the backend.
+2. When an alert threshold is breached, the backend queries all users who have a stored `notificationToken` and fans out messages through the Expo Push API in batches of 100.
+3. The same flow fires for test notifications via `POST /notifications/test`.
+
+### API endpoints
+
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| `PUT` | `/auth/profile/notification-token` | JWT | Register or update the device push token |
+| `POST` | `/notifications/test` | none | Send a test notification to a specific push token |
+
+### Registering a device token (Expo SDK example)
+
+```typescript
+import * as Notifications from "expo-notifications";
+
+const { status } = await Notifications.requestPermissionsAsync();
+if (status === "granted") {
+  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  await fetch(`${BACKEND_URL}/auth/profile/notification-token`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ notificationToken: token }),
+  });
+}
+```
+
+### Alert notification payload
+
+```json
+{
+  "to": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]",
+  "sound": "default",
+  "title": "Low Stock Alert",
+  "body": "Coffee beans is running low (3 remaining)",
+  "data": { "type": "alert", "itemId": 7 }
+}
+```
+
+### Removing a device token
+
+Pass `null` to unregister push notifications for a device (e.g. on logout):
+
+```typescript
+await fetch(`${BACKEND_URL}/auth/profile/notification-token`, {
+  method: "PUT",
+  headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+  body: JSON.stringify({ notificationToken: null }),
+});
+```
+
+---
+
 ## Troubleshooting
 
 ### Container does not start
